@@ -1,6 +1,7 @@
 package com.ch.ni.an.invest.screens
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,8 +50,15 @@ class FragmentStart: Fragment() {
             bind.textTextView.text = it
             bind.colorButton.visibility = View.VISIBLE
         })
+        myModel.color.observe(viewLifecycleOwner,{
+            bind.colorButton.background.setTint(Color.rgb(it.red, it.green, it.black))
+        })
         bind.startTaskButton.setOnClickListener {
             myModel.changeText()
+        }
+        bind.changeColorButton.setOnClickListener {
+            myModel.changeColor()
+            bind.colorButton.visibility =View.VISIBLE
         }
         bind.asyncChangeTextAndColorButton.setOnClickListener {
             myModel.asyncChangeTextAndColor()
