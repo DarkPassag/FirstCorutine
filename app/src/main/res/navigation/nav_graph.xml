@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentStart">
+
+    <fragment
+        android:id="@+id/fragmentStart"
+        android:name="com.ch.ni.an.invest.screens.FragmentStart"
+        android:label="FragmentStart" >
+        <action
+            android:id="@+id/action_fragmentStart_to_fragmentInvest"
+            app:destination="@id/fragmentInvest" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentInvest"
+        android:name="com.ch.ni.an.invest.screens.FragmentInvest"
+        android:label="FragmentInvest" >
+        <action
+            android:id="@+id/action_fragmentInvest_to_fragmentInvestDetail"
+            app:destination="@id/fragmentInvestDetail" />
+        <action
+            android:id="@+id/action_fragmentInvest_to_fragmentStart"
+            app:destination="@id/fragmentStart" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentInvestDetail"
+        android:name="com.ch.ni.an.invest.screens.FragmentInvestDetail"
+        android:label="FragmentInvestDetail" >
+        <action
+            android:id="@+id/action_fragmentInvestDetail_to_fragmentInvest"
+            app:destination="@id/fragmentInvest" />
+        <action
+            android:id="@+id/action_fragmentInvestDetail_to_fragmentStart"
+            app:destination="@id/fragmentStart" />
+    </fragment>
+</navigation>
