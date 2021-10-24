@@ -69,7 +69,7 @@ class InvestViewModel: ViewModel() {
         _color.value = color
     }
 
-    fun randomColor(): Int{
+   private fun randomColor(): Int{
         return Random.nextInt(0,255)
     }
 }
