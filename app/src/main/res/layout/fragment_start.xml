@@ -50,24 +50,7 @@
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/logoImageView"
         />
-    <Button
-        android:id="@+id/changeColorButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/changeColor"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/startTaskButton"/>
-    <Button
-        android:id="@+id/asyncChangeTextAndColorButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/changeColorButton"
-        android:text="@string/changeAllSync"
-        android:textColor="@color/black"/>
+
 
     <TextView
         android:id="@+id/textTextView"
@@ -81,15 +64,7 @@
         android:textSize="24sp"
         android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
-    <Button
-        android:id="@+id/colorButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTextView"
-        android:backgroundTint="@color/design_default_color_error"
-        android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
