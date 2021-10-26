@@ -3,36 +3,72 @@ package com.ch.ni.an.invest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ch.ni.an.invest.databinding.FragmentStartBinding
+import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
 
-class AnimeAdapter: ListAdapter<AnimeChan ,AnimeAdapter.AnimeHolder>(DiffUtill()) {
+class AnimeAdapter(
+): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>(), View.OnClickListener {
 
-    class AnimeHolder(view: View): RecyclerView.ViewHolder(view){
+    class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
 
     }
+    var animeList: List<AnimeChan> = emptyList()
+    set(value) {
+        val diffCallback = AnimeDiffUtil(field, value)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        field = value
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.recyclerview_item, parent, false)
-        return AnimeHolder(view)
+        val bind = RecyclerviewItemBinding.inflate(inflater, parent, false)
+        return AnimeHolder(bind)
     }
 
     override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
-        TODO()
+        val item = animeList[position]
+        holder.bind.animeNameTextView.text = item.anime.toString()
     }
 
+    override fun getItemCount(): Int = animeList.size
 
 
+    override fun onClick(v: View) {
+        v.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
+        }
 
     }
-class DiffUtill: DiffUtil.ItemCallback<AnimeChan>(){
-    override fun areItemsTheSame(oldItem: AnimeChan, newItem: AnimeChan): Boolean {
-        return oldItem.quote == newItem.quote
+
+}
+class AnimeDiffUtil(
+    private val oldList: List<AnimeChan>,
+    private val newList: List<AnimeChan>
+): DiffUtil.Callback() {
+
+
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val animeOldItem = oldList[oldItemPosition]
+        val animeNewItem = newList[newItemPosition]
+        return animeNewItem == animeOldItem
     }
 
-    override fun areContentsTheSame(oldItem: AnimeChan, newItem: AnimeChan): Boolean {
-        return oldItem.hashCode() == newItem.hashCode()
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val animeOldItem = oldList[oldItemPosition]
+        val animeNewItem = newList[newItemPosition]
+        return animeNewItem == animeOldItem
     }
+}

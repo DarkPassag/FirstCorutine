@@ -20,6 +20,16 @@ class TestViewModel: ViewModel() {
     private val _tenQuotes = MutableLiveData<List<AnimeChan>>()
     val tenQuotes = _tenQuotes
 
+    private val _animeName = MutableLiveData<String>()
+    val animeName: LiveData<String> = _animeName
+
+    private val _listQuotes = MutableLiveData<List<SimpleAnimeChan>>()
+    val listQuotes: LiveData<List<SimpleAnimeChan>> = _listQuotes
+
+    init {
+        get10Quotes()
+    }
+
 
     fun get10Quotes(){
         viewModelScope.launch {
@@ -33,5 +43,22 @@ class TestViewModel: ViewModel() {
         }
     }
 
+    fun quoteByAnimeName(){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val url = _animeName.value.toString()
+                val quotes = ApiInterface.create().getQuotesByAnimeTittle(url)
+                val newList: List<SimpleAnimeChan> = quotes.forEach { SimpleAnimeChan(it.character, it.quote) } as List<SimpleAnimeChan>
+                _listQuotes.postValue(newList)
+            } catch (e:Exception) {
+
+            }
+        }
+    }
+
 
 }
+
+data class SimpleAnimeChan(
+    val character: String? = null,
+    val quotes: String? = null)
