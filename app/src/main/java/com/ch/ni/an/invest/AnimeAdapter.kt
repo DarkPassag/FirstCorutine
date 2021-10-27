@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.screens.RecyclerViewClickListener
 
-class AnimeAdapter(
-): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>(), View.OnClickListener {
+class AnimeAdapter(private val clickListener: RecyclerViewClickListener
+): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>() {
 
     class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
 
@@ -37,17 +38,13 @@ class AnimeAdapter(
     override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
         val item = animeList[position]
         holder.bind.animeNameTextView.text = item.anime.toString()
+        holder.bind.animeNameTextView.setOnClickListener {
+            clickListener.clickListener(animeName = item.anime!!)
+        }
     }
 
     override fun getItemCount(): Int = animeList.size
 
-
-    override fun onClick(v: View) {
-        v.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
-        }
-
-    }
 
 }
 class AnimeDiffUtil(
