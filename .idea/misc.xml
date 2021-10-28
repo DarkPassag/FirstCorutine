@@ -3,11 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/drawable/gradient.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/drawable/gradient_1.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/drawable/gradient_2.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/drawable/gradient_3.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/fragment_animename_quotes.xml" value="0.27708333333333335" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/fragment_invest.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/fragment_invest_detail.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/fragment_start.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/name_item_recyclerview.xml" value="0.3171875" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/recyclerview_item.xml" value="0.2015625" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Invest/app/src/main/res/layout/tittle_items_recyclerview.xml" value="0.190625" />
       </map>
     </option>
   </component>

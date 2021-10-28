@@ -12,6 +12,10 @@ import java.lang.Exception
 
 class AnimeViewModel: ViewModel() {
 
+
+    private val _listAvailableAnime = MutableLiveData<List<String>>()
+    val listAvailableANime:LiveData<List<String>> = _listAvailableAnime
+
     private val _basicQuotes = MutableLiveData<List<AnimeChan>>()
     val basicQuotes: LiveData<List<AnimeChan>> = _basicQuotes
 
@@ -38,9 +42,9 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun getQuotesByAnime1(){
+    fun getQuotesByAnime1(url:String){
         viewModelScope.launch(Dispatchers.IO) {
-            getQuotesByAnime()
+            getQuotesByAnime(url)
         }
     }
 
@@ -51,27 +55,31 @@ class AnimeViewModel: ViewModel() {
 
 
    private suspend fun getBasicQuotes1(){
-       Log.e("TAG", "suspend fun started")
         try {
-            val mService = Common.retrofit
-            val newListQuotes = mService.getBasicQuotes()
-            _basicQuotes.postValue(newListQuotes)
-            Log.e("TAG", newListQuotes.size.toString())
-            _state.postValue(STATE.SUCCESS)
+            val response = Common.retrofit.getAvailableAnime()
+            if(response.isSuccessful){
+                val availableAnime  = response.body()
+                _listAvailableAnime.postValue(availableAnime)
+                _state.postValue(STATE.SUCCESS)
+            } else {
+                val error = response.errorBody()
+                Log.e("ERROR", "${error.toString()}")
+            }
+
         } catch (e:Exception){
             Log.e("TAG", "$e")
             _state.postValue(STATE.FAIL)
         }
     }
 
-    private suspend fun getQuotesByAnime(){
+    private suspend fun getQuotesByAnime(url:String){
         Log.e("TAG", "quotes by anime")
         try {
             val mService = Common.retrofit
-            val testVal = _animeName.value
-            Log.e("TAG", testVal.toString())
-            val listByAnime = mService.getQuotesByAnimeName()
-            _animeQuotes.postValue(listByAnime)
+            val query = "anime?title=$url"
+            Log.e("TAG", query)
+            val quotesByAnime = mService.getQuotesByAnime(url)
+            _animeQuotes.postValue(quotesByAnime)
         } catch (e:Exception){
             Log.e("TAG", e.toString())
         }

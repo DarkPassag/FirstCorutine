@@ -5,8 +5,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-const val BASE_URL = "https://animechan.vercel.app/api/"
-
 object RetrofitClient {
 
     private var retrofit: Retrofit? = null
@@ -14,14 +12,13 @@ object RetrofitClient {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    fun getClient(): Retrofit{
+    fun getClient(url: String): Retrofit{
         if(retrofit == null){
             retrofit = Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl(BASE_URL)
+                .baseUrl(url)
                 .build()
         }
         return retrofit!!
     }
-
 }

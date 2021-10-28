@@ -37,9 +37,9 @@ class AnimeAdapter(private val clickListener: RecyclerViewClickListener
 
     override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
         val item = animeList[position]
-        holder.bind.animeNameTextView.text = item.anime.toString()
+        holder.bind.animeNameTextView.text = item.character.toString()
         holder.bind.animeNameTextView.setOnClickListener {
-            clickListener.clickListener(animeName = item.anime!!)
+            clickListener.clickListener(animeName = item.quote!!)
         }
     }
 
