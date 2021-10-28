@@ -12,6 +12,10 @@ import java.lang.Exception
 
 class AnimeViewModel: ViewModel() {
 
+
+    private val _listAvailableAnime = MutableLiveData<List<String>>()
+    val listAvailableANime:LiveData<List<String>> = _listAvailableAnime
+
     private val _basicQuotes = MutableLiveData<List<AnimeChan>>()
     val basicQuotes: LiveData<List<AnimeChan>> = _basicQuotes
 
@@ -38,9 +42,9 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun getQuotesByAnime1(){
+    fun getQuotesByAnime1(url:String){
         viewModelScope.launch(Dispatchers.IO) {
-            getQuotesByAnime()
+            getQuotesByAnime(url)
         }
     }
 
@@ -54,9 +58,9 @@ class AnimeViewModel: ViewModel() {
        Log.e("TAG", "suspend fun started")
         try {
             val mService = Common.retrofit
-            val newListQuotes = mService.getBasicQuotes()
-            _basicQuotes.postValue(newListQuotes)
-            Log.e("TAG", newListQuotes.size.toString())
+            val availableAnime = mService.getAvailableAnime()
+            _listAvailableAnime.postValue(availableAnime)
+            Log.e("TAG", availableAnime.size.toString())
             _state.postValue(STATE.SUCCESS)
         } catch (e:Exception){
             Log.e("TAG", "$e")
@@ -64,14 +68,14 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    private suspend fun getQuotesByAnime(){
+    private suspend fun getQuotesByAnime(url:String){
         Log.e("TAG", "quotes by anime")
         try {
             val mService = Common.retrofit
-            val testVal = _animeName.value
-            Log.e("TAG", testVal.toString())
-            val listByAnime = mService.getQuotesByAnimeName()
-            _animeQuotes.postValue(listByAnime)
+            val query = "anime?title=$url"
+            Log.e("TAG", query)
+            val quotesByAnime = mService.getQuotesByAnime(query)
+            _animeQuotes.postValue(quotesByAnime)
         } catch (e:Exception){
             Log.e("TAG", e.toString())
         }

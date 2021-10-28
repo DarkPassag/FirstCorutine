@@ -4,18 +4,25 @@ import com.ch.ni.an.invest.model.AnimeChan
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+const val BASE_URL = "https://animechan.vercel.app/api/"
+
 interface RetrofitService {
 
     @GET("quotes")
-    suspend fun getBasicQuotes(): List<AnimeChan>
+    suspend fun getRandomQuotes(): List<AnimeChan>
 
-    @GET("quotes/anime?title=naruto")
-    suspend fun getQuotesByAnimeName(): List<AnimeChan>
+    @GET("random")
+    suspend fun getRandomQuote(): AnimeChan
 
+    @GET("available/anime")
+    suspend fun getAvailableAnime(): List<String>
+
+    @GET("quotes/{animeName}")
+    suspend fun getQuotesByAnime(@Path("animeName" )animeName: String): List<AnimeChan>
 }
-object Common{
-    val retrofit: RetrofitService
-        get() =  RetrofitClient.getClient().create(RetrofitService::class.java)
 
+object Common{
+
+    val retrofit = RetrofitClient.getClient(BASE_URL).create(RetrofitService::class.java)
 
 }
