@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -55,6 +56,7 @@ class AnimeViewModel: ViewModel() {
 
 
    private suspend fun getBasicQuotes1(){
+       delay(2000)
         try {
             val response = Common.retrofit.getAvailableAnime()
             if(response.isSuccessful){
@@ -63,7 +65,7 @@ class AnimeViewModel: ViewModel() {
                 _state.postValue(STATE.SUCCESS)
             } else {
                 val error = response.errorBody()
-                Log.e("ERROR", "${error.toString()}")
+                Log.e("ERROR", "$error")
             }
 
         } catch (e:Exception){

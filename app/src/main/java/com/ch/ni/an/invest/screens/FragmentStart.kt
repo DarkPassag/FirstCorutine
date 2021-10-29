@@ -49,15 +49,9 @@ class FragmentStart: Fragment() {
 
         myModel.state.observe(viewLifecycleOwner, {
             when(it){
-                STATE.PENDING -> {
-                    bind.dotsLoaderProgressbar.visibility = View.VISIBLE
-                }
-                STATE.SUCCESS -> {
-                    updateUI()
-                }
-                STATE.FAIL -> {
-                    updateUI()
-                }
+                STATE.PENDING -> pending()
+                STATE.SUCCESS -> updateUI()
+                STATE.FAIL -> updateUI()
             }
         })
 
@@ -86,5 +80,9 @@ class FragmentStart: Fragment() {
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
+    }
+    private fun pending(){
+        bind.dotsLoaderProgressbar.visibility = View.VISIBLE
+        bind.recyclerView.visibility = View.GONE
     }
 }
