@@ -31,8 +31,8 @@ class FragmentAnimeStart: Fragment() {
         _bind = FragmentAnimeStartBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AnimeStartAdapter()
         recycleView.adapter = adapter
+        adapter = AnimeStartAdapter()
 
         return _bind.root
     }
