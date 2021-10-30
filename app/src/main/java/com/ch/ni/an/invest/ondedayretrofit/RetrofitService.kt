@@ -20,6 +20,9 @@ interface RetrofitService {
 
     @GET("quotes/anime?")
     suspend fun getQuotesByAnime(@Query("title" )animeName: String): List<AnimeChan>
+
+    @GET("quotes/character?")
+    suspend fun getQuotesByCharacter(@Query("name") characterName: String): Response<List<AnimeChan>>
 }
 
 object Common{

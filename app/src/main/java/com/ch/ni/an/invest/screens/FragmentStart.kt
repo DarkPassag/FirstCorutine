@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.AnimeAdapter
 import com.ch.ni.an.invest.ListAnimeAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
@@ -35,7 +33,7 @@ class FragmentStart: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ListAnimeAdapter(object : RecyclerViewClickListener{
             override fun clickListener(animeName: String) {
-                myModel.getQuotesByAnime1(animeName)
+                myModel.getQuotesByAnime(animeName)
                 findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
             }
         })
@@ -55,7 +53,7 @@ class FragmentStart: Fragment() {
             }
         })
 
-        myModel.listAvailableANime.observe(viewLifecycleOwner, {
+        myModel.listAvailableAnime.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.listAnime = it
                 recyclerView.adapter = adapter

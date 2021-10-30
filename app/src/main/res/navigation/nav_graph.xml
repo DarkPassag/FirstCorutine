@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentStart">
+    app:startDestination="@id/fragmentAnimeStart">
 
     <fragment
         android:id="@+id/fragmentStart"
@@ -19,5 +19,13 @@
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentStart"
             app:destination="@id/fragmentStart" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAnimeStart"
+        android:name="com.ch.ni.an.invest.screens.FragmentAnimeStart"
+        android:label="FragmentAnimeStart" >
+        <action
+            android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
+            app:destination="@id/fragmentAnimeNameQuotes" />
     </fragment>
 </navigation>
