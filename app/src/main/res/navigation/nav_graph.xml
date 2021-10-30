@@ -28,4 +28,12 @@
             android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
             app:destination="@id/fragmentAnimeNameQuotes" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentAnimeStart"
+        android:name="com.ch.ni.an.invest.screens.FragmentAnimeStart"
+        android:label="FragmentAnimeStart" >
+        <action
+            android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
+            app:destination="@id/fragmentAnimeNameQuotes" />
+    </fragment>
 </navigation>
