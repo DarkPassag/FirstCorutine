@@ -31,8 +31,9 @@ class FragmentAnimeStart: Fragment() {
         _bind = FragmentAnimeStartBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        recycleView.adapter = adapter
         adapter = AnimeStartAdapter()
+        recycleView.adapter = adapter
+
 
         return _bind.root
     }
@@ -50,10 +51,20 @@ class FragmentAnimeStart: Fragment() {
             }
         })
 
-        myModel.animeQuotes.observe(viewLifecycleOwner, {
+        myModel.randomQuotes.observe(viewLifecycleOwner, {
             adapter.randomQuotes = it
             recycleView.adapter = adapter
         })
+
+        bind.updateFAB.setOnClickListener {
+            myModel.getRandomQuotes()
+            it.animate().apply {
+                rotationBy(360f)
+                duration = 1000
+
+                start()
+            }
+        }
     }
 
 

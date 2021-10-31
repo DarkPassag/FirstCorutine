@@ -3,4 +3,5 @@
     <string name="changeText">Change text</string>
     <string name="changeColor">Change color</string>
     <string name="changeAllSync">Change text and color Sync</string>
+    <string name="example">[Example]</string>
 </resources>

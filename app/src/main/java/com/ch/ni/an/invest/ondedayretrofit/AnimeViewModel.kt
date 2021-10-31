@@ -40,7 +40,7 @@ class AnimeViewModel: ViewModel() {
     fun getRandomQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.postValue(STATE.PENDING)
-            getAvailableAnimeList()
+            getRandomAnimeList()
         }
     }
 

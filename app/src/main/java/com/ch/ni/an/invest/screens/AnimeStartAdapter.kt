@@ -19,17 +19,21 @@ class AnimeStartAdapter: RecyclerView.Adapter<AnimeStartAdapter.AnimeStartViewHo
             result.dispatchUpdatesTo(this)
         }
 
-    class AnimeStartViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class AnimeStartViewHolder(val bind : RandomItemRecyclerviewBinding): RecyclerView.ViewHolder(bind.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeStartViewHolder {
-        val bind = LayoutInflater.from(parent.context).inflate(R.layout.random_item_recyclerview, parent, false)
+        val bind = RandomItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AnimeStartViewHolder(bind)
     }
 
     override fun onBindViewHolder(holder: AnimeStartViewHolder, position: Int) {
         val item = randomQuotes[position]
+        holder.bind.animeNameTextView.text = item.anime
+        holder.bind.animeCharacterTextView.text = item.character
+        holder.bind.animeQuoteTextView.text = item.quote
+
 
     }
 
@@ -47,7 +51,7 @@ class RandomAnimeDiffUtil(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
-        return oldItem.quote == newItem.quote
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

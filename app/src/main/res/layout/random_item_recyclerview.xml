@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="16dp"
+    android:layout_margin="4dp"
     android:padding="8dp">
 
     <LinearLayout
@@ -19,6 +21,7 @@
             android:layout_height="wrap_content"
             android:textSize="32sp"
             android:layout_marginStart="4dp"
+            android:text="@string/example"
             style="@style/TextAppearance.AppCompat.Title"
             tools:text="Naruto"/>
         <TextView
@@ -26,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:text="@string/example"
             style="@style/TextAppearance.AppCompat.Body1"
             android:textSize="24sp"
 
@@ -36,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textSize="16sp"
+            android:text="@string/example"
             style="@style/TextAppearance.AppCompat.Body2"
             tools:text="Thinking of peace whilst spilling blood is something that only humans could do."/>
 
