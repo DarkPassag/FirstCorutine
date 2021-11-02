@@ -1,11 +1,8 @@
 package com.ch.ni.an.invest
 
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.NameItemRecyclerviewBinding
@@ -33,7 +30,9 @@ class AnimeDiff(
     }
 
 }
-class ListAnimeAdapter(val onClick: RecyclerViewClickListener): RecyclerView.Adapter<ListAnimeHolder>() {
+class ListAnimeAdapter(
+    val onClick: RecyclerViewClickListener
+    ): RecyclerView.Adapter<ListAnimeHolder>() {
 
     var listAnime: List<String> = emptyList()
         set(value) {
@@ -53,8 +52,8 @@ class ListAnimeAdapter(val onClick: RecyclerViewClickListener): RecyclerView.Ada
     override fun onBindViewHolder(holder: ListAnimeHolder, position: Int) {
         val anime = listAnime[position]
         Log.e("TAG", anime)
-        holder.textView.text = anime
-        holder.textView.setOnClickListener {
+        holder.bind.nametextView.text = anime
+        holder.bind.nametextView.setOnClickListener {
             onClick.clickListener(anime)
         }
 
@@ -65,8 +64,6 @@ class ListAnimeAdapter(val onClick: RecyclerViewClickListener): RecyclerView.Ada
 }
 
 class ListAnimeHolder(val bind: NameItemRecyclerviewBinding):
-    RecyclerView.ViewHolder(bind.root)
-{
-    val textView = bind.nametextView
-}
+    RecyclerView.ViewHolder(bind.root) {}
+
 

@@ -28,19 +28,36 @@ class AnimeViewModel: ViewModel() {
     private val _quotesByCharacter = MutableLiveData<List<AnimeChan>>()
     val quotesByAnimaCharacter: LiveData<List<AnimeChan>> = _quotesByCharacter
 
+    private var _listAnime = emptyList<String>()
+    val listAnime: List<String>
+        get() = _listAnime
+
+    var tempList: MutableList<String> = mutableListOf()
+
 
     private val _state = MutableLiveData<STATE>()
     val state: LiveData<STATE> = _state
 
     init {
-        getRandomQuotes()
+        getAvailableAnimeList()
     }
 
 
     fun getRandomQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.postValue(STATE.PENDING)
-            getRandomAnimeList()
+
+        }
+    }
+
+    fun search(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            listAnime.forEach {
+                if (it.contains(query, ignoreCase = true)) {
+                    tempList.add(it)
+                    _listAvailableAnime.postValue(tempList)
+                }
+            }
         }
     }
 
@@ -51,72 +68,34 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun getQuotesByCharacter(url: String){
+
+    fun getAvailableAnimeList() {
         viewModelScope.launch(Dispatchers.IO){
-            _state.postValue(STATE.PENDING)
-            getQuotesByAnimeCharacter(url)
-        }
-    }
+            try {
+                val response = Common.retrofit.getAvailableAnime()
+                if (response.isSuccessful) {
+                    val availableAnime = response.body()
+                    _listAvailableAnime.postValue(availableAnime)
+                    _listAnime = response.body()!!
+                    _state.postValue(STATE.SUCCESS)
+                } else {
+                    val error = response.errorBody()
+                    Log.e("ERROR", "$error")
+                }
 
-    fun setAnimeName(animeName: String) {
-        _animeName.postValue(animeName)
-    }
-
-
-    private suspend fun getRandomAnimeList(){
-        try {
-            val response = Common.retrofit.getRandomQuotes()
-            if(response.isSuccessful){
-                _randomQuotes.postValue(response.body())
-                _state.postValue(STATE.SUCCESS)
-            } else {
-                val error = response.errorBody()
-                Log.e("ERROR", "$error")
+            } catch (e: Exception) {
+                Log.e("TAG", "$e")
+                _state.postValue(STATE.FAIL)
             }
-        } catch (e: Exception){
-            _state.postValue(STATE.FAIL)
         }
+
     }
 
-
-    private suspend fun getAvailableAnimeList() {
-        try {
-            val response = Common.retrofit.getAvailableAnime()
-            if (response.isSuccessful) {
-                val availableAnime = response.body()
-                _listAvailableAnime.postValue(availableAnime)
-                _state.postValue(STATE.SUCCESS)
-            } else {
-                val error = response.errorBody()
-                Log.e("ERROR", "$error")
-            }
-
-        } catch (e: Exception) {
-            Log.e("TAG", "$e")
-            _state.postValue(STATE.FAIL)
-        }
-    }
-
-    private suspend fun getQuotesByAnimeCharacter(url: String){
-        try {
-            val response = Common.retrofit.getQuotesByCharacter(url)
-            if(response.isSuccessful){
-                _quotesByCharacter.postValue(response.body())
-                _state.postValue(STATE.SUCCESS)
-            } else {
-                val error = response.errorBody()
-                Log.e("ERROR", "$error")
-            }
-        } catch (e:Exception){
-            _state.postValue(STATE.FAIL)
-        }
-    }
 
     private suspend fun getQuotesByAnimeTitle(url: String) {
         try {
             val mService = Common.retrofit
-            val quotesByAnime = mService.getQuotesByAnime(url)
-            _animeQuotes.postValue(quotesByAnime)
+//            _animeQuotes.postValue()
             _state.postValue(STATE.SUCCESS)
         } catch (e: Exception) {
             _state.postValue(STATE.FAIL)
@@ -126,8 +105,4 @@ class AnimeViewModel: ViewModel() {
 
 enum class STATE{
     PENDING, SUCCESS, FAIL
-}
-
-enum class QUOTES {
-    RANDOM, TITLE, CHARACTER
 }

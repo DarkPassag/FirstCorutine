@@ -41,7 +41,6 @@ class FragmentAnimeNameQuotes:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myModel.getQuotesByAnime1()
         myModel.animeQuotes.observe(viewLifecycleOwner, {
             adapter.animeList = it
             recyclerView.adapter = adapter

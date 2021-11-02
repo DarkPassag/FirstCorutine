@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">Invest</string>
-    <string name="changeText">Change text</string>
-    <string name="changeColor">Change color</string>
-    <string name="changeAllSync">Change text and color Sync</string>
-    <string name="example">[Example]</string>
+    <string name="app_name">Anime Quotes</string>
+    <string name="search">Search </string>
+    <string name="example">[example]</string>
+
 </resources>
