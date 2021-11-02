@@ -91,7 +91,6 @@ class FragmentStart: Fragment() {
 
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE
-        bind.updateFAB.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.VISIBLE
     }
 
