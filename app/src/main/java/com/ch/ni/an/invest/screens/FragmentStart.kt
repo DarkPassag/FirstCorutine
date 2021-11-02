@@ -25,33 +25,6 @@ class FragmentStart: Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAnimeAdapter
 
-    override fun onCreate(savedInstanceState :Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_item, menu)
-        val searchIcon = menu.findItem(R.id.searchIcon).actionView as SearchView
-        searchIcon.setOnQueryTextListener(
-            object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query :String?) :Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText :String?) :Boolean {
-                    if(newText != null){
-                        myModel.tempList.clear()
-                        myModel.search(newText)
-                    } else myModel.getAvailableAnimeList()
-
-                    return false
-                }
-
-            }
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,11 +60,26 @@ class FragmentStart: Fragment() {
                 FAIL -> { updateUI() }
             }
         })
+
+        bind.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query :String?) :Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText :String?) :Boolean {
+                if(newText != null){
+                        myModel.tempList.clear()
+                        myModel.search(newText)
+                    } else myModel.getAvailableAnimeList()
+
+                    return false
+                }
+
+        })
     }
 
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE
-        bind.updateFAB.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.VISIBLE
     }
 
@@ -99,4 +87,6 @@ class FragmentStart: Fragment() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
     }
+
+
 }
