@@ -1,18 +1,20 @@
-package com.ch.ni.an.invest.retrofit
+package com.ch.ni.an.invest.model.retrofit
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.retrofit.STATE.*
+import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.model.room.AnimeDatabase
+import com.ch.ni.an.invest.model.room.AnimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AnimeViewModel: ViewModel() {
+class AnimeViewModel(application :Application): AndroidViewModel(application) {
 
+    private val readData: LiveData<List<AnimeChan>>
+    private val repository: AnimeRepository
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
     val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
@@ -41,6 +43,9 @@ class AnimeViewModel: ViewModel() {
 
     init {
         getAvailableAnimeList()
+        val animeDao = AnimeDatabase.getDatabase(application).animeDao()
+        repository = AnimeRepository(animeDao)
+        readData = repository.readAllQuotes
     }
 
 
@@ -92,6 +97,12 @@ class AnimeViewModel: ViewModel() {
 
     }
 
+    fun addQuote(quote :AnimeChan){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.addQuote(quote)
+        }
+    }
+
 
     private suspend fun getQuotesByAnimeTitle(url: String) {
         try {
@@ -108,6 +119,8 @@ class AnimeViewModel: ViewModel() {
             _state.postValue(FAIL)
         }
     }
+
+
 }
 
 enum class STATE{

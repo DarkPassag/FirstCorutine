@@ -1,4 +1,4 @@
-package com.ch.ni.an.invest.retrofit
+package com.ch.ni.an.invest.model.retrofit
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -1,9 +1,8 @@
-package com.ch.ni.an.invest.retrofit
+package com.ch.ni.an.invest.model.retrofit
 
 import com.ch.ni.an.invest.model.AnimeChan
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetrofitService {

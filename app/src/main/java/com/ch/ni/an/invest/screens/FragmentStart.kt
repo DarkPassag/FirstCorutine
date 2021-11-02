@@ -2,24 +2,27 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.ListAnimeAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
-import com.ch.ni.an.invest.retrofit.AnimeViewModel
-import com.ch.ni.an.invest.retrofit.STATE.*
+import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
+import com.ch.ni.an.invest.model.retrofit.STATE.*
 
 
 class FragmentStart: Fragment() {
     private var _bind: FragmentStartBinding? = null
     private val bind: FragmentStartBinding
         get() = _bind!!
-    private val myModel: AnimeViewModel by activityViewModels()
+    private lateinit var myModel: AnimeViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAnimeAdapter
 
@@ -30,6 +33,7 @@ class FragmentStart: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bind = FragmentStartBinding.inflate(inflater, container, false)
+        myModel = ViewModelProvider(this).get(AnimeViewModel::class.java)
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ListAnimeAdapter(
@@ -37,6 +41,10 @@ class FragmentStart: Fragment() {
                 override fun clickListener(animeName :String) {
                     myModel.getQuotesByAnime(animeName)
                     findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
+                }
+
+                override fun addQuote(animeChan :AnimeChan) {
+                    Toast.makeText(context, "ooooo", Toast.LENGTH_SHORT).show()
                 }
 
             }

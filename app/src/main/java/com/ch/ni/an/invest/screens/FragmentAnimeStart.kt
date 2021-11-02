@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
 
-import com.ch.ni.an.invest.retrofit.AnimeViewModel
-import com.ch.ni.an.invest.retrofit.STATE
+import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
+import com.ch.ni.an.invest.model.retrofit.STATE
 
 class FragmentAnimeStart: Fragment() {
 

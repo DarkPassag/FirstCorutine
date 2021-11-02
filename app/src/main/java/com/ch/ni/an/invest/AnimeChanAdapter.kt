@@ -39,6 +39,9 @@ class AnimeAdapter(private val clickListener: RecyclerViewClickListener
         val item = animeList[position]
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
+        holder.bind.favouriteButton.setOnClickListener {
+            clickListener.addQuote(item)
+        }
     }
 
     override fun getItemCount(): Int = animeList.size
