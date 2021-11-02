@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:padding="8dp">
+    android:background="#60FFFFFF"
+    android:padding="8dp"
+    app:cardCornerRadius="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,47 +24,47 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginStart="4dp"
                 android:text="@string/example"
                 android:textSize="32sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Naruto" />
 
             <ImageButton
                 android:id="@+id/favouriteButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/ic_no_favourite" />
+                android:src="@drawable/ic_no_favourite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <TextView
             android:id="@+id/animeCharacterTextView"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/example"
-            style="@style/TextAppearance.AppCompat.Body1"
             android:textSize="24sp"
 
-            tools:text="Madara"/>
+            tools:text="Madara" />
+
         <TextView
             android:id="@+id/animeQuoteTextView"
+            style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textSize="16sp"
             android:text="@string/example"
-            style="@style/TextAppearance.AppCompat.Body2"
-            tools:text="Thinking of peace whilst spilling blood is something that only humans could do."/>
+            android:textSize="16sp"
+            tools:text="Thinking of peace whilst spilling blood is something that only humans could do." />
 
     </LinearLayout>
-
 
 
 </androidx.cardview.widget.CardView>

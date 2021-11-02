@@ -4,5 +4,7 @@
     <string name="example">[example]</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favourite_quotes">Favourite quotes</string>
+    <string name="list_available_anime">List available anime</string>
 
 </resources>
