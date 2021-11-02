@@ -9,15 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.databinding.FragmentAnimeStartBinding
-import com.ch.ni.an.invest.ondedayretrofit.AnimeViewModel
-import com.ch.ni.an.invest.ondedayretrofit.STATE
+import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
+
+import com.ch.ni.an.invest.retrofit.AnimeViewModel
+import com.ch.ni.an.invest.retrofit.STATE
 
 class FragmentAnimeStart: Fragment() {
 
     private val myModel: AnimeViewModel by activityViewModels()
-    private lateinit var _bind: FragmentAnimeStartBinding
-    private val bind: FragmentAnimeStartBinding
+    private var _bind: FragmentAnimeTenRandomQuotesBinding? = null
+    private val bind: FragmentAnimeTenRandomQuotesBinding
         get() = _bind!!
 
     private lateinit var adapter : AnimeStartAdapter
@@ -28,14 +29,14 @@ class FragmentAnimeStart: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bind = FragmentAnimeStartBinding.inflate(inflater, container, false)
+        _bind = FragmentAnimeTenRandomQuotesBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
         adapter = AnimeStartAdapter()
         recycleView.adapter = adapter
 
 
-        return _bind.root
+        return bind.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

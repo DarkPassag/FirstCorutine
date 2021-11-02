@@ -8,13 +8,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.AnimeAdapter
 import com.ch.ni.an.invest.ListAnimeAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
-import com.ch.ni.an.invest.ondedayretrofit.AnimeViewModel
-import com.ch.ni.an.invest.ondedayretrofit.STATE
-import com.ch.ni.an.invest.ondedayretrofit.STATE.*
+import com.ch.ni.an.invest.retrofit.AnimeViewModel
+import com.ch.ni.an.invest.retrofit.STATE.*
 
 
 class FragmentStart: Fragment() {
@@ -78,14 +76,17 @@ class FragmentStart: Fragment() {
         })
     }
 
+
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
+        bind.searchView.visibility = View.VISIBLE
     }
 
     private fun pendingUI(){
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
+        bind.searchView.visibility = View.INVISIBLE
     }
 
 

@@ -11,11 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.AnimeAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
-import com.ch.ni.an.invest.ondedayretrofit.AnimeViewModel
+import com.ch.ni.an.invest.retrofit.AnimeViewModel
+import com.ch.ni.an.invest.retrofit.STATE
+import com.ch.ni.an.invest.retrofit.STATE.*
 
 class FragmentAnimeNameQuotes:Fragment() {
 
     private var _bind: FragmentAnimenameQuotesBinding? = null
+    private val bind: FragmentAnimenameQuotesBinding
+        get() = _bind!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AnimeAdapter
     private val myModel: AnimeViewModel by activityViewModels()
@@ -26,7 +30,7 @@ class FragmentAnimeNameQuotes:Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bind = FragmentAnimenameQuotesBinding.inflate(inflater, container, false)
-        val bind = _bind!!
+
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -41,9 +45,29 @@ class FragmentAnimeNameQuotes:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myModel.animeQuotes.observe(viewLifecycleOwner, {
+        myModel.quotesByAnimaCharacter.observe(viewLifecycleOwner, {
             adapter.animeList = it
             recyclerView.adapter = adapter
         })
+        myModel.state.observe(viewLifecycleOwner, {
+            when(it){
+                PENDING -> { pendingUI() }
+                SUCCESS -> { updateUI() }
+                FAIL -> { updateUI() }
+            }
+        })
+
+    }
+
+
+    private fun updateUI(){
+        bind.dotsLoaderProgressbar.visibility = View.GONE
+        bind.recyclerView.visibility = View.VISIBLE
+
+    }
+
+    private fun pendingUI(){
+        bind.dotsLoaderProgressbar.visibility = View.VISIBLE
+        bind.recyclerView.visibility = View.GONE
     }
 }

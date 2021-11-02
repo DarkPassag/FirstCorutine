@@ -1,4 +1,4 @@
-package com.ch.ni.an.invest.ondedayretrofit
+package com.ch.ni.an.invest.retrofit
 
 import com.ch.ni.an.invest.model.AnimeChan
 import retrofit2.Response

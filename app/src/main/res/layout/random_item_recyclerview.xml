@@ -13,17 +13,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="8dp">
+        android:layout_margin="16dp">
 
-        <TextView
-            android:id="@+id/animeNameTextView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:layout_marginStart="4dp"
-            android:text="@string/example"
-            style="@style/TextAppearance.AppCompat.Title"
-            tools:text="Naruto"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/animeNameTextView"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="4dp"
+                android:text="@string/example"
+                android:textSize="32sp"
+                tools:text="Naruto" />
+
+            <ImageButton
+                android:id="@+id/favouriteButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_no_favourite" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <TextView
             android:id="@+id/animeCharacterTextView"
             android:layout_width="match_parent"

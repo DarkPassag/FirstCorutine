@@ -1,4 +1,4 @@
-package com.ch.ni.an.invest.ondedayretrofit
+package com.ch.ni.an.invest.retrofit
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.retrofit.STATE.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -45,7 +46,7 @@ class AnimeViewModel: ViewModel() {
 
     fun getRandomQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.postValue(STATE.PENDING)
+            _state.postValue(PENDING)
 
         }
     }
@@ -63,7 +64,7 @@ class AnimeViewModel: ViewModel() {
 
     fun getQuotesByAnime(url: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.postValue(STATE.PENDING)
+            _state.postValue(PENDING)
             getQuotesByAnimeTitle(url)
         }
     }
@@ -77,7 +78,7 @@ class AnimeViewModel: ViewModel() {
                     val availableAnime = response.body()
                     _listAvailableAnime.postValue(availableAnime)
                     _listAnime = response.body()!!
-                    _state.postValue(STATE.SUCCESS)
+                    _state.postValue(SUCCESS)
                 } else {
                     val error = response.errorBody()
                     Log.e("ERROR", "$error")
@@ -85,7 +86,7 @@ class AnimeViewModel: ViewModel() {
 
             } catch (e: Exception) {
                 Log.e("TAG", "$e")
-                _state.postValue(STATE.FAIL)
+                _state.postValue(FAIL)
             }
         }
 
@@ -94,11 +95,17 @@ class AnimeViewModel: ViewModel() {
 
     private suspend fun getQuotesByAnimeTitle(url: String) {
         try {
-            val mService = Common.retrofit
-//            _animeQuotes.postValue()
-            _state.postValue(STATE.SUCCESS)
+            val response = Common.retrofit.getQuotesByAnimeName(url)
+            if(response.isSuccessful){
+                val quotes = response.body()
+                _quotesByCharacter.postValue(quotes)
+                _state.postValue(SUCCESS)
+            } else {
+                val error = response.errorBody()
+                Log.e("ERROR", "$error")
+            }
         } catch (e: Exception) {
-            _state.postValue(STATE.FAIL)
+            _state.postValue(FAIL)
         }
     }
 }
