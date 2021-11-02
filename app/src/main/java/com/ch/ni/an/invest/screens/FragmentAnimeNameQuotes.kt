@@ -23,7 +23,7 @@ class FragmentAnimeNameQuotes:Fragment() {
         get() = _bind!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AnimeAdapter
-    private lateinit var myModel: AnimeViewModel
+    private val myModel: AnimeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,6 @@ class FragmentAnimeNameQuotes:Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bind = FragmentAnimenameQuotesBinding.inflate(inflater, container, false)
-        myModel = ViewModelProvider(this).get(AnimeViewModel::class.java)
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

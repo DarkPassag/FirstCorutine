@@ -2,5 +2,7 @@
     <string name="app_name">Anime Quotes</string>
     <string name="search">Search </string>
     <string name="example">[example]</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

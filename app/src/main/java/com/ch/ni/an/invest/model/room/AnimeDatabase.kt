@@ -31,5 +31,11 @@ abstract class AnimeDatabase: RoomDatabase() {
                 return instance
             }
         }
+
+        fun get(): AnimeDatabase {
+            return INSTANCE ?:
+            throw IllegalStateException("Database must be initialized")
+        }
+
     }
 }

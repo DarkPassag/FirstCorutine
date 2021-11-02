@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -35,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def lifecycle_version = "2.3.1"
     def nav_version = "2.3.5"
     def retrofit_version = "2.9.0"
@@ -68,6 +70,7 @@ dependencies {
 
     //room
     implementation "androidx.room:room-ktx:$roomVersion"
+    kapt 'androidx.room:room-compiler:2.3.0'
 
 
 }

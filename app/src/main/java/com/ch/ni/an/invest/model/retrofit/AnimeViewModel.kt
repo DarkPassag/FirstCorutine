@@ -1,20 +1,19 @@
 package com.ch.ni.an.invest.model.retrofit
 
-import android.app.Application
+
 import android.util.Log
 import androidx.lifecycle.*
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
-import com.ch.ni.an.invest.model.room.AnimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AnimeViewModel(application :Application): AndroidViewModel(application) {
+class AnimeViewModel(): ViewModel() {
 
-    private val readData: LiveData<List<AnimeChan>>
-    private val repository: AnimeRepository
+
+    private val database = AnimeDatabase.get()
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
     val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
@@ -43,9 +42,6 @@ class AnimeViewModel(application :Application): AndroidViewModel(application) {
 
     init {
         getAvailableAnimeList()
-        val animeDao = AnimeDatabase.getDatabase(application).animeDao()
-        repository = AnimeRepository(animeDao)
-        readData = repository.readAllQuotes
     }
 
 
@@ -99,7 +95,7 @@ class AnimeViewModel(application :Application): AndroidViewModel(application) {
 
     fun addQuote(quote :AnimeChan){
         viewModelScope.launch(Dispatchers.IO){
-            repository.addQuote(quote)
+            database.animeDao().insertQuote(quote)
         }
     }
 

@@ -22,7 +22,7 @@ class FragmentStart: Fragment() {
     private var _bind: FragmentStartBinding? = null
     private val bind: FragmentStartBinding
         get() = _bind!!
-    private lateinit var myModel: AnimeViewModel
+    private val myModel: AnimeViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAnimeAdapter
 
@@ -33,7 +33,7 @@ class FragmentStart: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bind = FragmentStartBinding.inflate(inflater, container, false)
-        myModel = ViewModelProvider(this).get(AnimeViewModel::class.java)
+
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ListAnimeAdapter(
