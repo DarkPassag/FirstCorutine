@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_fragmentStart_to_fragmentAnimeNameQuotes"
             app:destination="@id/fragmentAnimeNameQuotes" />
+        <action
+            android:id="@+id/action_fragmentStart_to_fragmentMyQuotes"
+            app:destination="@id/fragmentMyQuotes" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeNameQuotes"
@@ -19,6 +22,9 @@
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentStart"
             app:destination="@id/fragmentStart" />
+        <action
+            android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentMyQuotes"
+            app:destination="@id/fragmentMyQuotes" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeStart"
@@ -27,13 +33,12 @@
         <action
             android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
             app:destination="@id/fragmentAnimeNameQuotes" />
+        <action
+            android:id="@+id/action_fragmentAnimeStart_to_fragmentMyQuotes"
+            app:destination="@id/fragmentMyQuotes" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentAnimeStart"
-        android:name="com.ch.ni.an.invest.screens.FragmentAnimeStart"
-        android:label="FragmentAnimeStart" >
-        <action
-            android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
-            app:destination="@id/fragmentAnimeNameQuotes" />
-    </fragment>
+        android:id="@+id/fragmentMyQuotes"
+        android:name="com.ch.ni.an.invest.screens.FragmentMyQuotes"
+        android:label="FragmentMyQuotes" />
 </navigation>
