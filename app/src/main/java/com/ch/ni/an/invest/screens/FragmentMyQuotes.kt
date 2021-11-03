@@ -47,7 +47,7 @@ class FragmentMyQuotes: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AnimeStartAdapter()
         recyclerView.adapter = adapter
-
+        activity?.window?.setBackgroundDrawableResource(R.drawable.gradient_2)
         return bind.root
     }
 
