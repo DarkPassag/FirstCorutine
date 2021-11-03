@@ -14,7 +14,9 @@ import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
+import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
 class FragmentAnimeNameQuotes:Fragment() {
 
@@ -24,6 +26,7 @@ class FragmentAnimeNameQuotes:Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AnimeAdapter
     private val myModel: AnimeViewModel by activityViewModels()
+    private val mModel: MyQuotesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +39,19 @@ class FragmentAnimeNameQuotes:Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = AnimeAdapter(object : RecyclerViewClickListener {
             override fun clickListener(animeName: String) {
-                Toast.makeText(requireContext(), animeName, Toast.LENGTH_LONG).show()
             }
 
             override fun addQuote(animeChan :AnimeChan) {
                 myModel.addQuote(animeChan)
             }
-        })
+        }, object : FavouriteCallback{
+            override fun checkInRoom(quote :AnimeChan) :Boolean {
+                return mModel.checkQuote(quote)
+            }
+
+
+        }
+        )
         recyclerView.adapter = adapter
         return bind.root
     }

@@ -51,7 +51,6 @@ class ListAnimeAdapter(
 
     override fun onBindViewHolder(holder: ListAnimeHolder, position: Int) {
         val anime = listAnime[position]
-        Log.e("TAG", anime)
         holder.bind.nametextView.text = anime
         holder.bind.nametextView.setOnClickListener {
             onClick.clickListener(anime)

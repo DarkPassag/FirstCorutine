@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
-class AnimeAdapter(private val clickListener:RecyclerViewClickListener
+class AnimeAdapter(
+    private val clickListener:RecyclerViewClickListener,
+    private val favouriteCheck: FavouriteCallback
 ): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>() {
 
     class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
@@ -34,8 +37,13 @@ class AnimeAdapter(private val clickListener:RecyclerViewClickListener
         val item = animeList[position]
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
-        holder.bind.favouriteButton.setOnClickListener {
+        val favouriteButton = holder.bind.favouriteButton
+        if(favouriteCheck.checkInRoom(item)){
+            favouriteButton.setImageResource(R.drawable.ic_favourite)
+        } else favouriteButton.setImageResource(R.drawable.ic_no_favourite)
+        favouriteButton.setOnClickListener {
             clickListener.addQuote(item)
+            favouriteButton.setImageResource(R.drawable.ic_favourite)
         }
     }
 

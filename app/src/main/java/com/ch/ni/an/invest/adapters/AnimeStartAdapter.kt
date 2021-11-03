@@ -1,11 +1,9 @@
 package com.ch.ni.an.invest.screens
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RandomItemRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
 
