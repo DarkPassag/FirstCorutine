@@ -8,8 +8,6 @@ import androidx.room.PrimaryKey
 data class AnimeChan(
     val anime: String? = null,
     val character: String? = null,
-    val quote: String? = null){
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+  @PrimaryKey val quote: String){
 }
 

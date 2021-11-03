@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.NameItemRecyclerviewBinding
-import com.ch.ni.an.invest.screens.RecyclerViewClickListener
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 
 class AnimeDiff(
@@ -31,7 +31,7 @@ class AnimeDiff(
 
 }
 class ListAnimeAdapter(
-    val onClick: RecyclerViewClickListener
+    val onClick:RecyclerViewClickListener
     ): RecyclerView.Adapter<ListAnimeHolder>() {
 
     var listAnime: List<String> = emptyList()

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.AnimeAdapter
@@ -15,6 +14,7 @@ import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 class FragmentAnimeNameQuotes:Fragment() {
 
@@ -34,7 +34,7 @@ class FragmentAnimeNameQuotes:Fragment() {
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AnimeAdapter(object : RecyclerViewClickListener{
+        adapter = AnimeAdapter(object : RecyclerViewClickListener {
             override fun clickListener(animeName: String) {
                 Toast.makeText(requireContext(), animeName, Toast.LENGTH_LONG).show()
             }

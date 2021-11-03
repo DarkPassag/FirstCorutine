@@ -1,19 +1,14 @@
 package com.ch.ni.an.invest
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.databinding.FragmentStartBinding
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.screens.RecyclerViewClickListener
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
-class AnimeAdapter(private val clickListener: RecyclerViewClickListener
+class AnimeAdapter(private val clickListener:RecyclerViewClickListener
 ): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>() {
 
     class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {

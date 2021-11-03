@@ -2,11 +2,9 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +14,7 @@ import com.ch.ni.an.invest.databinding.FragmentStartBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 
 class FragmentStart: Fragment(), SearchView.OnQueryTextListener {
@@ -76,7 +75,7 @@ class FragmentStart: Fragment(), SearchView.OnQueryTextListener {
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ListAnimeAdapter(
-            object : RecyclerViewClickListener{
+            object : RecyclerViewClickListener {
                 override fun clickListener(animeName :String) {
                     myModel.getQuotesByAnime(animeName)
                     findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)

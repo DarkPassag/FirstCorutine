@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quoteCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="36dp"
+    android:elevation="8dp"
+    android:layout_margin="8dp"
+    android:background="@color/transparent_50"
+    android:backgroundTint="@color/transparent_50"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/animeNameTextView"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/example"
+            android:textSize="32sp"/>
+        <TextView
+            android:id="@+id/animeCharacterTextView"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/example"
+            android:textSize="24sp"
+            tools:text="Madara" />
+
+        <TextView
+            android:id="@+id/animeQuoteTextView"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/example"
+            android:textSize="16sp"
+            tools:text="Thinking of peace whilst spilling blood is something that only humans could do." />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

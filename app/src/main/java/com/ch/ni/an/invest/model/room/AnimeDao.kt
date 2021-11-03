@@ -1,10 +1,7 @@
 package com.ch.ni.an.invest.model.room
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.ch.ni.an.invest.model.AnimeChan
 
 
@@ -16,5 +13,8 @@ interface AnimeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuote(quote: AnimeChan)
+
+    @Delete
+    suspend fun deleteQuote(quote :AnimeChan)
 
 }
