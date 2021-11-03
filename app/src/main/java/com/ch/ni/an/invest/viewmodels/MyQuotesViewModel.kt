@@ -1,6 +1,6 @@
 package com.ch.ni.an.invest.viewmodels
 
-import android.util.Log
+import  android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,10 +16,7 @@ class MyQuotesViewModel: ViewModel() {
     private val _myQuotes: LiveData<List<AnimeChan>> = database.getAll()
     val myQuotes: LiveData<List<AnimeChan>> = _myQuotes
 
-    init {
-        database.getAll()
-        _myQuotes
-    }
+    init { }
 
     fun deleteQuote(quote: AnimeChan){
         viewModelScope.launch(Dispatchers.IO) {
@@ -29,9 +26,9 @@ class MyQuotesViewModel: ViewModel() {
 
     fun checkQuote(quote :AnimeChan): Boolean{
         var contains: Boolean? = null
-        contains = _myQuotes.value!!.contains(quote)
-        return contains
+        contains = _myQuotes.value?.contains(quote)
+        Log.e("Trouble", contains.toString())
+        return contains ?: false
     }
-
 
 }
