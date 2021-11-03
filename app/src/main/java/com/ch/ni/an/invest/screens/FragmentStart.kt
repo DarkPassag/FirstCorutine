@@ -26,6 +26,18 @@ class FragmentStart: Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAnimeAdapter
 
+    override fun onCreate(savedInstanceState :Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+
+    }
+
+    override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
+        inflater.inflate(R.menu.menu_item, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,35 +78,18 @@ class FragmentStart: Fragment() {
                 FAIL -> { updateUI() }
             }
         })
-
-        bind.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query :String?) :Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText :String?) :Boolean {
-                if(newText != null){
-                        myModel.tempList.clear()
-                        myModel.search(newText)
-                    } else myModel.getAvailableAnimeList()
-
-                    return false
-                }
-
-        })
     }
+
 
 
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
-        bind.searchView.visibility = View.VISIBLE
     }
 
     private fun pendingUI(){
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
-        bind.searchView.visibility = View.INVISIBLE
     }
 
 
