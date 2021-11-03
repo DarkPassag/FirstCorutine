@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_1">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/grdient_list"
         android:padding="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +51,6 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="@android:color/holo_orange_light"
         android:src="@drawable/ic_update"
-
         android:visibility="gone"
         app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -29,14 +29,22 @@ class FragmentStart: Fragment() {
     override fun onCreate(savedInstanceState :Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-
     }
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
-        inflater.inflate(R.menu.menu_item, menu)
+        inflater.inflate(R.menu.menu_list_anime_fragment, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item :MenuItem) :Boolean {
+        when(item.itemId){
+            R.id.searchIcon -> searchAnimeName()
+            R.id.favouriteQuotes -> findNavController().navigate(R.id.action_fragmentStart_to_fragmentMyQuotes)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
 
 
     override fun onCreateView(
@@ -80,7 +88,24 @@ class FragmentStart: Fragment() {
         })
     }
 
+    private fun searchAnimeName(){
+        val searchView = R.id.searchIcon as SearchView
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query :String?) :Boolean {
+                return false
+            }
 
+            override fun onQueryTextChange(newText :String?) :Boolean {
+                if (newText != null){
+                    myModel.tempList.clear()
+                    myModel.search(newText)
+                } else {
+                    myModel.getAvailableAnimeList()
+                }
+                return false
+            }
+        })
+    }
 
     private fun updateUI(){
         bind.dotsLoaderProgressbar.visibility = View.GONE

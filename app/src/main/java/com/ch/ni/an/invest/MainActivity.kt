@@ -1,15 +1,17 @@
 package com.ch.ni.an.invest
 
 
-import android.annotation.SuppressLint
+
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import com.ch.ni.an.invest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         backGroundColor()
         setContentView(bind.root)
+        setSupportActionBar(bind.toolBar)
     }
+
 
     private fun backGroundColor() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
