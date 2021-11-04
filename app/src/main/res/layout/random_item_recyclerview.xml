@@ -28,6 +28,7 @@
                 android:layout_marginStart="4dp"
                 android:text="@string/example"
                 android:textSize="32sp"
+                android:textIsSelectable="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Naruto" />
@@ -39,6 +40,7 @@
                 android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/ic_no_favourite"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:textIsSelectable="true"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -52,6 +54,7 @@
             android:layout_marginStart="4dp"
             android:text="@string/example"
             android:textSize="24sp"
+            android:textIsSelectable="true"
 
             tools:text="Madara" />
 
@@ -63,6 +66,7 @@
             android:layout_marginStart="4dp"
             android:text="@string/example"
             android:textSize="16sp"
+            android:textIsSelectable="true"
             tools:text="Thinking of peace whilst spilling blood is something that only humans could do." />
 
     </LinearLayout>

@@ -26,6 +26,7 @@
                 android:layout_margin="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textIsSelectable="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
             <ImageButton
                 android:id="@+id/favouriteButton"
@@ -43,6 +44,7 @@
         android:layout_margin="4dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textIsSelectable="true"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         tools:text="HAHAHAHAHAHhahahahaha"
         />
