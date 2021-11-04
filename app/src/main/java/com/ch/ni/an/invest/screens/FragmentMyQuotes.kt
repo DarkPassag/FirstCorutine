@@ -17,7 +17,7 @@ import com.ch.ni.an.invest.utills.SwipeToDeleteCallback
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 import kotlin.text.Typography.quote
 
-class FragmentMyQuotes: Fragment(), SwipeListenerDelete {
+class FragmentMyQuotes: BaseFragment(), SwipeListenerDelete {
 
     private var _bind: FragmentMyQuotesBinding? = null
     private val bind: FragmentMyQuotesBinding
@@ -26,11 +26,6 @@ class FragmentMyQuotes: Fragment(), SwipeListenerDelete {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MyQuoteAdapter
 
-    override fun onCreate(savedInstanceState :Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         inflater.inflate(R.menu.menu_favourite_fragment, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -38,7 +33,7 @@ class FragmentMyQuotes: Fragment(), SwipeListenerDelete {
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
         if(item.itemId == R.id.listAvailableAnime){
-            findNavController().navigate(R.id.action_fragmentMyQuotes_to_fragmentStart)
+            findNavController().popBackStack()
         }
         return super.onOptionsItemSelected(item)
 

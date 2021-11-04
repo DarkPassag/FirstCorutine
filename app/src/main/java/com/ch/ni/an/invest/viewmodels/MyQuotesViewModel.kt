@@ -2,11 +2,14 @@ package com.ch.ni.an.invest.viewmodels
 
 import  android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.room.AnimeDatabase
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MyQuotesViewModel: ViewModel() {
@@ -16,7 +19,11 @@ class MyQuotesViewModel: ViewModel() {
     private val _myQuotes: LiveData<List<AnimeChan>> = database.getAll()
     val myQuotes: LiveData<List<AnimeChan>> = _myQuotes
 
-    init { }
+    var listQuote: List<AnimeChan> = emptyList()
+
+    init {
+        loadListFavouriteQuote()
+    }
 
     fun deleteQuote(quote: AnimeChan){
         viewModelScope.launch(Dispatchers.IO) {
@@ -24,11 +31,21 @@ class MyQuotesViewModel: ViewModel() {
         }
     }
 
-    fun checkQuote(quote :AnimeChan): Boolean{
-        var contains: Boolean? = null
-        contains = _myQuotes.value?.contains(quote)
-        Log.e("Trouble", contains.toString())
-        return contains ?: false
+
+    fun loadListFavouriteQuote(){
+        viewModelScope.launch(Dispatchers.IO) {
+            listQuote = database.getAllForCheck()
+        }
     }
+
+    fun checkQuote(quote :AnimeChan): Boolean {
+        Log.e("TAG", "${listQuote.contains(quote)}")
+           return listQuote.contains(quote)
+        }
+
+
+
+
+
 
 }

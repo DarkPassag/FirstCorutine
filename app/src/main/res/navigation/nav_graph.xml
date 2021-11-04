@@ -10,10 +10,14 @@
         android:label="FragmentStart" >
         <action
             android:id="@+id/action_fragmentStart_to_fragmentAnimeNameQuotes"
-            app:destination="@id/fragmentAnimeNameQuotes" />
+            app:destination="@id/fragmentAnimeNameQuotes"
+            app:popUpTo="@id/fragmentStart"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_fragmentStart_to_fragmentMyQuotes"
-            app:destination="@id/fragmentMyQuotes" />
+            app:destination="@id/fragmentMyQuotes"
+            app:popUpTo="@id/fragmentStart"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeNameQuotes"
@@ -21,10 +25,14 @@
         android:label="FragmentAnimeNameQuotes" >
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentStart"
-            app:destination="@id/fragmentStart" />
+            app:destination="@id/fragmentStart"
+            app:popUpTo="@id/fragmentAnimeNameQuotes"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentMyQuotes"
-            app:destination="@id/fragmentMyQuotes" />
+            app:destination="@id/fragmentMyQuotes"
+            app:popUpTo="@id/fragmentAnimeNameQuotes"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeStart"
@@ -32,10 +40,14 @@
         android:label="FragmentAnimeStart" >
         <action
             android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
-            app:destination="@id/fragmentAnimeNameQuotes" />
+            app:destination="@id/fragmentAnimeNameQuotes"
+            app:popUpTo="@id/fragmentAnimeStart"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_fragmentAnimeStart_to_fragmentMyQuotes"
-            app:destination="@id/fragmentMyQuotes" />
+            app:destination="@id/fragmentMyQuotes"
+            app:popUpTo="@id/fragmentStart"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMyQuotes"
@@ -43,6 +55,8 @@
         android:label="FragmentMyQuotes" >
         <action
             android:id="@+id/action_fragmentMyQuotes_to_fragmentStart"
-            app:destination="@id/fragmentStart" />
+            app:destination="@id/fragmentStart"
+            app:popUpTo="@id/fragmentMyQuotes"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

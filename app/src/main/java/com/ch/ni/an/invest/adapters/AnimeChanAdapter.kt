@@ -2,6 +2,7 @@ package com.ch.ni.an.invest
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
@@ -49,6 +50,14 @@ class AnimeAdapter(
 
     override fun getItemCount(): Int = animeList.size
 
+
+    /**
+    private fun checkFavourite(imageButton :ImageButton,item: AnimeChan){
+        if(favouriteCheck.checkInRoom(item)){
+            imageButton.setImageResource(R.drawable.ic_favourite)
+        } else imageButton.setImageResource(R.drawable.ic_no_favourite)
+    }
+    */
 
 }
 class AnimeDiffUtil(

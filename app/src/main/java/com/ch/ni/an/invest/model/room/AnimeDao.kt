@@ -11,6 +11,9 @@ interface AnimeDao {
     @Query("SELECT * FROM quotes")
     fun getAll(): LiveData<List<AnimeChan>>
 
+    @Query("SELECT * FROM quotes")
+    suspend fun getAllForCheck(): List<AnimeChan>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuote(quote: AnimeChan)
 

@@ -14,7 +14,7 @@ import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE
 
-class FragmentAnimeStart: Fragment() {
+class FragmentAnimeStart: BaseFragment() {
 
     private val myModel: AnimeViewModel by activityViewModels()
     private var _bind: FragmentAnimeTenRandomQuotesBinding? = null
