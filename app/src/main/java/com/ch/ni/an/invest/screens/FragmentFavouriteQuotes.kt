@@ -2,29 +2,27 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.R
-import com.ch.ni.an.invest.adapters.MyQuoteAdapter
+import com.ch.ni.an.invest.adapters.FavouriteQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentMyQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 import com.ch.ni.an.invest.utills.SwipeToDeleteCallback
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
-import kotlin.text.Typography.quote
 
-class FragmentMyQuotes: BaseFragment(), SwipeListenerDelete {
+class FragmentFavouriteQuotes: BaseFragment(), SwipeListenerDelete {
 
     private var _bind: FragmentMyQuotesBinding? = null
     private val bind: FragmentMyQuotesBinding
         get() = _bind!!
     private val myModel:MyQuotesViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: MyQuoteAdapter
+    private lateinit var adapter: FavouriteQuotesAdapter
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         inflater.inflate(R.menu.menu_favourite_fragment, menu)
@@ -47,7 +45,7 @@ class FragmentMyQuotes: BaseFragment(), SwipeListenerDelete {
         _bind = FragmentMyQuotesBinding.inflate(inflater, container, false)
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = MyQuoteAdapter(this)
+        adapter = FavouriteQuotesAdapter(this)
         recyclerView.adapter = adapter
         activity?.window?.setBackgroundDrawableResource(R.drawable.gradient_2)
         return bind.root
@@ -56,7 +54,7 @@ class FragmentMyQuotes: BaseFragment(), SwipeListenerDelete {
     override fun onViewCreated(view :View, savedInstanceState :Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myModel.myQuotes.observe(viewLifecycleOwner, {
-            adapter.setList = it
+            adapter.setList = it.reversed()
             recyclerView.adapter = adapter
             val swipeToDelete= object : SwipeToDeleteCallback(){
                 override fun onSwiped(viewHolder :RecyclerView.ViewHolder, direction :Int) {

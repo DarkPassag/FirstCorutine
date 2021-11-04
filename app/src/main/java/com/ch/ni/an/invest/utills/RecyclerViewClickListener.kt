@@ -7,4 +7,6 @@ interface RecyclerViewClickListener {
 
     fun addQuote(animeChan: AnimeChan)
 
+    fun deleteQuote(animeChan :AnimeChan)
+
 }

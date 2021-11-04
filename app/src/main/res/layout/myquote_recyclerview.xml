@@ -27,8 +27,9 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/example"
+            android:layout_marginBottom="4dp"
             android:textIsSelectable="true"
-            android:textSize="32sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/animeCharacterTextView"
@@ -37,6 +38,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/example"
+            android:textStyle="italic"
             android:textSize="24sp"
             android:textIsSelectable="true"
             tools:text="Madara" />

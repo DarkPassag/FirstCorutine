@@ -11,9 +11,10 @@
         android:textSize="32sp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textIsSelectable="true"
         style="?android:selectableItemBackground"/>
 
 

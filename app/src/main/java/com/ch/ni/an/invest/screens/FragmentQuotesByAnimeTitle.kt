@@ -2,13 +2,11 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.AnimeAdapter
+import com.ch.ni.an.invest.QuoteByAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
@@ -18,13 +16,13 @@ import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
-class FragmentAnimeNameQuotes: BaseFragment() {
+class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
 
     private var _bind: FragmentAnimenameQuotesBinding? = null
     private val bind: FragmentAnimenameQuotesBinding
         get() = _bind!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: AnimeAdapter
+    private lateinit var titleAdapterQuoteBy: QuoteByAnimeTitleAdapter
     private val myModel: AnimeViewModel by activityViewModels()
     private val mModel: MyQuotesViewModel by activityViewModels()
 
@@ -54,21 +52,8 @@ class FragmentAnimeNameQuotes: BaseFragment() {
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AnimeAdapter(object : RecyclerViewClickListener {
-            override fun clickListener(animeName: String) {
-            }
-
-            override fun addQuote(animeChan :AnimeChan) {
-                myModel.addQuote(animeChan)
-            }
-        }, object : FavouriteCallback{
-            override fun checkInRoom(quote :AnimeChan) :Boolean {
-                mModel.loadListFavouriteQuote()
-                return mModel.checkQuote(quote)
-            }
-        }
-        )
-        recyclerView.adapter = adapter
+        titleAdapterQuoteBy = QuoteByAnimeTitleAdapter(this, this)
+        recyclerView.adapter = titleAdapterQuoteBy
         return bind.root
     }
 
@@ -86,8 +71,8 @@ class FragmentAnimeNameQuotes: BaseFragment() {
                 }
             })
             quotesByAnimaCharacter.observe(viewLifecycleOwner, {
-                adapter.animeList = it
-                recyclerView.adapter = adapter
+                titleAdapterQuoteBy.animeList = it
+                recyclerView.adapter = titleAdapterQuoteBy
             })
         }
 
@@ -103,5 +88,20 @@ class FragmentAnimeNameQuotes: BaseFragment() {
     private fun pendingUI(){
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
+    }
+
+    override fun checkInRoom(quote :AnimeChan) :Boolean {
+        mModel.loadListFavouriteQuote()
+        return mModel.checkQuote(quote)
+    }
+
+    override fun clickListener(animeName :String) {}
+
+    override fun addQuote(animeChan :AnimeChan) {
+        myModel.addQuote(animeChan)
+    }
+
+    override fun deleteQuote(animeChan :AnimeChan) {
+        myModel.deleteQuote(animeChan)
     }
 }

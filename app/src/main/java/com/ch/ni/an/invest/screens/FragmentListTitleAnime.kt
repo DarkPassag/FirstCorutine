@@ -3,12 +3,11 @@ package com.ch.ni.an.invest.screens
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.ListAnimeAdapter
+import com.ch.ni.an.invest.ListAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
 import com.ch.ni.an.invest.model.AnimeChan
@@ -17,13 +16,13 @@ import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 
-class FragmentStart: BaseFragment(), SearchView.OnQueryTextListener {
+class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
     private var _bind: FragmentStartBinding? = null
     private val bind: FragmentStartBinding
         get() = _bind!!
     private val myModel: AnimeViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ListAnimeAdapter
+    private lateinit var titleAdapter: ListAnimeTitleAdapter
 
 
 
@@ -71,26 +70,16 @@ class FragmentStart: BaseFragment(), SearchView.OnQueryTextListener {
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ListAnimeAdapter(
-            object : RecyclerViewClickListener {
-                override fun clickListener(animeName :String) {
-                    myModel.getQuotesByAnime(animeName)
-                    findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
-                }
-
-                override fun addQuote(animeChan :AnimeChan) {}
-
-            }
-        )
-        recyclerView.adapter = adapter
+        titleAdapter = ListAnimeTitleAdapter(this)
+        recyclerView.adapter = titleAdapter
         activity?.window?.setBackgroundDrawableResource(R.drawable.gradient_1)
         return bind.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         myModel.listAvailableAnime.observe(viewLifecycleOwner, {
-            adapter.listAnime = it
-            recyclerView.adapter = adapter
+            titleAdapter.listAnime = it
+            recyclerView.adapter = titleAdapter
         })
         myModel.state.observe(viewLifecycleOwner, {
             when(it){
@@ -111,7 +100,14 @@ class FragmentStart: BaseFragment(), SearchView.OnQueryTextListener {
         bind.recyclerView.visibility = View.GONE
     }
 
+    override fun clickListener(animeName :String) {
+        myModel.getQuotesByAnime(animeName)
+        findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
+    }
 
+    override fun addQuote(animeChan :AnimeChan) {}
+
+    override fun deleteQuote(animeChan :AnimeChan) {}
 
 
 }

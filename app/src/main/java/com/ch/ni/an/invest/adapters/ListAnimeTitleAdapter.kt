@@ -1,6 +1,5 @@
 package com.ch.ni.an.invest
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -30,26 +29,28 @@ class AnimeDiff(
     }
 
 }
-class ListAnimeAdapter(
+class ListAnimeTitleAdapter(
     val onClick:RecyclerViewClickListener
-    ): RecyclerView.Adapter<ListAnimeHolder>() {
+    ): RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
 
-    var listAnime: List<String> = emptyList()
+    private lateinit var animeName :String
+
+    var listAnime :List<String> = emptyList()
         set(value) {
             val DiffCallback = AnimeDiff(field, value)
             val result = DiffUtil.calculateDiff(DiffCallback)
             field = value
             result.dispatchUpdatesTo(this)
-    }
+        }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAnimeHolder {
+    override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :ListAnimeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val bind = NameItemRecyclerviewBinding.inflate(inflater, parent, false)
         return ListAnimeHolder(bind)
     }
 
-    override fun onBindViewHolder(holder: ListAnimeHolder, position: Int) {
+    override fun onBindViewHolder(holder :ListAnimeHolder, position :Int) {
         val anime = listAnime[position]
         holder.bind.nametextView.text = anime
         holder.bind.nametextView.setOnClickListener {
@@ -59,10 +60,11 @@ class ListAnimeAdapter(
 
     }
 
-    override fun getItemCount(): Int = listAnime.size
-}
+    override fun getItemCount() :Int = listAnime.size
 
-class ListAnimeHolder(val bind: NameItemRecyclerviewBinding):
-    RecyclerView.ViewHolder(bind.root) {}
+
+    class ListAnimeHolder(val bind :NameItemRecyclerviewBinding) :
+        RecyclerView.ViewHolder(bind.root)
+}
 
 

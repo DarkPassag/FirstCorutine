@@ -99,6 +99,12 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
+    fun deleteQuote(quote :AnimeChan){
+        viewModelScope.launch(Dispatchers.IO){
+            database.animeDao().deleteQuote(quote)
+        }
+    }
+
 
     private suspend fun getQuotesByAnimeTitle(url: String) {
         try {

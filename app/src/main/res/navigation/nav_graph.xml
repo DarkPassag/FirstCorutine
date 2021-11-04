@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragmentStart"
-        android:name="com.ch.ni.an.invest.screens.FragmentStart"
+        android:name="com.ch.ni.an.invest.screens.FragmentListTitleAnime"
         android:label="FragmentStart" >
         <action
             android:id="@+id/action_fragmentStart_to_fragmentAnimeNameQuotes"
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeNameQuotes"
-        android:name="com.ch.ni.an.invest.screens.FragmentAnimeNameQuotes"
+        android:name="com.ch.ni.an.invest.screens.FragmentQuotesByAnimeTitle"
         android:label="FragmentAnimeNameQuotes" >
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentStart"
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeStart"
-        android:name="com.ch.ni.an.invest.screens.FragmentAnimeStart"
+        android:name="com.ch.ni.an.invest.screens.FragmentTenRandomQuotes"
         android:label="FragmentAnimeStart" >
         <action
             android:id="@+id/action_fragmentAnimeStart_to_fragmentAnimeNameQuotes"
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentMyQuotes"
-        android:name="com.ch.ni.an.invest.screens.FragmentMyQuotes"
+        android:name="com.ch.ni.an.invest.screens.FragmentFavouriteQuotes"
         android:label="FragmentMyQuotes" >
         <action
             android:id="@+id/action_fragmentMyQuotes_to_fragmentStart"

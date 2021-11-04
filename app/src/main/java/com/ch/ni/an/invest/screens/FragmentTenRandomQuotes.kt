@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,14 +13,14 @@ import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE
 
-class FragmentAnimeStart: BaseFragment() {
+class FragmentTenRandomQuotes: BaseFragment() {
 
     private val myModel: AnimeViewModel by activityViewModels()
     private var _bind: FragmentAnimeTenRandomQuotesBinding? = null
     private val bind: FragmentAnimeTenRandomQuotesBinding
         get() = _bind!!
 
-    private lateinit var adapter : AnimeStartAdapter
+    private lateinit var adapter : TenRandomQuotesAdapter
     private lateinit var recycleView: RecyclerView
 
     override fun onCreateView(
@@ -32,7 +31,7 @@ class FragmentAnimeStart: BaseFragment() {
         _bind = FragmentAnimeTenRandomQuotesBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AnimeStartAdapter()
+        adapter = TenRandomQuotesAdapter()
         recycleView.adapter = adapter
 
 

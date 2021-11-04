@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.RandomItemRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
 
-class AnimeStartAdapter: RecyclerView.Adapter<AnimeStartAdapter.AnimeStartViewHolder>() {
+class TenRandomQuotesAdapter: RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeStartViewHolder>() {
 
     var randomQuotes: List<AnimeChan> = emptyList()
         set(value) {

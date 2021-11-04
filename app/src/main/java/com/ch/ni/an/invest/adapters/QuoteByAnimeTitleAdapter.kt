@@ -10,10 +10,10 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
-class AnimeAdapter(
+class QuoteByAnimeTitleAdapter(
     private val clickListener:RecyclerViewClickListener,
     private val favouriteCheck: FavouriteCallback
-): RecyclerView.Adapter<AnimeAdapter.AnimeHolder>() {
+): RecyclerView.Adapter<QuoteByAnimeTitleAdapter.AnimeHolder>() {
 
     class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
 
@@ -39,24 +39,30 @@ class AnimeAdapter(
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
         val favouriteButton = holder.bind.favouriteButton
-        if(favouriteCheck.checkInRoom(item)){
-            favouriteButton.setImageResource(R.drawable.ic_favourite)
-        } else favouriteButton.setImageResource(R.drawable.ic_no_favourite)
-        favouriteButton.setOnClickListener {
-            clickListener.addQuote(item)
-            favouriteButton.setImageResource(R.drawable.ic_favourite)
+        checkFavourite(favouriteButton,item)
+        favouriteButton.setOnClickListener{
+//            addDeleteQuote(item, favouriteButton)
         }
     }
 
     override fun getItemCount(): Int = animeList.size
 
 
-    /**
-    private fun checkFavourite(imageButton :ImageButton,item: AnimeChan){
+
+    private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
         if(favouriteCheck.checkInRoom(item)){
             imageButton.setImageResource(R.drawable.ic_favourite)
         } else imageButton.setImageResource(R.drawable.ic_no_favourite)
     }
+//
+//    private fun addDeleteQuote(item :AnimeChan, imageButton :ImageButton){
+//        if(favouriteCheck.checkInRoom(item)) {
+//            clickListener.addQuote(item)
+//            imageButton.setImageResource(R.drawable.ic_favourite)
+//        }
+//
+//    }
+    /**
     */
 
 }
