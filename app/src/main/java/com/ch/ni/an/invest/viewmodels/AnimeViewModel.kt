@@ -7,7 +7,9 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.lang.Exception
 
 class AnimeViewModel(): ViewModel() {
@@ -121,6 +123,7 @@ class AnimeViewModel(): ViewModel() {
             _state.postValue(FAIL)
         }
     }
+
 
 
 }

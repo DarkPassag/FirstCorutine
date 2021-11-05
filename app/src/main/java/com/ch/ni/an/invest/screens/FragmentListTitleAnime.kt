@@ -14,6 +14,7 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
+import com.ch.ni.an.testanimelist.retrofit.testViewModel
 
 
 class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
@@ -21,6 +22,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     private val bind: FragmentStartBinding
         get() = _bind!!
     private val myModel: AnimeViewModel by activityViewModels()
+    private val testmodel: testViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var titleAdapter: ListAnimeTitleAdapter
 
@@ -87,6 +89,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
                 SUCCESS -> { updateUI() }
                 FAIL -> { updateUI() }
             }
+        })
+        testmodel.testObserve.observe(viewLifecycleOwner, {
+
         })
     }
 

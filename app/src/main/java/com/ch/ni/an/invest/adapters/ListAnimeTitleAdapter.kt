@@ -44,6 +44,7 @@ class ListAnimeTitleAdapter(
         }
 
 
+
     override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :ListAnimeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val bind = NameItemRecyclerviewBinding.inflate(inflater, parent, false)

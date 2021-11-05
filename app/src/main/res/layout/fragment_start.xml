@@ -17,6 +17,8 @@
         tools:itemCount="10"
         tools:listitem="@layout/name_item_recyclerview"/>
 
+    <!--    android:layoutAnimation="@anim/layout_animation"-->
+
     <com.agrawalsuneet.dotsloader.loaders.LazyLoader
         android:id="@+id/dotsLoaderProgressbar"
         android:layout_width="wrap_content"

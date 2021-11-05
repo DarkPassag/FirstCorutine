@@ -54,6 +54,7 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         titleAdapterQuoteBy = QuoteByAnimeTitleAdapter(this, this)
         recyclerView.adapter = titleAdapterQuoteBy
+        recyclerView
         return bind.root
     }
 

@@ -39,9 +39,18 @@ class QuoteByAnimeTitleAdapter(
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
         val favouriteButton = holder.bind.favouriteButton
-        checkFavourite(favouriteButton,item)
+        var flag = chekFlag(item)
+            checkFavourite(favouriteButton, item)
         favouriteButton.setOnClickListener{
-//            addDeleteQuote(item, favouriteButton)
+                if(flag == 0){
+                    clickListener.deleteQuote(item)
+                    favouriteButton.setImageResource(R.drawable.ic_no_favourite)
+                    flag = chekFlag(item)
+                } else {
+                    clickListener.addQuote(item)
+                    favouriteButton.setImageResource(R.drawable.ic_favourite)
+                    flag = chekFlag(item)
+                }
         }
     }
 
@@ -52,16 +61,14 @@ class QuoteByAnimeTitleAdapter(
     private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
         if(favouriteCheck.checkInRoom(item)){
             imageButton.setImageResource(R.drawable.ic_favourite)
-        } else imageButton.setImageResource(R.drawable.ic_no_favourite)
+        } else {
+            imageButton.setImageResource(R.drawable.ic_no_favourite)
+        }
     }
-//
-//    private fun addDeleteQuote(item :AnimeChan, imageButton :ImageButton){
-//        if(favouriteCheck.checkInRoom(item)) {
-//            clickListener.addQuote(item)
-//            imageButton.setImageResource(R.drawable.ic_favourite)
-//        }
-//
-//    }
+    private fun chekFlag(item :AnimeChan): Int{
+        return if(favouriteCheck.checkInRoom(item)) 0 else 1
+    }
+
     /**
     */
 
