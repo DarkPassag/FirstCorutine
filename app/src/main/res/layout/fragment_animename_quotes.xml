@@ -18,6 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone"/>
+<!--    android:layoutAnimation="@anim/layout_animation"-->
 
     <com.agrawalsuneet.dotsloader.loaders.LazyLoader
         android:id="@+id/dotsLoaderProgressbar"
