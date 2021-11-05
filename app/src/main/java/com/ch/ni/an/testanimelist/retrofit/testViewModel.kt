@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.a.graphqlwithretrofit.GraphQLInstance
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -40,25 +38,9 @@ class testViewModel: ViewModel() {
 
     init {
         getData()
-        teststst()
     }
 
-    private fun teststst(){
-        fun post23(city: String){
-            val retrofit = GraphQLInstance.graphQLService
-            val paramObject = JSONObject()
-            paramObject.put("query", "query {getCityByName(name: \"$city\") {id,name,country,coord {lon,lat}}}")
-            viewModelScope.launch(Dispatchers.IO) {
-                try {
-                    val response = retrofit.postDynamicQuery(paramObject.toString())
-                    Log.e("response?", response.body().toString())
-                }catch (e: java.lang.Exception){
-                    e.printStackTrace()
-                }
-            }
-        }
-        post23("Madrid")
-    }
+
 
 
 }
