@@ -123,7 +123,7 @@ class AnimeViewModel(): ViewModel() {
             database.animeDao().deleteQuote(quote)
         }
     }
-    suspend fun getImage(characterName :String) {
+    suspend fun getImage(characterName :String): String {
         val paramObject = JSONObject()
         paramObject.put(
             "query",
@@ -145,12 +145,12 @@ class AnimeViewModel(): ViewModel() {
         val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
         Log.e("handleParse", animeCharacter.toString())
         _urlImage.postValue(large)
-
+        return large
     }
 
-    private fun getImage12(){
+    fun getImage12(characterName :String){
         viewModelScope.launch(Dispatchers.IO){
-            getImage("obito")
+           val urlImage = getImage(characterName)
         }
     }
 
@@ -171,9 +171,6 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
-    init {
-        getImage12()
-    }
 
 
 
