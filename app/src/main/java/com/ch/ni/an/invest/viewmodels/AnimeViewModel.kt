@@ -4,10 +4,14 @@ package com.ch.ni.an.invest.model.retrofit
 import android.util.Log
 import androidx.lifecycle.*
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.AnimePerson
+import com.ch.ni.an.invest.model.NameCharacter
+import com.ch.ni.an.invest.model.PhotoCharacter
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
+import com.ch.ni.an.invest.roomAnimeChar.CharactersAnime
+import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
@@ -16,6 +20,10 @@ class AnimeViewModel(): ViewModel() {
 
 
     private val database = AnimeDatabase.get()
+    private val secondDatabase = DatabaseCharacterAnime.get()
+
+    private val _allNames: LiveData<String> = secondDatabase.CharactersDao().getAllCharacter()
+    val allNames:LiveData<String> = _allNames
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
     val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
@@ -72,6 +80,12 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
+    fun addCharacterName(item: CharactersAnime){
+        viewModelScope.launch(Dispatchers.IO){
+            secondDatabase.CharactersDao().addCharacter(item)
+        }
+    }
+
 
     fun getAvailableAnimeList() {
         viewModelScope.launch(Dispatchers.IO){
@@ -105,6 +119,29 @@ class AnimeViewModel(): ViewModel() {
         viewModelScope.launch(Dispatchers.IO){
             database.animeDao().deleteQuote(quote)
         }
+    }
+    suspend fun getImage(characterName :String) {
+        val paramObject = JSONObject()
+        paramObject.put(
+            "query",
+            "query { Character (search: \"$characterName\") { name { full native } image { medium } } }"
+        )
+        val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(characterName)
+
+        val data = JSONObject(dataAnimeList).optString("data")
+        val character = JSONObject(data).optString("Character")
+        val image = JSONObject(character).optString("image")
+        val name = JSONObject(character).optString("name")
+        val medium = JSONObject(image).optString("medium")
+        val full = JSONObject(name).optString("full")
+        val native = JSONObject(name).optString("native")
+
+
+        val animeName: NameCharacter = NameCharacter(full, native)
+        val animeImage: PhotoCharacter = PhotoCharacter(medium)
+        val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
+        Log.e("handleParse", animeCharacter.toString())
+
     }
 
 
