@@ -22,6 +22,9 @@ class AnimeViewModel(): ViewModel() {
     private val database = AnimeDatabase.get()
     private val secondDatabase = DatabaseCharacterAnime.get()
 
+    private val _urlImage: MutableLiveData<String> = MutableLiveData()
+    val urlImage: LiveData<String> = _urlImage
+
     private val _allNames: LiveData<String> = secondDatabase.CharactersDao().getAllCharacter()
     val allNames:LiveData<String> = _allNames
 
@@ -124,24 +127,31 @@ class AnimeViewModel(): ViewModel() {
         val paramObject = JSONObject()
         paramObject.put(
             "query",
-            "query { Character (search: \"$characterName\") { name { full native } image { medium } } }"
+            "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
         )
-        val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(characterName)
+        val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
 
         val data = JSONObject(dataAnimeList).optString("data")
         val character = JSONObject(data).optString("Character")
         val image = JSONObject(character).optString("image")
         val name = JSONObject(character).optString("name")
-        val medium = JSONObject(image).optString("medium")
+        val large = JSONObject(image).optString("large")
         val full = JSONObject(name).optString("full")
         val native = JSONObject(name).optString("native")
 
 
         val animeName: NameCharacter = NameCharacter(full, native)
-        val animeImage: PhotoCharacter = PhotoCharacter(medium)
+        val animeImage: PhotoCharacter = PhotoCharacter(large)
         val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
         Log.e("handleParse", animeCharacter.toString())
+        _urlImage.postValue(large)
 
+    }
+
+    private fun getImage12(){
+        viewModelScope.launch(Dispatchers.IO){
+            getImage("obito")
+        }
     }
 
 
@@ -159,6 +169,10 @@ class AnimeViewModel(): ViewModel() {
         } catch (e: Exception) {
             _state.postValue(FAIL)
         }
+    }
+
+    init {
+        getImage12()
     }
 
 

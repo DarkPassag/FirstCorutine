@@ -22,7 +22,6 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     private val bind: FragmentStartBinding
         get() = _bind!!
     private val myModel: AnimeViewModel by activityViewModels()
-    private val testmodel: testViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var titleAdapter: ListAnimeTitleAdapter
 
@@ -86,21 +85,21 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         myModel.listAvailableAnime.observe(viewLifecycleOwner, {
             titleAdapter.listAnime = it
             val list: MutableList<AnimeChan> = mutableListOf()
-            while (count < 100){
-                for(i in it){
-                    count = it.indexOf(i)
-                    myModel.getQuotesByAnime(i)
-                    myModel.quotesByAnimaCharacter.observe(viewLifecycleOwner,{
-                        list.addAll(it)
-                        list.forEach {
-                            Log.d("CharacterNAme", it.character!!)
-                        }
-                        Log.e("SizeList", list.size.toString())
-
-                    })
-
-                }
-            }
+//            while (count < 100){
+//                for(i in it){
+//                    count = it.indexOf(i)
+//                    myModel.getQuotesByAnime(i)
+//                    myModel.quotesByAnimaCharacter.observe(viewLifecycleOwner,{
+//                        list.addAll(it)
+//                        list.forEach {
+//                            Log.d("CharacterNAme", it.character!!)
+//                        }
+//                        Log.e("SizeList", list.size.toString())
+//
+//                    })
+//
+//                }
+//            }
 
             recyclerView.adapter = titleAdapter
         })
@@ -111,9 +110,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
                 FAIL -> { updateUI() }
             }
         })
-        testmodel.testObserve.observe(viewLifecycleOwner, {
 
-        })
     }
 
     private fun updateUI(){
