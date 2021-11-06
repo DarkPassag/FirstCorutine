@@ -13,10 +13,11 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.utills.FavouriteCallback
+import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
-class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
+class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, FavouriteCallback, LoadImage {
 
     private var _bind: FragmentAnimenameQuotesBinding? = null
     private val bind: FragmentAnimenameQuotesBinding
@@ -52,7 +53,7 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        titleAdapterQuoteBy = QuoteByAnimeTitleAdapter(this, this)
+        titleAdapterQuoteBy = QuoteByAnimeTitleAdapter(this, this, this)
         recyclerView.adapter = titleAdapterQuoteBy
         recyclerView
         return bind.root
@@ -61,7 +62,7 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mModel.myQuotes.observe(viewLifecycleOwner, {})
+        mModel.myQuotes.observe(viewLifecycleOwner,{})
 
         myModel.apply {
             state.observe(viewLifecycleOwner, {
@@ -74,6 +75,10 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
             quotesByAnimaCharacter.observe(viewLifecycleOwner, {
                 titleAdapterQuoteBy.animeList = it
                 recyclerView.adapter = titleAdapterQuoteBy
+            })
+
+            urlImage.observe(viewLifecycleOwner,{
+
             })
         }
 
@@ -104,5 +109,14 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
 
     override fun deleteQuote(animeChan :AnimeChan) {
         myModel.deleteQuote(animeChan)
+    }
+
+    override fun loadImage(characterName :String): String {
+        var urlImage: String = "Madara"
+        myModel.urlImage.observe(viewLifecycleOwner,{
+            urlImage = it
+        })
+        myModel.getImage12(characterName)
+        return urlImage
     }
 }

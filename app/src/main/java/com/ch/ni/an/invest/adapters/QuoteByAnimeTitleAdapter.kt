@@ -5,14 +5,18 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
+import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 class QuoteByAnimeTitleAdapter(
     private val clickListener:RecyclerViewClickListener,
-    private val favouriteCheck: FavouriteCallback
+    private val favouriteCheck: FavouriteCallback,
+    private val getImage :LoadImage
 ): RecyclerView.Adapter<QuoteByAnimeTitleAdapter.AnimeHolder>() {
 
     class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
@@ -34,23 +38,27 @@ class QuoteByAnimeTitleAdapter(
         return AnimeHolder(bind)
     }
 
-    override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
+    override fun onBindViewHolder(holder :AnimeHolder, position :Int) {
         val item = animeList[position]
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
+        val urlForImage = getImage.loadImage(item.character!!)
+        holder.bind.characterPhotoImageView.load(urlForImage){
+            transformations(RoundedCornersTransformation(50f))
+        }
         val favouriteButton = holder.bind.favouriteButton
         var flag = chekFlag(item)
-            checkFavourite(favouriteButton, item)
-        favouriteButton.setOnClickListener{
-                if(flag == 0){
-                    clickListener.deleteQuote(item)
-                    favouriteButton.setImageResource(R.drawable.ic_no_favourite)
-                    flag = chekFlag(item)
-                } else {
-                    clickListener.addQuote(item)
-                    favouriteButton.setImageResource(R.drawable.ic_favourite)
-                    flag = chekFlag(item)
-                }
+        checkFavourite(favouriteButton, item)
+        favouriteButton.setOnClickListener {
+            flag = if (flag == 0) {
+                clickListener.deleteQuote(item)
+                favouriteButton.setImageResource(R.drawable.ic_no_favourite)
+                chekFlag(item)
+            } else {
+                clickListener.addQuote(item)
+                favouriteButton.setImageResource(R.drawable.ic_favourite)
+                chekFlag(item)
+            }
         }
     }
 
