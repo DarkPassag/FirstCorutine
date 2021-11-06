@@ -1,6 +1,7 @@
 package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
@@ -14,7 +15,6 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
-import com.ch.ni.an.testanimelist.retrofit.testViewModel
 
 
 class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
@@ -79,8 +79,29 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        myModel.allNames.observe(viewLifecycleOwner, {
+
+        })
+        var count = 0
         myModel.listAvailableAnime.observe(viewLifecycleOwner, {
             titleAdapter.listAnime = it
+            val list: MutableList<AnimeChan> = mutableListOf()
+            while (count < 100){
+                for(i in it){
+                    count = it.indexOf(i)
+                    myModel.getQuotesByAnime(i)
+                    myModel.quotesByAnimaCharacter.observe(viewLifecycleOwner,{
+                        list.addAll(it)
+                        list.forEach {
+                            Log.d("CharacterNAme", it.character!!)
+                        }
+                        Log.e("SizeList", list.size.toString())
+
+                    })
+
+                }
+            }
+
             recyclerView.adapter = titleAdapter
         })
         myModel.state.observe(viewLifecycleOwner, {
