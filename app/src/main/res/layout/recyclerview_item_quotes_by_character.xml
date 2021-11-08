@@ -19,23 +19,8 @@
         android:layout_marginBottom="4dp"
         android:src="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/characterNameTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="4dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textIsSelectable="true"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@id/favouriteButton"
-        app:layout_constraintStart_toEndOf="@id/characterPhotoImageView"
-        app:layout_constraintTop_toTopOf="@id/characterPhotoImageView"
-        tools:text="Madara Uchiha" />
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/favouriteButton"
@@ -46,28 +31,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/characterPhotoImageView" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="55dp"
-        app:layout_constraintTop_toBottomOf="@id/characterNameTextView" />
+
     <TextView
         android:id="@+id/quoteByCharacterTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintStart_toEndOf="@id/characterPhotoImageView"
+        app:layout_constraintTop_toBottomOf="@id/characterPhotoImageView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textIsSelectable="true"
-        android:ellipsize="marquee"
-        android:scrollHorizontally="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:maxLines="5"
         tools:text="Этот мир полон вещей, которые ты не можешь изменить. Чем дольше ты живешь, тем больше осознаёшь, что мир состоит из боли, страдания и пустоты. Пока в этом мире существует свет, будет и тьма. До тех пор, пока есть победители, будут и проигравшие. Эгоистичное желание «мира» побуждает войны, а ненависть побуждается любовью." />
 
 

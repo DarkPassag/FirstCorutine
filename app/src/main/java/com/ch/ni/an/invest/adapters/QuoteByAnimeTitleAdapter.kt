@@ -12,6 +12,9 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class QuoteByAnimeTitleAdapter(
     private val clickListener:RecyclerViewClickListener,
@@ -40,12 +43,21 @@ class QuoteByAnimeTitleAdapter(
 
     override fun onBindViewHolder(holder :AnimeHolder, position :Int) {
         val item = animeList[position]
+        holder.bind.characterNameTextView.setOnClickListener {
+            clickListener.clickListener(item.character.toString())
+        }
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()
-        val urlForImage = getImage.loadImage(item.character!!)
-        holder.bind.characterPhotoImageView.load(urlForImage){
-            transformations(RoundedCornersTransformation(50f))
+        CoroutineScope(Dispatchers.IO).launch {
+            val urlForImage = getImage.loadImage(item.character!!)
+            CoroutineScope(Dispatchers.Main).launch {
+                holder.bind.characterPhotoImageView.load(urlForImage)
+                {   error(R.drawable.grdient_list)
+                    transformations(RoundedCornersTransformation(50f))
+                }
+            }
         }
+
         val favouriteButton = holder.bind.favouriteButton
         var flag = chekFlag(item)
         checkFavourite(favouriteButton, item)
@@ -53,11 +65,11 @@ class QuoteByAnimeTitleAdapter(
             flag = if (flag == 0) {
                 clickListener.deleteQuote(item)
                 favouriteButton.setImageResource(R.drawable.ic_no_favourite)
-                chekFlag(item)
+                1
             } else {
                 clickListener.addQuote(item)
                 favouriteButton.setImageResource(R.drawable.ic_favourite)
-                chekFlag(item)
+                0
             }
         }
     }

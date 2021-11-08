@@ -14,15 +14,22 @@ import com.ch.ni.an.invest.databinding.FragmentStartBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.roomAnimeChar.CharactersAnime
+import com.ch.ni.an.invest.roomAnimeChar.TitleAnime
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
+import kotlinx.coroutines.*
 
 
 class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
+
     private var _bind: FragmentStartBinding? = null
     private val bind: FragmentStartBinding
         get() = _bind!!
+
     private val myModel: AnimeViewModel by activityViewModels()
+
     private lateinit var recyclerView: RecyclerView
+
     private lateinit var titleAdapter: ListAnimeTitleAdapter
 
 
@@ -33,6 +40,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         search.setOnQueryTextListener(this)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onQueryTextSubmit(query :String?) :Boolean {
         if(query != null){
             myModel.tempList.clear()
@@ -61,7 +69,6 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,28 +88,12 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         myModel.allNames.observe(viewLifecycleOwner, {
 
         })
-        var count = 0
         myModel.listAvailableAnime.observe(viewLifecycleOwner, {
             titleAdapter.listAnime = it
-            val list: MutableList<AnimeChan> = mutableListOf()
-//            while (count < 100){
-//                for(i in it){
-//                    count = it.indexOf(i)
-//                    myModel.getQuotesByAnime(i)
-//                    myModel.quotesByAnimaCharacter.observe(viewLifecycleOwner,{
-//                        list.addAll(it)
-//                        list.forEach {
-//                            Log.d("CharacterNAme", it.character!!)
-//                        }
-//                        Log.e("SizeList", list.size.toString())
-//
-//                    })
-//
-//                }
-//            }
-
             recyclerView.adapter = titleAdapter
         })
+
+
         myModel.state.observe(viewLifecycleOwner, {
             when(it){
                 PENDING ->{ pendingUI() }
@@ -131,6 +122,5 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     override fun addQuote(animeChan :AnimeChan) {}
 
     override fun deleteQuote(animeChan :AnimeChan) {}
-
 
 }

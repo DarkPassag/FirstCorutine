@@ -9,7 +9,6 @@ import com.ch.ni.an.invest.model.NameCharacter
 import com.ch.ni.an.invest.model.PhotoCharacter
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
-import com.ch.ni.an.invest.roomAnimeChar.CharactersAnime
 import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,9 +21,6 @@ class AnimeViewModel(): ViewModel() {
     private val database = AnimeDatabase.get()
     private val secondDatabase = DatabaseCharacterAnime.get()
 
-    private val _urlImage: MutableLiveData<String> = MutableLiveData()
-    val urlImage: LiveData<String> = _urlImage
-
     private val _allNames: LiveData<String> = secondDatabase.CharactersDao().getAllCharacter()
     val allNames:LiveData<String> = _allNames
 
@@ -34,14 +30,16 @@ class AnimeViewModel(): ViewModel() {
     private val _randomQuotes = MutableLiveData<List<AnimeChan>>()
     val randomQuotes: LiveData<List<AnimeChan>> = _randomQuotes
 
-    private val _animeName = MutableLiveData<String>()
-    val animeName: LiveData<String> = _animeName
+    private val _randomQuote = MutableLiveData<AnimeChan>()
+    val randomQuote: LiveData<AnimeChan> = _randomQuote
 
-    private val _animeQuotes = MutableLiveData<List<AnimeChan>>()
-    val animeQuotes: LiveData<List<AnimeChan>> = _animeQuotes
+
+    private val _quotesByTitle = MutableLiveData<List<AnimeChan>>()
+    val quotesByTitle: LiveData<List<AnimeChan>> = _quotesByTitle
 
     private val _quotesByCharacter = MutableLiveData<List<AnimeChan>>()
-    val quotesByAnimaCharacter: LiveData<List<AnimeChan>> = _quotesByCharacter
+    val quotesByCharacter: LiveData<List<AnimeChan>> = _quotesByCharacter
+
 
     private var _listAnime = emptyList<String>()
     val listAnime: List<String>
@@ -61,7 +59,6 @@ class AnimeViewModel(): ViewModel() {
     fun getRandomQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.postValue(PENDING)
-
         }
     }
 
@@ -83,9 +80,10 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
-    fun addCharacterName(item: CharactersAnime){
+    fun getQuotesByAnimeCharacter(name: String){
         viewModelScope.launch(Dispatchers.IO){
-            secondDatabase.CharactersDao().addCharacter(item)
+            _state.postValue(PENDING)
+            _getQuotesByAnimeCharacter(name)
         }
     }
 
@@ -124,33 +122,93 @@ class AnimeViewModel(): ViewModel() {
         }
     }
     suspend fun getImage(characterName :String): String {
-        val paramObject = JSONObject()
-        paramObject.put(
-            "query",
-            "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
-        )
-        val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
+        try {
+            val paramObject = JSONObject()
+            paramObject.put(
+                "query",
+                "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
+            )
+            val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
 
-        val data = JSONObject(dataAnimeList).optString("data")
-        val character = JSONObject(data).optString("Character")
-        val image = JSONObject(character).optString("image")
-        val name = JSONObject(character).optString("name")
-        val large = JSONObject(image).optString("large")
-        val full = JSONObject(name).optString("full")
-        val native = JSONObject(name).optString("native")
+            val data = JSONObject(dataAnimeList).optString("data")
+            val character = JSONObject(data).optString("Character")
+            val image = JSONObject(character).optString("image")
+            val name = JSONObject(character).optString("name")
+            val large = JSONObject(image).optString("large")
+            val full = JSONObject(name).optString("full")
+            val native = JSONObject(name).optString("native")
 
 
-        val animeName: NameCharacter = NameCharacter(full, native)
-        val animeImage: PhotoCharacter = PhotoCharacter(large)
-        val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
-        Log.e("handleParse", animeCharacter.toString())
-        _urlImage.postValue(large)
-        return large
+            val animeName: NameCharacter = NameCharacter(full, native)
+            val animeImage: PhotoCharacter = PhotoCharacter(large)
+            val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
+            Log.e("handleParse", animeCharacter.toString())
+            return large
+        } catch (e:Exception){
+            Log.e("Invalid query", e.toString())
+            return ""
+        }
+
     }
 
-    fun getImage12(characterName :String){
-        viewModelScope.launch(Dispatchers.IO){
-           val urlImage = getImage(characterName)
+
+
+    suspend fun getUrlForLoad(characterName :String): String{
+        return getImage(characterName)
+    }
+
+    private suspend fun getQuote(){
+        try {
+            val response = Common.retrofit.getRandomQuotes()
+            if(response.isSuccessful){
+                val quotes = response.body()
+                _randomQuotes.postValue(quotes)
+                _state.postValue(SUCCESS)
+            } else {
+                val errorResponse = response.errorBody().toString()
+                Log.e("ErrorResponse", errorResponse )
+                _state.postValue(FAIL)
+            }
+        } catch (e:Exception){
+            _state.postValue(FAIL)
+            Log.e("Exception", e.toString())
+        }
+    }
+
+    private suspend fun getQuotes(){
+        try {
+            val response = Common.retrofit.getRandomQuote()
+            if(response.isSuccessful){
+                val quote = response.body()
+                _randomQuote.postValue(quote)
+                _state.postValue(SUCCESS)
+            } else {
+                val errorResponse = response.errorBody().toString()
+                Log.e("ErrorResponse", errorResponse )
+                _state.postValue(FAIL)
+            }
+        } catch (e:Exception){
+            _state.postValue(FAIL)
+            Log.e("Exception", e.toString())
+        }
+    }
+
+
+    private suspend fun _getQuotesByAnimeCharacter(name: String){
+        try {
+            val response = Common.retrofit.getQuotesByAnimeCharacter(name)
+            if(response.isSuccessful){
+                val listQuotes = response.body()
+                _quotesByCharacter.postValue(listQuotes)
+                _state.postValue(SUCCESS)
+            } else {
+                val errorResponse = response.errorBody().toString()
+                Log.e("ErrorResponse", errorResponse )
+                _state.postValue(FAIL)
+            }
+        } catch (e:Exception){
+            _state.postValue(FAIL)
+            Log.e("Exception", e.toString())
         }
     }
 
@@ -160,7 +218,7 @@ class AnimeViewModel(): ViewModel() {
             val response = Common.retrofit.getQuotesByAnimeName(url)
             if(response.isSuccessful){
                 val quotes = response.body()
-                _quotesByCharacter.postValue(quotes)
+                _quotesByTitle.postValue(quotes)
                 _state.postValue(SUCCESS)
             } else {
                 val error = response.errorBody()

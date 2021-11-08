@@ -17,15 +17,16 @@ import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
-class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, FavouriteCallback, LoadImage {
+class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, FavouriteCallback,
+    LoadImage {
 
-    private var _bind: FragmentAnimenameQuotesBinding? = null
-    private val bind: FragmentAnimenameQuotesBinding
+    private var _bind :FragmentAnimenameQuotesBinding? = null
+    private val bind :FragmentAnimenameQuotesBinding
         get() = _bind!!
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var titleAdapterQuoteBy: QuoteByAnimeTitleAdapter
-    private val myModel: AnimeViewModel by activityViewModels()
-    private val mModel: MyQuotesViewModel by activityViewModels()
+    private lateinit var recyclerView :RecyclerView
+    private lateinit var titleAdapterQuoteBy :QuoteByAnimeTitleAdapter
+    private val myModel :AnimeViewModel by activityViewModels()
+    private val mModel :MyQuotesViewModel by activityViewModels()
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -33,9 +34,11 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
     }
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.favouriteQuotes -> {
-                findNavController().navigate(R.id.action_fragmentAnimeNameQuotes_to_fragmentMyQuotes)
+                findNavController().navigate(
+                    R.id.action_fragmentAnimeNameQuotes_to_fragmentMyQuotes
+                )
             }
             R.id.listAvailableAnime -> {
                 findNavController().popBackStack()
@@ -45,10 +48,7 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
         _bind = FragmentAnimenameQuotesBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView
@@ -59,39 +59,36 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
         return bind.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view :View, savedInstanceState :Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mModel.myQuotes.observe(viewLifecycleOwner,{})
+        mModel.myQuotes.observe(viewLifecycleOwner, {})
 
         myModel.apply {
             state.observe(viewLifecycleOwner, {
-                when(it){
+                when (it) {
                     PENDING -> pendingUI()
                     SUCCESS -> updateUI()
                     FAIL -> updateUI()
                 }
             })
-            quotesByAnimaCharacter.observe(viewLifecycleOwner, {
+            quotesByTitle.observe(viewLifecycleOwner, {
                 titleAdapterQuoteBy.animeList = it
                 recyclerView.adapter = titleAdapterQuoteBy
             })
 
-            urlImage.observe(viewLifecycleOwner,{
-
-            })
         }
 
     }
 
 
-    private fun updateUI(){
+    private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
 
     }
 
-    private fun pendingUI(){
+    private fun pendingUI() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
     }
@@ -101,7 +98,12 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
         return mModel.checkQuote(quote)
     }
 
-    override fun clickListener(animeName :String) {}
+    override fun clickListener(animeName :String) {
+        myModel.getQuotesByAnimeCharacter(animeName)
+        findNavController().navigate(
+            R.id.action_fragmentAnimeNameQuotes_to_fragmentQuotesByAnimeCharacter
+        )
+    }
 
     override fun addQuote(animeChan :AnimeChan) {
         myModel.addQuote(animeChan)
@@ -111,12 +113,9 @@ class FragmentQuotesByAnimeTitle: BaseFragment(), RecyclerViewClickListener, Fav
         myModel.deleteQuote(animeChan)
     }
 
-    override fun loadImage(characterName :String): String {
-        var urlImage: String = "Madara"
-        myModel.urlImage.observe(viewLifecycleOwner,{
-            urlImage = it
-        })
-        myModel.getImage12(characterName)
-        return urlImage
+    override suspend fun loadImage(characterName :String) :String {
+        return myModel.getUrlForLoad(characterName)
     }
+
+
 }

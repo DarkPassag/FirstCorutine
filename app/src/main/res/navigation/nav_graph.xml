@@ -18,6 +18,9 @@
             app:destination="@id/fragmentMyQuotes"
             app:popUpTo="@id/fragmentStart"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_fragmentStart_to_fragmentQuotesByAnimeCharacter"
+            app:destination="@id/fragmentQuotesByAnimeCharacter" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAnimeNameQuotes"
@@ -31,6 +34,11 @@
         <action
             android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentMyQuotes"
             app:destination="@id/fragmentMyQuotes"
+            app:popUpTo="@id/fragmentAnimeNameQuotes"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentQuotesByAnimeCharacter"
+            app:destination="@id/fragmentQuotesByAnimeCharacter"
             app:popUpTo="@id/fragmentAnimeNameQuotes"
             app:popUpToInclusive="true" />
     </fragment>
@@ -58,5 +66,12 @@
             app:destination="@id/fragmentStart"
             app:popUpTo="@id/fragmentMyQuotes"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentMyQuotes_to_fragmentQuotesByAnimeCharacter"
+            app:destination="@id/fragmentQuotesByAnimeCharacter" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentQuotesByAnimeCharacter"
+        android:name="com.ch.ni.an.invest.screens.FragmentQuotesByAnimeCharacter"
+        android:label="FragmentQuotesByAnimeCharacter" />
 </navigation>
