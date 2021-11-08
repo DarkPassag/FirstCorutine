@@ -81,4 +81,5 @@ class FragmentTenRandomQuotes: BaseFragment() {
         bind.recyclerView.visibility = View.GONE
 
     }
+
 }

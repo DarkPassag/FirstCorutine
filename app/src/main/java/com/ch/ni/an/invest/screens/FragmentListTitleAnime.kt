@@ -1,7 +1,6 @@
 package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
@@ -10,20 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.ListAnimeTitleAdapter
 import com.ch.ni.an.invest.R
-import com.ch.ni.an.invest.databinding.FragmentStartBinding
+import com.ch.ni.an.invest.databinding.FragmentListTitleNameBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
 import com.ch.ni.an.invest.model.retrofit.STATE.*
-import com.ch.ni.an.invest.roomAnimeChar.CharactersAnime
-import com.ch.ni.an.invest.roomAnimeChar.TitleAnime
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
-import kotlinx.coroutines.*
+import com.ch.ni.an.invest.utills.SEARCH
+import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
+import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 
 
 class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
 
-    private var _bind: FragmentStartBinding? = null
-    private val bind: FragmentStartBinding
+    private var _bind: FragmentListTitleNameBinding? = null
+    private val bind: FragmentListTitleNameBinding
         get() = _bind!!
 
     private val myModel: AnimeViewModel by activityViewModels()
@@ -44,7 +43,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     override fun onQueryTextSubmit(query :String?) :Boolean {
         if(query != null){
             myModel.tempList.clear()
-            myModel.search(query)
+            myModel.search(query, requireArguments().getString(SEARCH, SEARCH_BY_TITLE))
         } else {
             myModel.getAvailableAnimeList()
         }
@@ -54,7 +53,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     override fun onQueryTextChange(newText :String?) :Boolean {
         if(newText != null){
             myModel.tempList.clear()
-            myModel.search(newText)
+            myModel.search(newText,requireArguments().getString(SEARCH, SEARCH_BY_TITLE))
         } else {
             myModel.getAvailableAnimeList()
         }
@@ -74,7 +73,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bind = FragmentStartBinding.inflate(inflater, container, false)
+        _bind = FragmentListTitleNameBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -85,31 +84,38 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        myModel.allNames.observe(viewLifecycleOwner, {
 
-        })
-        myModel.listAvailableAnime.observe(viewLifecycleOwner, {
-            titleAdapter.listAnime = it
-            recyclerView.adapter = titleAdapter
-        })
-
+        when (requireArguments().getString(SEARCH, SEARCH_BY_TITLE)){
+            SEARCH_BY_TITLE ->{
+                myModel.listAvailableAnime.observe(viewLifecycleOwner, {
+                    titleAdapter.listAnime = it
+                    recyclerView.adapter = titleAdapter
+                })
+            }
+            SEARCH_BY_CHARACTER -> {
+                myModel.allNames.observe(viewLifecycleOwner, {
+                    titleAdapter.listAnime = it
+                    recyclerView.adapter = titleAdapter
+                })
+            }
+        }
 
         myModel.state.observe(viewLifecycleOwner, {
-            when(it){
-                PENDING ->{ pendingUI() }
-                SUCCESS -> { updateUI() }
-                FAIL -> { updateUI() }
+            when (it) {
+                PENDING -> pendingUI()
+                SUCCESS -> updateUI()
+                FAIL -> updateUI()
             }
         })
 
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
     }
 
-    private fun pendingUI(){
+    private fun pendingUI() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
     }

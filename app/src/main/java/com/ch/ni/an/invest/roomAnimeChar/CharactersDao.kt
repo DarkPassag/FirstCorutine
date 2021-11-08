@@ -11,7 +11,7 @@ import androidx.room.Query
 interface CharactersDao {
 
     @Query("SELECT * FROM NameCharacter")
-    fun getAllCharacter(): LiveData<String>
+    fun getAllCharacter(): LiveData<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCharacter(animeCharacter: CharactersAnime)

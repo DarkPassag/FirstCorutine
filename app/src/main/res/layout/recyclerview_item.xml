@@ -68,7 +68,6 @@
         android:scrollHorizontally="true"
         android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="5"
-        tools:text="Этот мир полон вещей, которые ты не можешь изменить. Чем дольше ты живешь, тем больше осознаёшь, что мир состоит из боли, страдания и пустоты. Пока в этом мире существует свет, будет и тьма. До тех пор, пока есть победители, будут и проигравшие. Эгоистичное желание «мира» побуждает войны, а ненависть побуждается любовью." />
-
+        tools:text="@string/toolsLongText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

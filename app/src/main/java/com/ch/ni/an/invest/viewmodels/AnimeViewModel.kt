@@ -10,6 +10,8 @@ import com.ch.ni.an.invest.model.PhotoCharacter
 import com.ch.ni.an.invest.model.retrofit.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime
+import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
+import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -21,8 +23,8 @@ class AnimeViewModel(): ViewModel() {
     private val database = AnimeDatabase.get()
     private val secondDatabase = DatabaseCharacterAnime.get()
 
-    private val _allNames: LiveData<String> = secondDatabase.CharactersDao().getAllCharacter()
-    val allNames:LiveData<String> = _allNames
+    private val _allNames: LiveData<List<String>> = secondDatabase.CharactersDao().getAllCharacter()
+    val allNames:LiveData<List<String>> = _allNames
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
     val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
@@ -32,7 +34,6 @@ class AnimeViewModel(): ViewModel() {
 
     private val _randomQuote = MutableLiveData<AnimeChan>()
     val randomQuote: LiveData<AnimeChan> = _randomQuote
-
 
     private val _quotesByTitle = MutableLiveData<List<AnimeChan>>()
     val quotesByTitle: LiveData<List<AnimeChan>> = _quotesByTitle
@@ -53,23 +54,38 @@ class AnimeViewModel(): ViewModel() {
 
     init {
         getAvailableAnimeList()
+        getRandomQuotes()
     }
 
 
     fun getRandomQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.postValue(PENDING)
+            getQuotes()
         }
     }
 
-    fun search(query: String) {
+    fun search(query: String, key: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            listAnime.forEach {
-                if (it.contains(query, ignoreCase = true)) {
-                    tempList.add(it)
-                    _listAvailableAnime.postValue(tempList)
+            when(key){
+                SEARCH_BY_TITLE -> {
+                    listAnime.forEach {
+                        if (it.contains(query, ignoreCase = true)) {
+                            tempList.add(it)
+                            _listAvailableAnime.postValue(tempList)
+                        }
+                    }
+                }
+                SEARCH_BY_CHARACTER -> {
+                    listAnime.forEach {
+                        if (it.contains(query, ignoreCase = true)) {
+                            tempList.add(it)
+                            _listAvailableAnime.postValue(tempList)
+                        }
+                    }
                 }
             }
+
         }
     }
 
@@ -121,6 +137,9 @@ class AnimeViewModel(): ViewModel() {
             database.animeDao().deleteQuote(quote)
         }
     }
+
+
+
     suspend fun getImage(characterName :String): String {
         try {
             val paramObject = JSONObject()
@@ -157,7 +176,7 @@ class AnimeViewModel(): ViewModel() {
         return getImage(characterName)
     }
 
-    private suspend fun getQuote(){
+    private suspend fun getQuotes(){
         try {
             val response = Common.retrofit.getRandomQuotes()
             if(response.isSuccessful){
@@ -175,7 +194,7 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
-    private suspend fun getQuotes(){
+    private suspend fun getQuote(){
         try {
             val response = Common.retrofit.getRandomQuote()
             if(response.isSuccessful){

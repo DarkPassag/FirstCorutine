@@ -2,9 +2,17 @@
     <string name="app_name">Anime Quotes</string>
     <string name="search">Search </string>
     <string name="example">[example]</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favourite_quotes">Favourite quotes</string>
     <string name="list_available_anime">List available anime</string>
+    <string name="search_quotes_by_anime_title">Search Quotes by Anime Title</string>
+    <string name="search_quotes_by_anime_character">Search Quotes by Anime Character</string>
+    <string name="my_favourite_quotes">My Favourite Quotes</string>
+    <string name="ten_random_quotes">Ten Random Quotes</string>
+    <string name="toolsLongText">
+        Этот мир полон вещей, которые ты не можешь изменить. Чем дольше ты живешь,
+        тем больше осознаёшь, что мир состоит из боли, страдания и пустоты. Пока в этом мире существует свет,
+        будет и тьма. До тех пор, пока есть победители, будут и проигравшие. Эгоистичное желание «мира» побуждает войны,
+        а ненависть побуждается любовью."
+    </string>
 
 </resources>

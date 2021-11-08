@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_quotes_by_anime_title">Search Quotes by Anime Title</string>
+    <string name="search_quotes_by_anime_character">Search Quotes by Anime Character</string>
+    <string name="my_favourite_quotes">My Favourite Quotes</string>
+    <string name="ten_random_quotes">Ten Random Quotes</string>
+</resources>
