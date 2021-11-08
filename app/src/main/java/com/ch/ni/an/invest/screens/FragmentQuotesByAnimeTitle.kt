@@ -37,7 +37,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         when (item.itemId) {
             R.id.favouriteQuotes -> {
                 findNavController().navigate(
-                    R.id.action_fragmentAnimeNameQuotes_to_fragmentMyQuotes
+                    R.id.action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes
                 )
             }
             R.id.listAvailableAnime -> {
@@ -101,7 +101,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     override fun clickListener(animeName :String) {
         myModel.getQuotesByAnimeCharacter(animeName)
         findNavController().navigate(
-            R.id.action_fragmentAnimeNameQuotes_to_fragmentQuotesByAnimeCharacter
+            R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter
         )
     }
 

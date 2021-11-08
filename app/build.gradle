@@ -45,19 +45,18 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
-    implementation "com.squareup.retrofit2:converter-scalars:2.7.1"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
 
     //Moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
 
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     //Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
@@ -68,6 +67,9 @@ dependencies {
 
     // dotsLoader
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+
+    //GlowingLoader
+    implementation 'com.github.varunest:TheGlowingLoader:1.0.5'
 
     //room
     implementation "androidx.room:room-ktx:$roomVersion"

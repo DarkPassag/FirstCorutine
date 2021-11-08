@@ -1,75 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="#60FFFFFF"
-    android:padding="8dp"
-    android:elevation="12dp"
-    app:cardCornerRadius="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="8dp"
+    android:padding="12dp"
+    android:background="@drawable/card_background">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/animeNameTextView"
+        style="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Naruto"
+        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/example"
+        android:textIsSelectable="true"
+        android:textSize="32sp" />
+
+    <ImageButton
+        android:id="@+id/favouriteButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="4dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/ic_no_favourite"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/animeCharacterTextView"
+        style="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Madara"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animeNameTextView"
+        android:text="@string/example"
+        android:textIsSelectable="true"
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/animeNameTextView"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/example"
-                android:textSize="32sp"
-                android:textIsSelectable="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Naruto" />
-
-            <ImageButton
-                android:id="@+id/favouriteButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/ic_no_favourite"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textIsSelectable="true"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/animeQuoteTextView"
+        style="@style/TextAppearance.AppCompat.Body2"
+        tools:text="Thinking of peace whilst spilling blood is something that only humans could do."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animeCharacterTextView"
+        android:layout_margin="4dp"
+        android:text="@string/example"
+        android:textIsSelectable="true"
+        android:textSize="16sp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <TextView
-            android:id="@+id/animeCharacterTextView"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/example"
-            android:textSize="24sp"
-            android:textIsSelectable="true"
-
-            tools:text="Madara" />
-
-        <TextView
-            android:id="@+id/animeQuoteTextView"
-            style="@style/TextAppearance.AppCompat.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/example"
-            android:textSize="16sp"
-            android:textIsSelectable="true"
-            tools:text="Thinking of peace whilst spilling blood is something that only humans could do." />
-
-    </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>

@@ -23,8 +23,11 @@ class AnimeViewModel(): ViewModel() {
     private val database = AnimeDatabase.get()
     private val secondDatabase = DatabaseCharacterAnime.get()
 
-    private val _allNames: LiveData<List<String>> = secondDatabase.CharactersDao().getAllCharacter()
+    private val _allNames: MutableLiveData<List<String>> by lazy {
+        MutableLiveData<List<String>>()
+    }
     val allNames:LiveData<List<String>> = _allNames
+    private var listName: List<String> = emptyList()
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
     val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
@@ -32,8 +35,6 @@ class AnimeViewModel(): ViewModel() {
     private val _randomQuotes = MutableLiveData<List<AnimeChan>>()
     val randomQuotes: LiveData<List<AnimeChan>> = _randomQuotes
 
-    private val _randomQuote = MutableLiveData<AnimeChan>()
-    val randomQuote: LiveData<AnimeChan> = _randomQuote
 
     private val _quotesByTitle = MutableLiveData<List<AnimeChan>>()
     val quotesByTitle: LiveData<List<AnimeChan>> = _quotesByTitle
@@ -55,6 +56,7 @@ class AnimeViewModel(): ViewModel() {
     init {
         getAvailableAnimeList()
         getRandomQuotes()
+        getCharacters()
     }
 
 
@@ -77,10 +79,11 @@ class AnimeViewModel(): ViewModel() {
                     }
                 }
                 SEARCH_BY_CHARACTER -> {
-                    listAnime.forEach {
+                    listName.forEach {
                         if (it.contains(query, ignoreCase = true)) {
                             tempList.add(it)
-                            _listAvailableAnime.postValue(tempList)
+                            _allNames.postValue(tempList)
+
                         }
                     }
                 }
@@ -170,6 +173,13 @@ class AnimeViewModel(): ViewModel() {
 
     }
 
+    fun getCharacters(){
+        viewModelScope.launch(Dispatchers.IO){
+            val a = secondDatabase.CharactersDao().getAllCharacter()
+            listName = a
+            _allNames.postValue(a)
+        }
+    }
 
 
     suspend fun getUrlForLoad(characterName :String): String{
@@ -194,23 +204,6 @@ class AnimeViewModel(): ViewModel() {
         }
     }
 
-    private suspend fun getQuote(){
-        try {
-            val response = Common.retrofit.getRandomQuote()
-            if(response.isSuccessful){
-                val quote = response.body()
-                _randomQuote.postValue(quote)
-                _state.postValue(SUCCESS)
-            } else {
-                val errorResponse = response.errorBody().toString()
-                Log.e("ErrorResponse", errorResponse )
-                _state.postValue(FAIL)
-            }
-        } catch (e:Exception){
-            _state.postValue(FAIL)
-            Log.e("Exception", e.toString())
-        }
-    }
 
 
     private suspend fun _getQuotesByAnimeCharacter(name: String){
@@ -247,7 +240,6 @@ class AnimeViewModel(): ViewModel() {
             _state.postValue(FAIL)
         }
     }
-
 
 
 

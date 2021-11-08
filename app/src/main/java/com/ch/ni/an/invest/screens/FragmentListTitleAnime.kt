@@ -26,10 +26,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         get() = _bind!!
 
     private val myModel: AnimeViewModel by activityViewModels()
-
     private lateinit var recyclerView: RecyclerView
-
     private lateinit var titleAdapter: ListAnimeTitleAdapter
+    private lateinit var key: String
 
 
 
@@ -43,9 +42,10 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     override fun onQueryTextSubmit(query :String?) :Boolean {
         if(query != null){
             myModel.tempList.clear()
-            myModel.search(query, requireArguments().getString(SEARCH, SEARCH_BY_TITLE))
+            myModel.search(query,key)
         } else {
             myModel.getAvailableAnimeList()
+            myModel.getCharacters()
         }
         return true
     }
@@ -53,16 +53,17 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     override fun onQueryTextChange(newText :String?) :Boolean {
         if(newText != null){
             myModel.tempList.clear()
-            myModel.search(newText,requireArguments().getString(SEARCH, SEARCH_BY_TITLE))
+            myModel.search(newText,key)
         } else {
             myModel.getAvailableAnimeList()
+            myModel.getCharacters()
         }
         return true
     }
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
         if(item.itemId == R.id.favouriteQuotes){
-            findNavController().navigate(R.id.action_fragmentStart_to_fragmentMyQuotes)
+            findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentFavouriteQuotes)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -84,8 +85,8 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        when (requireArguments().getString(SEARCH, SEARCH_BY_TITLE)){
+        key = requireArguments().getString(SEARCH, SEARCH_BY_TITLE)
+        when (key){
             SEARCH_BY_TITLE ->{
                 myModel.listAvailableAnime.observe(viewLifecycleOwner, {
                     titleAdapter.listAnime = it
@@ -120,9 +121,15 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         bind.recyclerView.visibility = View.GONE
     }
 
-    override fun clickListener(animeName :String) {
-        myModel.getQuotesByAnime(animeName)
-        findNavController().navigate(R.id.action_fragmentStart_to_fragmentAnimeNameQuotes)
+    override fun clickListener(anime :String) {
+        if(key == SEARCH_BY_TITLE){
+            myModel.getQuotesByAnime(anime)
+            findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeTitle)
+        } else {
+            myModel.getQuotesByAnimeCharacter(anime)
+            findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeCharacter)
+        }
+
     }
 
     override fun addQuote(animeChan :AnimeChan) {}

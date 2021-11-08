@@ -8,10 +8,10 @@ import retrofit2.http.Query
 interface RetrofitService {
 
     @GET("random")
-    fun getRandomQuote() :Response<AnimeChan>
+    suspend fun getRandomQuote() :Response<AnimeChan>
 
     @GET("quotes")
-    suspend fun getRandomQuotes() : Response<List<AnimeChan>>
+    suspend fun getRandomQuotes() :Response<List<AnimeChan>>
 
     @GET("quotes/anime?")
     suspend fun getQuotesByAnimeName(

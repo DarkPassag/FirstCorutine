@@ -10,38 +10,28 @@
         android:name="com.ch.ni.an.invest.screens.FragmentListTitleAnime"
         android:label="FragmentStart">
         <action
-            android:id="@+id/action_fragmentStart_to_fragmentAnimeNameQuotes"
-            app:destination="@id/FragmentQuotesByAnimeTitle"
-            app:popUpTo="@id/FragmentListTitleAnime"
-            app:popUpToInclusive="false" />
+            android:id="@+id/action_FragmentListTitleAnime_to_FragmentFavouriteQuotes"
+            app:destination="@id/FragmentFavouriteQuotes" />
         <action
-            android:id="@+id/action_fragmentStart_to_fragmentMyQuotes"
-            app:destination="@id/FragmentFavouriteQuotes"
-            app:popUpTo="@id/FragmentListTitleAnime"
-            app:popUpToInclusive="false" />
+            android:id="@+id/action_FragmentListTitleAnime_to_FragmentQuotesByAnimeTitle"
+            app:destination="@id/FragmentQuotesByAnimeTitle" />
         <action
-            android:id="@+id/action_fragmentStart_to_fragmentQuotesByAnimeCharacter"
-            app:destination="@id/fragmentQuotesByAnimeCharacter" />
+            android:id="@+id/action_FragmentListTitleAnime_to_FragmentQuotesByAnimeCharacter"
+            app:destination="@id/FragmentQuotesByAnimeCharacter" />
     </fragment>
     <fragment
         android:id="@+id/FragmentQuotesByAnimeTitle"
         android:name="com.ch.ni.an.invest.screens.FragmentQuotesByAnimeTitle"
         android:label="FragmentAnimeNameQuotes">
         <action
-            android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentStart"
-            app:destination="@id/FragmentListTitleAnime"
-            app:popUpTo="@id/FragmentQuotesByAnimeTitle"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter"
+            app:destination="@id/FragmentQuotesByAnimeCharacter" />
         <action
-            android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentMyQuotes"
-            app:destination="@id/FragmentFavouriteQuotes"
-            app:popUpTo="@id/FragmentQuotesByAnimeTitle"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes"
+            app:destination="@id/FragmentFavouriteQuotes" />
         <action
-            android:id="@+id/action_fragmentAnimeNameQuotes_to_fragmentQuotesByAnimeCharacter"
-            app:destination="@id/fragmentQuotesByAnimeCharacter"
-            app:popUpTo="@id/FragmentQuotesByAnimeTitle"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_FragmentQuotesByAnimeTitle_to_FragmentListTitleAnime"
+            app:destination="@id/FragmentListTitleAnime" />
     </fragment>
     <fragment
         android:id="@+id/FragmentTenRandomQuotes"
@@ -53,7 +43,7 @@
             app:popUpTo="@id/FragmentTenRandomQuotes"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_fragmentAnimeStart_to_fragmentMyQuotes"
+            android:id="@+id/action_fragmentAnimeStart_to_FragmentFavouriteQuotes"
             app:destination="@id/FragmentFavouriteQuotes"
             app:popUpTo="@id/FragmentListTitleAnime"
             app:popUpToInclusive="true" />
@@ -68,11 +58,11 @@
             app:popUpTo="@id/FragmentFavouriteQuotes"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_fragmentMyQuotes_to_fragmentQuotesByAnimeCharacter"
-            app:destination="@id/fragmentQuotesByAnimeCharacter" />
+            android:id="@+id/action_fragmentMyQuotes_to_FragmentQuotesByAnimeCharacter"
+            app:destination="@id/FragmentQuotesByAnimeCharacter" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentQuotesByAnimeCharacter"
+        android:id="@+id/FragmentQuotesByAnimeCharacter"
         android:name="com.ch.ni.an.invest.screens.FragmentQuotesByAnimeCharacter"
         android:label="FragmentQuotesByAnimeCharacter"
         />

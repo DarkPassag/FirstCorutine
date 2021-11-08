@@ -44,7 +44,7 @@ class QuoteByAnimeTitleAdapter(
     override fun onBindViewHolder(holder :AnimeHolder, position :Int) {
         val item = animeList[position]
         holder.bind.characterNameTextView.setOnClickListener {
-            clickListener.clickListener(item.character.toString())
+            clickListener.clickListener(item.character!!)
         }
         holder.bind.characterNameTextView.text = item.character.toString()
         holder.bind.quoteByCharacterTextView.text = item.quote.toString()

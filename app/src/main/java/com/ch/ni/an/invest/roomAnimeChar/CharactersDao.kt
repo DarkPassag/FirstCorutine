@@ -1,6 +1,7 @@
 package com.ch.ni.an.invest.roomAnimeChar
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,9 +12,9 @@ import androidx.room.Query
 interface CharactersDao {
 
     @Query("SELECT * FROM NameCharacter")
-    fun getAllCharacter(): LiveData<List<String>>
+    suspend fun getAllCharacter() : List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCharacter(animeCharacter: CharactersAnime)
+    suspend fun addCharacter(animeCharacter :CharactersAnime)
 
 }
