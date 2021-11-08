@@ -8,7 +8,7 @@ import java.lang.IllegalStateException
 
 
 @Database(entities = [CharactersAnime::class], version = 1, exportSchema = false)
-abstract class DatabaseCharacterAnime(): RoomDatabase(){
+abstract class DatabaseCharacterAnime: RoomDatabase(){
     abstract fun CharactersDao(): CharactersDao
 
     companion object {

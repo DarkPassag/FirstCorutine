@@ -24,9 +24,7 @@ class QuoteByAnimeCharacterAdapter(
 
     class QuoteByAnimeCharacterHolder(
         val bind: RecyclerviewItemQuotesByCharacterBinding
-        ): RecyclerView.ViewHolder(bind.root){
-
-        }
+        ): RecyclerView.ViewHolder(bind.root)
 
     var setList: List<AnimeChan> = emptyList()
     set(value) {

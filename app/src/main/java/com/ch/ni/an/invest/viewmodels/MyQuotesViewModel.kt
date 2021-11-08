@@ -1,15 +1,12 @@
 package com.ch.ni.an.invest.viewmodels
 
-import  android.util.Log
+import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.room.AnimeDatabase
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MyQuotesViewModel: ViewModel() {

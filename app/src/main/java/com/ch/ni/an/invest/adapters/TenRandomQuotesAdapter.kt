@@ -17,9 +17,10 @@ class TenRandomQuotesAdapter: RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeS
             result.dispatchUpdatesTo(this)
         }
 
-    class AnimeStartViewHolder(val bind : RandomItemRecyclerviewBinding): RecyclerView.ViewHolder(bind.root) {
+    class AnimeStartViewHolder(
+        val bind : RandomItemRecyclerviewBinding
+        ): RecyclerView.ViewHolder(bind.root)
 
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeStartViewHolder {
         val bind = RandomItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

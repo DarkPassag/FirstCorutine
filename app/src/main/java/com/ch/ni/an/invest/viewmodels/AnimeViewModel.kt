@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
 
-class AnimeViewModel(): ViewModel() {
+class AnimeViewModel: ViewModel() {
 
 
     private val database = AnimeDatabase.get()
@@ -43,9 +43,8 @@ class AnimeViewModel(): ViewModel() {
     val quotesByCharacter: LiveData<List<AnimeChan>> = _quotesByCharacter
 
 
-    private var _listAnime = emptyList<String>()
-    val listAnime: List<String>
-        get() = _listAnime
+    private var listAnime = emptyList<String>()
+
 
     var tempList: MutableList<String> = mutableListOf()
 
@@ -102,7 +101,7 @@ class AnimeViewModel(): ViewModel() {
     fun getQuotesByAnimeCharacter(name: String){
         viewModelScope.launch(Dispatchers.IO){
             _state.postValue(PENDING)
-            _getQuotesByAnimeCharacter(name)
+            quotesByAnimeCharacter(name)
         }
     }
 
@@ -114,7 +113,7 @@ class AnimeViewModel(): ViewModel() {
                 if (response.isSuccessful) {
                     val availableAnime = response.body()
                     _listAvailableAnime.postValue(availableAnime)
-                    _listAnime = response.body()!!
+                    listAnime = response.body()!!
                     _state.postValue(SUCCESS)
                 } else {
                     val error = response.errorBody()
@@ -161,9 +160,9 @@ class AnimeViewModel(): ViewModel() {
             val native = JSONObject(name).optString("native")
 
 
-            val animeName: NameCharacter = NameCharacter(full, native)
-            val animeImage: PhotoCharacter = PhotoCharacter(large)
-            val animeCharacter: AnimePerson = AnimePerson(animeName, animeImage)
+            val animeName = NameCharacter(full, native)
+            val animeImage = PhotoCharacter(large)
+            val animeCharacter = AnimePerson(animeName, animeImage)
             Log.e("handleParse", animeCharacter.toString())
             return large
         } catch (e:Exception){
@@ -206,7 +205,7 @@ class AnimeViewModel(): ViewModel() {
 
 
 
-    private suspend fun _getQuotesByAnimeCharacter(name: String){
+    private suspend fun quotesByAnimeCharacter(name: String){
         try {
             val response = Common.retrofit.getQuotesByAnimeCharacter(name)
             if(response.isSuccessful){

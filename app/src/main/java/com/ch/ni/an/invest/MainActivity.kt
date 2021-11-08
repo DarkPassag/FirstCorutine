@@ -3,15 +3,9 @@ package com.ch.ni.an.invest
 
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import com.ch.ni.an.invest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

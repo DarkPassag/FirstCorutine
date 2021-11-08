@@ -8,8 +8,9 @@ import com.ch.ni.an.invest.databinding.MyquoteRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 
-class FavouriteQuotesAdapter(val swipeListenerDelete :SwipeListenerDelete)
-    : RecyclerView.Adapter<FavouriteQuotesAdapter.MyQuoteHolder>() {
+class FavouriteQuotesAdapter(
+    private val swipeListenerDelete :SwipeListenerDelete
+    ) : RecyclerView.Adapter<FavouriteQuotesAdapter.MyQuoteHolder>() {
 
     var setList: List<AnimeChan> = emptyList()
         set(value) {
@@ -21,9 +22,7 @@ class FavouriteQuotesAdapter(val swipeListenerDelete :SwipeListenerDelete)
 
     class MyQuoteHolder(
         val bind: MyquoteRecyclerviewBinding
-        ): RecyclerView.ViewHolder(bind.root) {
-
-        }
+        ): RecyclerView.ViewHolder(bind.root)
 
     override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :MyQuoteHolder {
         val inflater = LayoutInflater.from(parent.context)

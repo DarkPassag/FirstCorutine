@@ -22,9 +22,11 @@ class QuoteByAnimeTitleAdapter(
     private val getImage :LoadImage
 ): RecyclerView.Adapter<QuoteByAnimeTitleAdapter.AnimeHolder>() {
 
-    class AnimeHolder( val bind: RecyclerviewItemBinding) : RecyclerView.ViewHolder(bind.root) {
+    class AnimeHolder(
+        val bind: RecyclerviewItemBinding
+        ) : RecyclerView.ViewHolder(bind.root)
 
-    }
+
     var animeList: List<AnimeChan> = emptyList()
     set(value) {
         val diffCallback = AnimeDiffUtil(field, value)
@@ -46,8 +48,8 @@ class QuoteByAnimeTitleAdapter(
         holder.bind.characterNameTextView.setOnClickListener {
             clickListener.clickListener(item.character!!)
         }
-        holder.bind.characterNameTextView.text = item.character.toString()
-        holder.bind.quoteByCharacterTextView.text = item.quote.toString()
+        holder.bind.characterNameTextView.text = item.character
+        holder.bind.quoteByCharacterTextView.text = item.quote
         CoroutineScope(Dispatchers.IO).launch {
             val urlForImage = getImage.loadImage(item.character!!)
             CoroutineScope(Dispatchers.Main).launch {

@@ -30,15 +30,15 @@ class AnimeDiff(
 
 }
 class ListAnimeTitleAdapter(
-    val onClick:RecyclerViewClickListener
+     private val onClick:RecyclerViewClickListener
     ): RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
 
-    private lateinit var animeName :String
+
 
     var listAnime :List<String> = emptyList()
         set(value) {
-            val DiffCallback = AnimeDiff(field, value)
-            val result = DiffUtil.calculateDiff(DiffCallback)
+            val callback = AnimeDiff(field, value)
+            val result = DiffUtil.calculateDiff(callback)
             field = value
             result.dispatchUpdatesTo(this)
         }
