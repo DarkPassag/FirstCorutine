@@ -6,12 +6,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.QuoteByAnimeTitleAdapter
+import com.ch.ni.an.invest.BaseFragment
+import com.ch.ni.an.invest.adapters.QuoteByAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
-import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.viewmodels.AnimeViewModel
+import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener

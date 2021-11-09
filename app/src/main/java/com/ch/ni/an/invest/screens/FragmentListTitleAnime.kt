@@ -7,12 +7,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ch.ni.an.invest.ListAnimeTitleAdapter
+import com.ch.ni.an.invest.BaseFragment
+import com.ch.ni.an.invest.adapters.ListAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentListTitleNameBinding
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
-import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.viewmodels.AnimeViewModel
+import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.utills.SEARCH
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
@@ -21,15 +22,14 @@ import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 
 class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, RecyclerViewClickListener {
 
-    private var _bind: FragmentListTitleNameBinding? = null
-    private val bind: FragmentListTitleNameBinding
+    private var _bind :FragmentListTitleNameBinding? = null
+    private val bind :FragmentListTitleNameBinding
         get() = _bind!!
 
-    private val myModel: AnimeViewModel by activityViewModels()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var titleAdapter: ListAnimeTitleAdapter
-    private lateinit var key: String
-
+    private val myModel :AnimeViewModel by activityViewModels()
+    private lateinit var recyclerView :RecyclerView
+    private lateinit var titleAdapter :ListAnimeTitleAdapter
+    private lateinit var key :String
 
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
@@ -40,9 +40,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onQueryTextSubmit(query :String?) :Boolean {
-        if(query != null){
+        if (query != null) {
             myModel.tempList.clear()
-            myModel.search(query,key)
+            myModel.search(query, key)
         } else {
             myModel.getAvailableAnimeList()
             myModel.getCharacters()
@@ -70,10 +70,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
         _bind = FragmentListTitleNameBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView
@@ -84,10 +81,10 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         return bind.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view :View, savedInstanceState :Bundle?) {
         key = requireArguments().getString(SEARCH, SEARCH_BY_TITLE)
-        when (key){
-            SEARCH_BY_TITLE ->{
+        when (key) {
+            SEARCH_BY_TITLE -> {
                 myModel.listAvailableAnime.observe(viewLifecycleOwner, {
                     titleAdapter.listAnime = it
                     recyclerView.adapter = titleAdapter
@@ -122,7 +119,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun clickListener(anime :String) {
-        if(key == SEARCH_BY_TITLE){
+        if (key == SEARCH_BY_TITLE) {
             myModel.getQuotesByAnime(anime)
             findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeTitle)
         } else {

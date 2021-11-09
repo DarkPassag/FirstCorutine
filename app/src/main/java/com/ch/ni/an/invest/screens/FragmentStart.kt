@@ -11,23 +11,29 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
-import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.utills.SEARCH
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
+import com.ch.ni.an.invest.viewmodels.SplashViewModel
 import com.ch.ni.an.invest.viewmodels.StartViewModel
 
 class FragmentStart: Fragment() {
 
-    private val myModel :StartViewModel by activityViewModels()
+    private val myModel :SplashViewModel by activityViewModels()
+    private val mModel :StartViewModel by activityViewModels()
 
     private var _bind :FragmentStartBinding? = null
     private val bind :FragmentStartBinding
         get() = _bind!!
 
+    private lateinit var item: AnimeChan
+
 
     override fun onCreateView(
-        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?
+    ) :View {
         _bind = FragmentStartBinding.inflate(inflater, container, false)
         return bind.root
     }
@@ -35,29 +41,24 @@ class FragmentStart: Fragment() {
     override fun onViewCreated(view :View, savedInstanceState :Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigation()
-        myModel.getQuote()
-        myModel.state.observe(viewLifecycleOwner, {
-            when (it) {
-                PENDING -> pendingUI()
-                SUCCESS -> updateUI()
-                FAIL -> updateUI()
-            }
-        })
         myModel.randomQuote.observe(viewLifecycleOwner, {
+            item = it
+            mModel.checkInRoom(item)
             bind.characterNameTextView.text = it.character
             bind.quoteByCharacterTextView.text = it.quote
         })
+        mModel.favourite.observe(viewLifecycleOwner, {
+            if(it) bind.favouriteButton.setImageResource(R.drawable.ic_favorite_24)
+            else bind.favouriteButton.setImageResource(R.drawable.ic_no_favourite_24)
+        })
+
+        bind.favouriteButton.setOnClickListener {
+            if( this::item.isInitialized ) {
+                mModel.favouriteButton(item)
+            }
+        }
     }
 
-    private fun updateUI() {
-        bind.mainGroup.visibility = View.VISIBLE
-        bind.loadingGroup.visibility = View.GONE
-    }
-
-    private fun pendingUI() {
-        bind.mainGroup.visibility = View.GONE
-        bind.loadingGroup.visibility = View.VISIBLE
-    }
 
 
     private fun navigation() {
@@ -85,7 +86,6 @@ class FragmentStart: Fragment() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.hide()
     }
-
 
     override fun onStop() {
         super.onStop()

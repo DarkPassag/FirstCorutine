@@ -15,5 +15,6 @@ interface RetrofitGraphQL {
 object CommonGraphQL {
     private const val BASE_URL = "https://graphql.anilist.co/"
 
-    val dataAnimeList = RetrofitClientImage.getClient(BASE_URL).create(RetrofitGraphQL::class.java)
+    val dataAnimeList: RetrofitGraphQL =
+        RetrofitClientImage.getClient(BASE_URL).create(RetrofitGraphQL::class.java)
 }

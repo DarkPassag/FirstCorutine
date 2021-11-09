@@ -33,7 +33,8 @@
         android:layout_height="36dp"
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_no_favourite"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:contentDescription="@string/add_or_remove_a_quote_from_favorites"/>
 
     <TextView
         android:id="@+id/animeCharacterTextView"

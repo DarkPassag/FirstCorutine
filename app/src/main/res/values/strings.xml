@@ -1,4 +1,5 @@
 <resources>
+    <string name="no_internet">Unable to connect to the Internet…</string>
     <string name="app_name">Anime Quotes</string>
     <string name="search">Search </string>
     <string name="example">[example]</string>
@@ -15,5 +16,7 @@
         а ненависть побуждается любовью."
     </string>
     <string name="please_wait">Please wait…</string>
+    <string name="add_or_remove_a_quote_from_favorites">Add or remove a quote from favorites</string>
+    <string name="character_image">Character image</string>
 
 </resources>

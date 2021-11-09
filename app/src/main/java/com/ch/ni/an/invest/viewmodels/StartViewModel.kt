@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.retrofit.Common
-import com.ch.ni.an.invest.model.retrofit.STATE
+import com.ch.ni.an.invest.model.room.AnimeDatabase
+import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime_Impl
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -16,32 +17,51 @@ import java.lang.Exception
 
 class StartViewModel: ViewModel() {
 
-    private val _state = MutableLiveData<STATE>()
-    val state: LiveData<STATE> = _state
+    private val database = AnimeDatabase.get().animeDao()
 
-    private val _randomQuote = MutableLiveData<AnimeChan>()
-    val randomQuote:LiveData<AnimeChan> = _randomQuote
+    private var listQuotes: List<AnimeChan> = emptyList()
 
-    fun getQuote(){
-        _state.postValue(STATE.PENDING)
-        viewModelScope.launch(Dispatchers.IO){
-            delay(1000)
-            try {
-                val response = Common.retrofit.getRandomQuote()
-                if(response.isSuccessful){
-                    val quote = response.body()
-                    _randomQuote.postValue(quote)
-                    _state.postValue(STATE.SUCCESS)
-                } else {
-                    val errorResponse = response.errorBody().toString()
-                    Log.e("ErrorResponse", errorResponse )
-                    _state.postValue(STATE.FAIL)
-                }
-            } catch (e:Exception){
-                _state.postValue(STATE.FAIL)
-                Log.e("ExceptionException", e.toString())
-            }
+    private val _favourite: MutableLiveData<Boolean> = MutableLiveData()
+    val favourite: LiveData<Boolean> = _favourite
+
+
+    fun favouriteButton(animeChan :AnimeChan) {
+        when (checkInRoom(animeChan)) {
+            true -> deleteQuoteFromDatabase(animeChan)
+            false -> addFavouriteQuote(animeChan)
         }
-
     }
+
+   fun checkInRoom(animeChan :AnimeChan) :Boolean {
+       return listQuotes.contains(animeChan)
+    }
+
+    private fun addFavouriteQuote(animeChan :AnimeChan) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.insertQuote(animeChan)
+            updateList()
+            _favourite.postValue(true)
+        }
+    }
+
+
+    private fun deleteQuoteFromDatabase(animeChan :AnimeChan) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.deleteQuote(animeChan)
+            updateList()
+            _favourite.postValue(false)
+        }
+    }
+
+    private suspend fun updateList() {
+        listQuotes = database.getAllForCheck()
+    }
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateList()
+        }
+    }
+
+
 }

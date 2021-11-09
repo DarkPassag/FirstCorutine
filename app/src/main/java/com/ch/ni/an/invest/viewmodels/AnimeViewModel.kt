@@ -1,4 +1,4 @@
-package com.ch.ni.an.invest.model.retrofit
+package com.ch.ni.an.invest.viewmodels
 
 
 import android.util.Log
@@ -7,7 +7,9 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.AnimePerson
 import com.ch.ni.an.invest.model.NameCharacter
 import com.ch.ni.an.invest.model.PhotoCharacter
-import com.ch.ni.an.invest.model.retrofit.STATE.*
+import com.ch.ni.an.invest.model.retrofit.Common
+import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
+import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
@@ -142,7 +144,7 @@ class AnimeViewModel: ViewModel() {
 
 
 
-    suspend fun getImage(characterName :String): String {
+    private suspend fun getImage(characterName :String): String {
         try {
             val paramObject = JSONObject()
             paramObject.put(

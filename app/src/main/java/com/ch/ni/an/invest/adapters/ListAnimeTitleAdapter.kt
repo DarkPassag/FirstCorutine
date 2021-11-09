@@ -1,9 +1,11 @@
-package com.ch.ni.an.invest
+package com.ch.ni.an.invest.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.NameItemRecyclerviewBinding
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
@@ -34,6 +36,7 @@ class ListAnimeTitleAdapter(
     ): RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
 
 
+    private var lastPosition: Int = -1
 
     var listAnime :List<String> = emptyList()
         set(value) {
@@ -53,11 +56,14 @@ class ListAnimeTitleAdapter(
 
     override fun onBindViewHolder(holder :ListAnimeHolder, position :Int) {
         val anime = listAnime[position]
-        holder.bind.nametextView.text = anime
-        holder.bind.nametextView.setOnClickListener {
+        holder.bind.nameTextView.text = anime
+        holder.bind.nameTextView.setOnClickListener {
             onClick.clickListener(anime)
         }
-
+        val animation = AnimationUtils.loadAnimation(
+            holder.itemView.context, R.anim.item_animation_fall_down
+        )
+        holder.itemView.startAnimation(animation)
 
     }
 

@@ -1,4 +1,4 @@
-package com.ch.ni.an.invest.screens
+package com.ch.ni.an.invest.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,12 +22,12 @@ class TenRandomQuotesAdapter: RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeS
         ): RecyclerView.ViewHolder(bind.root)
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeStartViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):AnimeStartViewHolder {
         val bind = RandomItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AnimeStartViewHolder(bind)
     }
 
-    override fun onBindViewHolder(holder: AnimeStartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder:AnimeStartViewHolder, position: Int) {
         val item = randomQuotes[position]
         holder.bind.animeNameTextView.text = item.anime
         holder.bind.animeCharacterTextView.text = item.character

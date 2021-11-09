@@ -20,7 +20,8 @@
         android:src="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/character_image"/>
 
     <ImageButton
         android:id="@+id/favouriteButton"
@@ -29,7 +30,8 @@
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_no_favourite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/characterPhotoImageView" />
+        app:layout_constraintTop_toTopOf="@id/characterPhotoImageView"
+        android:contentDescription="@string/add_or_remove_a_quote_from_favorites"/>
 
 
     <TextView

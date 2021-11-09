@@ -7,7 +7,7 @@
 
     <TextView
         android:gravity="center"
-        android:id="@+id/nametextView"
+        android:id="@+id/nameTextView"
         android:textSize="32sp"
         android:textColor="@color/black"
         android:textStyle="bold"

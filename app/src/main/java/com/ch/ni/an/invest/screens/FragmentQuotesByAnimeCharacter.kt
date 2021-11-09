@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.adapters.QuoteByAnimeCharacterAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimecharacterQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.retrofit.AnimeViewModel
-import com.ch.ni.an.invest.model.retrofit.STATE
+import com.ch.ni.an.invest.viewmodels.AnimeViewModel
+import com.ch.ni.an.invest.viewmodels.STATE
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
@@ -19,15 +20,15 @@ import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
 class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallback, RecyclerViewClickListener {
 
-    private val myModel: AnimeViewModel by activityViewModels()
-    private val mModel:MyQuotesViewModel by activityViewModels()
+    private val myModel :AnimeViewModel by activityViewModels()
+    private val mModel :MyQuotesViewModel by activityViewModels()
 
-    private var _bind: FragmentAnimecharacterQuotesBinding? = null
-    private val bind: FragmentAnimecharacterQuotesBinding
+    private var _bind :FragmentAnimecharacterQuotesBinding? = null
+    private val bind :FragmentAnimecharacterQuotesBinding
         get() = _bind!!
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter : QuoteByAnimeCharacterAdapter
+    private lateinit var recyclerView :RecyclerView
+    private lateinit var adapter :QuoteByAnimeCharacterAdapter
 
     override fun onCreateView(
         inflater :LayoutInflater,
@@ -62,19 +63,20 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
 
         }
     }
-    private fun updateUI(){
+
+    private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
 
     }
 
-    private fun pendingUI(){
+    private fun pendingUI() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
     }
 
     override suspend fun loadImage(characterName :String) :String {
-       return myModel.getUrlForLoad(characterName)
+        return myModel.getUrlForLoad(characterName)
     }
 
     override fun checkInRoom(quote :AnimeChan) :Boolean {

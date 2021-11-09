@@ -1,23 +1,18 @@
 package com.ch.ni.an.invest
 
-
-
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.ch.ni.an.invest.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var bind: ActivityMainBinding
+open class BaseActivity(@LayoutRes layoutId : Int ): AppCompatActivity(layoutId) {
 
     override fun onCreate(savedInstanceState :Bundle?) {
-        super.onCreate(savedInstanceState)
-        bind = ActivityMainBinding.inflate(layoutInflater)
         backGroundColor()
-        setContentView(bind.root)
-        setSupportActionBar(bind.toolBar)
+        super.onCreate(savedInstanceState)
     }
 
 
@@ -27,5 +22,4 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = ContextCompat.getColor(this, android.R.color.transparent)
         window.setBackgroundDrawableResource(R.drawable.gradient_1)
     }
-
 }

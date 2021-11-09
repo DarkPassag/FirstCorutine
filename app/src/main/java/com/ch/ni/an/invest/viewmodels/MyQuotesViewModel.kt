@@ -16,7 +16,7 @@ class MyQuotesViewModel: ViewModel() {
     private val _myQuotes: LiveData<List<AnimeChan>> = database.getAll()
     val myQuotes: LiveData<List<AnimeChan>> = _myQuotes
 
-    var listQuote: List<AnimeChan> = emptyList()
+    private var listQuote: List<AnimeChan> = emptyList()
 
     init {
         loadListFavouriteQuote()
