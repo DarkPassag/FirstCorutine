@@ -1,19 +1,15 @@
 package com.ch.ni.an.invest.viewmodels
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.retrofit.Common
 import com.ch.ni.an.invest.model.room.AnimeDatabase
-import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime_Impl
-
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
+
 
 class StartViewModel: ViewModel() {
 

@@ -10,3 +10,10 @@ data class AnimeChan(
     val character: String? = null,
   @PrimaryKey val quote: String)
 
+
+
+@Entity(tableName = "characters_table")
+data class CharactersAnime(
+    @PrimaryKey val name: String
+)
+

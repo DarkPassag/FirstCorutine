@@ -3,6 +3,7 @@ package com.ch.ni.an.invest.model.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.CharactersAnime
 
 
 @Dao
@@ -19,5 +20,12 @@ interface AnimeDao {
 
     @Delete
     suspend fun deleteQuote(quote :AnimeChan)
+
+    @Query("SELECT * FROM characters_table")
+    suspend fun getAllCharacter() : List<String>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addCharacter(animeCharacter :CharactersAnime)
+
 
 }

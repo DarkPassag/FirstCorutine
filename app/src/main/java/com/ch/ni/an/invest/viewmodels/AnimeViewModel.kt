@@ -11,7 +11,6 @@ import com.ch.ni.an.invest.model.retrofit.Common
 import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
-import com.ch.ni.an.invest.roomAnimeChar.DatabaseCharacterAnime
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +22,7 @@ class AnimeViewModel: ViewModel() {
 
 
     private val database = AnimeDatabase.get()
-    private val secondDatabase = DatabaseCharacterAnime.get()
+
 
     private val _allNames: MutableLiveData<List<String>> by lazy {
         MutableLiveData<List<String>>()
@@ -176,7 +175,7 @@ class AnimeViewModel: ViewModel() {
 
     fun getCharacters(){
         viewModelScope.launch(Dispatchers.IO){
-            val a = secondDatabase.CharactersDao().getAllCharacter()
+            val a = database.animeDao().getAllCharacter()
             listName = a
             _allNames.postValue(a)
         }

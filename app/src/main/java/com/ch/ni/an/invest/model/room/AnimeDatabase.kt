@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.CharactersAnime
 
 
-@Database(entities = [AnimeChan::class], version = 1, exportSchema = false)
+@Database(entities = [AnimeChan::class, CharactersAnime::class], version = 1, exportSchema = false)
 abstract class AnimeDatabase: RoomDatabase() {
     abstract fun animeDao(): AnimeDao
 
@@ -25,8 +26,10 @@ abstract class AnimeDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AnimeDatabase::class.java,
-                    "quotes"
-                ).build()
+                    "AnimeDatabase"
+                )
+                    .createFromAsset("AnimeDatabase.db")
+                    .build()
                 INSTANCE = instance
                 return instance
             }
