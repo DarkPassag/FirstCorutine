@@ -36,11 +36,11 @@
         app:lazyloader_dotsDist="10dp"
         app:lazyloader_dotsRadius="16dp"
         app:lazyloader_firstDelayDur="150"
-        app:lazyloader_firstDotColor="@color/gray"
+        app:lazyloader_firstDotColor="@color/loader_color"
         app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
         app:lazyloader_secondDelayDur="350"
-        app:lazyloader_secondDotColor="@color/gray"
-        app:lazyloader_thirdDotColor="@color/gray" />
+        app:lazyloader_secondDotColor="@color/loader_color"
+        app:lazyloader_thirdDotColor="@color/loader_color" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/updateFAB"
@@ -56,6 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#F4511E"
         app:showMotionSpec="@android:anim/fade_in"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/load_new_ten_random_quotes"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,19 @@ package com.ch.ni.an.invest.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RandomItemRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.utills.FavouriteCallback
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
-class TenRandomQuotesAdapter: RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeStartViewHolder>() {
+class TenRandomQuotesAdapter(
+    private val clickListener:RecyclerViewClickListener,
+    private val favouriteCheck:FavouriteCallback
+): RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeStartViewHolder>() {
 
     var randomQuotes: List<AnimeChan> = emptyList()
         set(value) {
@@ -32,11 +39,36 @@ class TenRandomQuotesAdapter: RecyclerView.Adapter<TenRandomQuotesAdapter.AnimeS
         holder.bind.animeNameTextView.text = item.anime
         holder.bind.animeCharacterTextView.text = item.character
         holder.bind.animeQuoteTextView.text = item.quote
+        val favouriteButton = holder.bind.favouriteButton
+        var flag = chekFlag(item)
+        checkFavourite(favouriteButton, item)
+        favouriteButton.setOnClickListener {
+            flag = if (flag == 0) {
+                clickListener.deleteQuote(item)
+                favouriteButton.setImageResource(R.drawable.ic_no_favourite)
+                1
+            } else {
+                clickListener.addQuote(item)
+                favouriteButton.setImageResource(R.drawable.ic_favourite)
+                0
+            }
+        }
 
 
     }
 
     override fun getItemCount(): Int = randomQuotes.size
+
+    private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
+        if(favouriteCheck.checkInRoom(item)){
+            imageButton.setImageResource(R.drawable.ic_favourite)
+        } else {
+            imageButton.setImageResource(R.drawable.ic_no_favourite)
+        }
+    }
+    private fun chekFlag(item :AnimeChan): Int{
+        return if(favouriteCheck.checkInRoom(item)) 0 else 1
+    }
 }
 
 class RandomAnimeDiffUtil(

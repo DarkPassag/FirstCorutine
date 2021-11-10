@@ -13,4 +13,5 @@
     <color name="gray_third">#808080</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="transparent_50">#45D81B60</color>
+    <color name="loader_color">#E492E6</color>
 </resources>

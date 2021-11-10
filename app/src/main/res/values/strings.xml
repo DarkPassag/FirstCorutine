@@ -18,5 +18,7 @@
     <string name="please_wait">Please wait…</string>
     <string name="add_or_remove_a_quote_from_favorites">Add or remove a quote from favorites</string>
     <string name="character_image">Character image</string>
+    <string name="home">Home</string>
+    <string name="load_new_ten_random_quotes">Load new ten random quotes</string>
 
 </resources>

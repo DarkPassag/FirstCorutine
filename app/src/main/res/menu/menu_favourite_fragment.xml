@@ -2,9 +2,10 @@
 <menu
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/listAvailableAnime"
-        android:title="@string/list_available_anime"
-        android:icon="@drawable/ic_list"
+        android:id="@+id/homeFragment"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"
         app:showAsAction="ifRoom"/>
 </menu>

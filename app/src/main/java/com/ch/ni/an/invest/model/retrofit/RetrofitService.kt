@@ -15,14 +15,18 @@ interface RetrofitService {
 
     @GET("quotes/anime?")
     suspend fun getQuotesByAnimeName(
-        @Query("title") animeName :String) :Response<List<AnimeChan>>
+        @Query("title") animeName :String,
+        @Query("page") page: Int
+        ) :Response<List<AnimeChan>>
 
     @GET("available/anime")
     suspend fun getAvailableAnime() :Response<List<String>>
 
     @GET("quotes/character")
     suspend fun getQuotesByAnimeCharacter(
-        @Query("name") animeCharacter :String) :Response<List<AnimeChan>>
+        @Query("name") animeCharacter :String,
+        @Query("page") page: Int
+    ) :Response<List<AnimeChan>>
 
 }
 

@@ -3,6 +3,7 @@ package com.ch.ni.an.invest.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -18,103 +19,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class QuoteByAnimeTitleAdapter(
-    private val clickListener:RecyclerViewClickListener,
-    private val favouriteCheck: FavouriteCallback,
-    private val getImage :LoadImage
-): RecyclerView.Adapter<QuoteByAnimeTitleAdapter.AnimeHolder>() {
-
-    class AnimeHolder(
-        val bind: RecyclerviewItemBinding
-        ) : RecyclerView.ViewHolder(bind.root)
+    private val clickListener :RecyclerViewClickListener,
+    private val favouriteCheck :FavouriteCallback,
+    private val getImage :LoadImage,
+) : PagingDataAdapter<AnimeChan, QuotesByAnimeTitleHolder>(AnimeDiffUtil()) {
 
 
-    var animeList: List<AnimeChan> = emptyList()
-    set(value) {
-        val diffCallback = AnimeDiffUtil(field, value)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        field = value
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):AnimeHolder {
+    override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :QuotesByAnimeTitleHolder {
         val inflater = LayoutInflater.from(parent.context)
         val bind = RecyclerviewItemBinding.inflate(inflater, parent, false)
-        return AnimeHolder(bind)
+        return QuotesByAnimeTitleHolder(clickListener, favouriteCheck, getImage, bind)
     }
 
-    override fun onBindViewHolder(holder :AnimeHolder, position :Int) {
-        val item = animeList[position]
-        holder.bind.characterNameTextView.setOnClickListener {
-            clickListener.clickListener(item.character!!)
-        }
-        holder.bind.characterNameTextView.text = item.character
-        holder.bind.quoteByCharacterTextView.text = item.quote
-        CoroutineScope(Dispatchers.IO).launch {
-            val urlForImage = getImage.loadImage(item.character!!)
-            CoroutineScope(Dispatchers.Main).launch {
-                holder.bind.characterPhotoImageView.load(urlForImage)
-                {   error(R.drawable.grdient_list)
-                    transformations(RoundedCornersTransformation(50f))
-                }
-            }
+    override fun onBindViewHolder(holder :QuotesByAnimeTitleHolder, position :Int) {
+        val item = getItem(position)
+        holder.bind(item!!)
+
+    }
+    class AnimeDiffUtil : DiffUtil.ItemCallback<AnimeChan>() {
+
+        override fun areItemsTheSame(oldItem :AnimeChan, newItem :AnimeChan) :Boolean {
+            return oldItem.quote == newItem.quote
         }
 
-        val favouriteButton = holder.bind.favouriteButton
-        var flag = chekFlag(item)
-        checkFavourite(favouriteButton, item)
-        favouriteButton.setOnClickListener {
-            flag = if (flag == 0) {
-                clickListener.deleteQuote(item)
-                favouriteButton.setImageResource(R.drawable.ic_no_favourite)
-                1
-            } else {
-                clickListener.addQuote(item)
-                favouriteButton.setImageResource(R.drawable.ic_favourite)
-                0
-            }
+        override fun areContentsTheSame(oldItem :AnimeChan, newItem :AnimeChan) :Boolean {
+            return oldItem == newItem
         }
-    }
-
-    override fun getItemCount(): Int = animeList.size
-
-
-
-    private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
-        if(favouriteCheck.checkInRoom(item)){
-            imageButton.setImageResource(R.drawable.ic_favourite)
-        } else {
-            imageButton.setImageResource(R.drawable.ic_no_favourite)
-        }
-    }
-    private fun chekFlag(item :AnimeChan): Int{
-        return if(favouriteCheck.checkInRoom(item)) 0 else 1
-    }
-
-    /**
-    */
-
-}
-class AnimeDiffUtil(
-    private val oldList: List<AnimeChan>,
-    private val newList: List<AnimeChan>
-): DiffUtil.Callback() {
-
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val animeOldItem = oldList[oldItemPosition]
-        val animeNewItem = newList[newItemPosition]
-        return animeNewItem == animeOldItem
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val animeOldItem = oldList[oldItemPosition]
-        val animeNewItem = newList[newItemPosition]
-        return animeNewItem == animeOldItem
     }
 }

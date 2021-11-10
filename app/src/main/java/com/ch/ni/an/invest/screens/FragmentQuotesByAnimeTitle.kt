@@ -3,6 +3,7 @@ package com.ch.ni.an.invest.screens
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,8 @@ import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, FavouriteCallback,
     LoadImage {
@@ -25,7 +28,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     private val bind :FragmentAnimenameQuotesBinding
         get() = _bind!!
     private lateinit var recyclerView :RecyclerView
-    private lateinit var titleAdapterQuoteBy :QuoteByAnimeTitleAdapter
+    private lateinit var adapter :QuoteByAnimeTitleAdapter
     private val myModel :AnimeViewModel by activityViewModels()
     private val mModel :MyQuotesViewModel by activityViewModels()
 
@@ -41,8 +44,8 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
                     R.id.action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes
                 )
             }
-            R.id.listAvailableAnime -> {
-                findNavController().popBackStack()
+            R.id.homeFragment -> {
+                findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentStart)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -54,8 +57,8 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
 
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        titleAdapterQuoteBy = QuoteByAnimeTitleAdapter(this, this, this)
-        recyclerView.adapter = titleAdapterQuoteBy
+        adapter = QuoteByAnimeTitleAdapter(this, this, this)
+        recyclerView.adapter = adapter
         recyclerView
         return bind.root
     }
@@ -73,11 +76,13 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
                     FAIL -> updateUI()
                 }
             })
-            quotesByTitle.observe(viewLifecycleOwner, {
-                titleAdapterQuoteBy.animeList = it
-                recyclerView.adapter = titleAdapterQuoteBy
-            })
+        }
 
+        lifecycleScope.launch {
+            myModel.getQuotesByTitle("Naruto").collectLatest {
+                adapter.submitData(it)
+                recyclerView.adapter = adapter
+            }
         }
 
     }

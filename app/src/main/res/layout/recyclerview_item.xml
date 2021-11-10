@@ -17,7 +17,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:src="@color/gray"
+        android:src="@drawable/card_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/character_image"/>
@@ -31,6 +31,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textIsSelectable="true"
         android:textSize="24sp"
+        android:maxLines="2"
         app:layout_constraintEnd_toStartOf="@id/favouriteButton"
         app:layout_constraintStart_toEndOf="@id/characterPhotoImageView"
         app:layout_constraintTop_toTopOf="@id/characterPhotoImageView"

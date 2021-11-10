@@ -1,9 +1,7 @@
 package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +10,18 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.TenRandomQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
+import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.utills.FavouriteCallback
+import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
+import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 import com.ch.ni.an.invest.viewmodels.STATE
 
-class FragmentTenRandomQuotes: BaseFragment() {
+class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
 
     private val myModel:AnimeViewModel by activityViewModels()
+    private val mModel :MyQuotesViewModel by activityViewModels()
     private var _bind: FragmentAnimeTenRandomQuotesBinding? = null
     private val bind: FragmentAnimeTenRandomQuotesBinding
         get() = _bind!!
@@ -26,13 +29,18 @@ class FragmentTenRandomQuotes: BaseFragment() {
     private lateinit var adapter :TenRandomQuotesAdapter
     private lateinit var recycleView: RecyclerView
 
+
+    override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onCreateView(
         inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?
     ) :View {
         _bind = FragmentAnimeTenRandomQuotesBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = TenRandomQuotesAdapter()
+        adapter = TenRandomQuotesAdapter(this,this)
         recycleView.adapter = adapter
 
 
@@ -79,6 +87,21 @@ class FragmentTenRandomQuotes: BaseFragment() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
 
+    }
+
+    override fun checkInRoom(quote :AnimeChan) :Boolean {
+        mModel.loadListFavouriteQuote()
+        return mModel.checkQuote(quote)
+    }
+
+    override fun clickListener(anime :String) {}
+
+    override fun addQuote(animeChan :AnimeChan) {
+        myModel.addQuote(animeChan)
+    }
+
+    override fun deleteQuote(animeChan :AnimeChan) {
+        myModel.deleteQuote(animeChan)
     }
 
 }

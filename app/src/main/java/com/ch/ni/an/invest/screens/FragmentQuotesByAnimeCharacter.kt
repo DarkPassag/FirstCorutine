@@ -1,13 +1,14 @@
 package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.BaseFragment
+import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.QuoteByAnimeCharacterAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimecharacterQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
@@ -17,6 +18,8 @@ import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallback, RecyclerViewClickListener {
 
@@ -29,6 +32,29 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
 
     private lateinit var recyclerView :RecyclerView
     private lateinit var adapter :QuoteByAnimeCharacterAdapter
+
+    override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_without_search, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item :MenuItem) :Boolean {
+        when (item.itemId) {
+            R.id.favouriteQuotes -> {
+                findNavController().navigate(
+                    R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentFavouriteQuotes
+                )
+            }
+
+            R.id.homeFragment -> {
+                findNavController().navigate(
+                    R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentStart
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateView(
         inflater :LayoutInflater,
@@ -48,21 +74,23 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
         super.onViewCreated(view, savedInstanceState)
         mModel.myQuotes.observe(viewLifecycleOwner, {})
 
-        myModel.apply {
-            state.observe(viewLifecycleOwner, {
+        myModel.state.observe(viewLifecycleOwner, {
                 when (it) {
                     STATE.PENDING -> pendingUI()
                     STATE.SUCCESS -> updateUI()
                     STATE.FAIL -> updateUI()
                 }
             })
-            quotesByCharacter.observe(viewLifecycleOwner, {
-                adapter.setList = it
+
+        lifecycleScope.launch {
+            myModel.getQuotesByAnimeCharacter("Madara Uchiha").collectLatest {
+                adapter.submitData(it)
                 recyclerView.adapter = adapter
-            })
+            }
+        }
+
 
         }
-    }
 
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE

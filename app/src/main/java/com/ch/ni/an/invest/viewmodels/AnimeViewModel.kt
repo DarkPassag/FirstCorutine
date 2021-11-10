@@ -3,17 +3,19 @@ package com.ch.ni.an.invest.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.AnimePerson
-import com.ch.ni.an.invest.model.NameCharacter
-import com.ch.ni.an.invest.model.PhotoCharacter
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.ch.ni.an.invest.model.*
 import com.ch.ni.an.invest.model.retrofit.Common
 import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
+import com.ch.ni.an.invest.model.retrofit.RetrofitService
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
@@ -22,6 +24,8 @@ class AnimeViewModel: ViewModel() {
 
 
     private val database = AnimeDatabase.get()
+
+    private lateinit var retrofit: RetrofitService
 
 
     private val _allNames: MutableLiveData<List<String>> by lazy {
@@ -57,6 +61,7 @@ class AnimeViewModel: ViewModel() {
         getAvailableAnimeList()
         getRandomQuotes()
         getCharacters()
+        retrofit = Common.retrofit
     }
 
 
@@ -92,18 +97,22 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun getQuotesByAnime(url: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.postValue(PENDING)
-            getQuotesByAnimeTitle(url)
-        }
+    fun getQuotesByTitle(title: String):Flow<PagingData<AnimeChan>>{
+        return Pager(PagingConfig
+            (10, enablePlaceholders = true),
+            pagingSourceFactory = {
+                AnimeNamePagerSource(retrofit, title)
+            }
+        ).flow
     }
 
-    fun getQuotesByAnimeCharacter(name: String){
-        viewModelScope.launch(Dispatchers.IO){
-            _state.postValue(PENDING)
-            quotesByAnimeCharacter(name)
-        }
+    fun getQuotesByAnimeCharacter(character: String):Flow<PagingData<AnimeChan>>{
+        return Pager(PagingConfig
+            (10, enablePlaceholders = true),
+            pagingSourceFactory = {
+                AnimeCharacterPageSource(retrofit, character)
+            }
+        ).flow
     }
 
 
@@ -206,40 +215,7 @@ class AnimeViewModel: ViewModel() {
 
 
 
-    private suspend fun quotesByAnimeCharacter(name: String){
-        try {
-            val response = Common.retrofit.getQuotesByAnimeCharacter(name)
-            if(response.isSuccessful){
-                val listQuotes = response.body()
-                _quotesByCharacter.postValue(listQuotes)
-                _state.postValue(SUCCESS)
-            } else {
-                val errorResponse = response.errorBody().toString()
-                Log.e("ErrorResponse", errorResponse )
-                _state.postValue(FAIL)
-            }
-        } catch (e:Exception){
-            _state.postValue(FAIL)
-            Log.e("Exception", e.toString())
-        }
-    }
 
-
-    private suspend fun getQuotesByAnimeTitle(url: String) {
-        try {
-            val response = Common.retrofit.getQuotesByAnimeName(url)
-            if(response.isSuccessful){
-                val quotes = response.body()
-                _quotesByTitle.postValue(quotes)
-                _state.postValue(SUCCESS)
-            } else {
-                val error = response.errorBody()
-                Log.e("ERROR", "$error")
-            }
-        } catch (e: Exception) {
-            _state.postValue(FAIL)
-        }
-    }
 
 
 

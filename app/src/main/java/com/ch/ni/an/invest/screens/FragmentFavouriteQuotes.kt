@@ -31,11 +31,12 @@ class FragmentFavouriteQuotes: BaseFragment(), SwipeListenerDelete {
     }
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
-        if (item.itemId == R.id.listAvailableAnime) {
-            findNavController().popBackStack()
+        if(item.itemId == R.id.homeFragment){
+                findNavController().navigate(
+                    R.id.action_FragmentFavouriteQuotes_to_FragmentStart
+                )
         }
         return super.onOptionsItemSelected(item)
-
     }
 
 

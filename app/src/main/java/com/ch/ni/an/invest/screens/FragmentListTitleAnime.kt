@@ -63,7 +63,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
         if(item.itemId == R.id.favouriteQuotes){
-            findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentFavouriteQuotes)
+            findNavController().navigate(
+                R.id.action_FragmentListTitleAnime_to_FragmentFavouriteQuotes
+            )
         }
         return super.onOptionsItemSelected(item)
     }
@@ -120,10 +122,8 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     override fun clickListener(anime :String) {
         if (key == SEARCH_BY_TITLE) {
-            myModel.getQuotesByAnime(anime)
             findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeTitle)
         } else {
-            myModel.getQuotesByAnimeCharacter(anime)
             findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeCharacter)
         }
 

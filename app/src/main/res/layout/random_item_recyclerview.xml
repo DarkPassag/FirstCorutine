@@ -13,16 +13,18 @@
     <TextView
         android:id="@+id/animeNameTextView"
         style="@style/TextAppearance.AppCompat.Title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Naruto"
-        android:layout_margin="4dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/example"
         android:textIsSelectable="true"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/favouriteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Naruto" />
 
     <ImageButton
         android:id="@+id/favouriteButton"
@@ -48,7 +50,6 @@
         app:layout_constraintTop_toBottomOf="@id/animeNameTextView"
         android:text="@string/example"
         android:textIsSelectable="true"
-
         android:textSize="24sp" />
 
     <TextView
