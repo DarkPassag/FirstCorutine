@@ -31,6 +31,10 @@ interface AnimeDao {
     @Delete
     suspend fun deleteQuote(quote :FavouriteAnimeChan)
 
+    @Query("SELECT * FROM quotes WHERE anime='Naruto'")
+    suspend fun getQuotesNaruto(): List<AnimeChan>
+
+
 
 
 

@@ -126,7 +126,7 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
     }
 
     override fun deleteQuote(animeChan :FavouriteAnimeChan) {
-        myModel.deleteQuote(animeChan)
+        myModel.deleteQuote1(animeChan)
     }
 
 }

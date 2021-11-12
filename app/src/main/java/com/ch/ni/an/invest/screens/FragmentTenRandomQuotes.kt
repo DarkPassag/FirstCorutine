@@ -101,7 +101,7 @@ class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, Favour
     }
 
     override fun deleteQuote(animeChan :FavouriteAnimeChan) {
-        myModel.deleteQuote(animeChan)
+        myModel.deleteQuote1(animeChan)
     }
 
 }

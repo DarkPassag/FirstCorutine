@@ -122,7 +122,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
     override fun deleteQuote(animeChan :FavouriteAnimeChan) {
-        myModel.deleteQuote(animeChan)
+        myModel.deleteQuote1(animeChan)
     }
 
     override suspend fun loadImage(characterName :String) :String {
