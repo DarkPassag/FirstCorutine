@@ -12,12 +12,14 @@ import com.ch.ni.an.invest.adapters.QuoteByAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     private lateinit var adapter :QuoteByAnimeTitleAdapter
     private val myModel :AnimeViewModel by activityViewModels()
     private val mModel :MyQuotesViewModel by activityViewModels()
+    private lateinit var title: String
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -77,9 +80,13 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
                 }
             })
         }
+        myModel.character.observe(viewLifecycleOwner, {
+            title = it
+        })
 
         lifecycleScope.launch {
-            myModel.getQuotesByTitle("Naruto").collectLatest {
+            delay(500)
+            myModel.getQuotesByTitle(title).collectLatest {
                 adapter.submitData(it)
                 recyclerView.adapter = adapter
             }
@@ -99,8 +106,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         bind.recyclerView.visibility = View.GONE
     }
 
-    override fun checkInRoom(quote :AnimeChan) :Boolean {
-        mModel.loadListFavouriteQuote()
+    override fun checkInRoom(quote :FavouriteAnimeChan) :Boolean {
         return mModel.checkQuote(quote)
     }
 
@@ -111,11 +117,11 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         )
     }
 
-    override fun addQuote(animeChan :AnimeChan) {
+    override fun addQuote(animeChan :FavouriteAnimeChan) {
         myModel.addQuote(animeChan)
     }
 
-    override fun deleteQuote(animeChan :AnimeChan) {
+    override fun deleteQuote(animeChan :FavouriteAnimeChan) {
         myModel.deleteQuote(animeChan)
     }
 

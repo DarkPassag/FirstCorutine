@@ -12,6 +12,7 @@ import com.ch.ni.an.invest.adapters.ListAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentListTitleNameBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
@@ -122,15 +123,17 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     override fun clickListener(anime :String) {
         if (key == SEARCH_BY_TITLE) {
+            myModel.character.postValue(anime)
             findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeTitle)
         } else {
+            myModel.character.postValue(anime)
             findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentQuotesByAnimeCharacter)
         }
 
     }
 
-    override fun addQuote(animeChan :AnimeChan) {}
+    override fun addQuote(animeChan :FavouriteAnimeChan) {}
 
-    override fun deleteQuote(animeChan :AnimeChan) {}
+    override fun deleteQuote(animeChan :FavouriteAnimeChan) {}
 
 }

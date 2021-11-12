@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.MyquoteRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 
 class FavouriteQuotesAdapter(
     private val swipeListenerDelete :SwipeListenerDelete
     ) : RecyclerView.Adapter<FavouriteQuotesAdapter.MyQuoteHolder>() {
 
-    var setList: List<AnimeChan> = emptyList()
+    var setList: List<FavouriteAnimeChan> = emptyList()
         set(value) {
             val diffCall = AnimeQuoteDiffUtil(field, value)
             val result = DiffUtil.calculateDiff(diffCall)
@@ -51,8 +52,8 @@ class FavouriteQuotesAdapter(
 }
 
 class AnimeQuoteDiffUtil(
-    private val oldList: List<AnimeChan>,
-    private val newList: List<AnimeChan>
+    private val oldList: List<FavouriteAnimeChan>,
+    private val newList: List<FavouriteAnimeChan>
 ) : DiffUtil.Callback(){
     override fun getOldListSize() :Int = oldList.size
 
@@ -61,7 +62,7 @@ class AnimeQuoteDiffUtil(
     override fun areItemsTheSame(oldItemPosition :Int, newItemPosition :Int) :Boolean {
        val oldItem = oldList[oldItemPosition]
        val newItem = newList[newItemPosition]
-        return oldItem.quote == newItem.quote
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItemPosition :Int, newItemPosition :Int) :Boolean {

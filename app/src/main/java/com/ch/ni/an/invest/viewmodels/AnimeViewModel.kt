@@ -12,6 +12,7 @@ import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
+import com.ch.ni.an.invest.utills.PAGE_SIZE
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import kotlinx.coroutines.Dispatchers
@@ -23,9 +24,11 @@ import java.lang.Exception
 class AnimeViewModel: ViewModel() {
 
 
-    private val database = AnimeDatabase.get()
+    private val database = AnimeDatabase.getDatabase()
 
     private lateinit var retrofit: RetrofitService
+
+
 
 
     private val _allNames: MutableLiveData<List<String>> by lazy {
@@ -41,18 +44,11 @@ class AnimeViewModel: ViewModel() {
     val randomQuotes: LiveData<List<AnimeChan>> = _randomQuotes
 
 
-    private val _quotesByTitle = MutableLiveData<List<AnimeChan>>()
-    val quotesByTitle: LiveData<List<AnimeChan>> = _quotesByTitle
-
-    private val _quotesByCharacter = MutableLiveData<List<AnimeChan>>()
-    val quotesByCharacter: LiveData<List<AnimeChan>> = _quotesByCharacter
-
+    val character: MutableLiveData<String> = MutableLiveData()
 
     private var listAnime = emptyList<String>()
 
-
     var tempList: MutableList<String> = mutableListOf()
-
 
     private val _state = MutableLiveData<STATE>()
     val state: LiveData<STATE> = _state
@@ -99,7 +95,7 @@ class AnimeViewModel: ViewModel() {
 
     fun getQuotesByTitle(title: String):Flow<PagingData<AnimeChan>>{
         return Pager(PagingConfig
-            (10, enablePlaceholders = true),
+            (10, 5, enablePlaceholders = true, PAGE_SIZE*2),
             pagingSourceFactory = {
                 AnimeNamePagerSource(retrofit, title)
             }
@@ -108,11 +104,11 @@ class AnimeViewModel: ViewModel() {
 
     fun getQuotesByAnimeCharacter(character: String):Flow<PagingData<AnimeChan>>{
         return Pager(PagingConfig
-            (10, enablePlaceholders = true),
-            pagingSourceFactory = {
-                AnimeCharacterPageSource(retrofit, character)
-            }
-        ).flow
+                (10, 5, enablePlaceholders = true, PAGE_SIZE*2),
+                pagingSourceFactory = {
+                    AnimeCharacterPageSource(retrofit, character)
+                }
+            ).flow
     }
 
 
@@ -138,13 +134,13 @@ class AnimeViewModel: ViewModel() {
 
     }
 
-    fun addQuote(quote :AnimeChan){
+    fun addQuote(quote :FavouriteAnimeChan){
         viewModelScope.launch(Dispatchers.IO){
             database.animeDao().insertQuote(quote)
         }
     }
 
-    fun deleteQuote(quote :AnimeChan){
+    fun deleteQuote(quote :FavouriteAnimeChan){
         viewModelScope.launch(Dispatchers.IO){
             database.animeDao().deleteQuote(quote)
         }
@@ -152,47 +148,24 @@ class AnimeViewModel: ViewModel() {
 
 
 
-    private suspend fun getImage(characterName :String): String {
-        try {
-            val paramObject = JSONObject()
-            paramObject.put(
-                "query",
-                "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
-            )
-            val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
 
-            val data = JSONObject(dataAnimeList).optString("data")
-            val character = JSONObject(data).optString("Character")
-            val image = JSONObject(character).optString("image")
-            val name = JSONObject(character).optString("name")
-            val large = JSONObject(image).optString("large")
-            val full = JSONObject(name).optString("full")
-            val native = JSONObject(name).optString("native")
-
-
-            val animeName = NameCharacter(full, native)
-            val animeImage = PhotoCharacter(large)
-            val animeCharacter = AnimePerson(animeName, animeImage)
-            Log.e("handleParse", animeCharacter.toString())
-            return large
-        } catch (e:Exception){
-            Log.e("Invalid query", e.toString())
-            return ""
-        }
-
-    }
 
     fun getCharacters(){
         viewModelScope.launch(Dispatchers.IO){
-            val a = database.animeDao().getAllCharacter()
-            listName = a
-            _allNames.postValue(a)
+            val allCharacters = database.animeDao().getNameCharacters()
+            listName = allCharacters
+            _allNames.postValue(allCharacters)
         }
     }
 
 
     suspend fun getUrlForLoad(characterName :String): String{
-        return getImage(characterName)
+        return try {
+            database.animeDao().getURL(characterName)
+        } catch (e:Exception){
+            Log.e("BadQuery", e.toString())
+            ""
+        }
     }
 
     private suspend fun getQuotes(){
@@ -212,6 +185,36 @@ class AnimeViewModel: ViewModel() {
             Log.e("Exception", e.toString())
         }
     }
+
+//    private suspend fun getImage(characterName :String): String {
+//        try {
+//            val paramObject = JSONObject()
+//            paramObject.put(
+//                "query",
+//                "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
+//            )
+//            val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
+//
+//            val data = JSONObject(dataAnimeList).optString("data")
+//            val character = JSONObject(data).optString("Character")
+//            val image = JSONObject(character).optString("image")
+//            val name = JSONObject(character).optString("name")
+//            val large = JSONObject(image).optString("large")
+//            val full = JSONObject(name).optString("full")
+//            val native = JSONObject(name).optString("native")
+//
+//
+//            val animeName = NameCharacter(full, native)
+//            val animeImage = PhotoCharacter(large)
+//            val animeCharacter = AnimePerson(animeName, animeImage)
+//            Log.e("handleParse", animeCharacter.toString())
+//            return large
+//        } catch (e:Exception){
+//            Log.e("Invalid query", e.toString())
+//            return ""
+//        }
+//
+//    }
 
 
 

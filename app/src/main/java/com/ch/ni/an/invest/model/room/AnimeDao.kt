@@ -3,29 +3,37 @@ package com.ch.ni.an.invest.model.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ch.ni.an.invest.model.AnimeChan
-import com.ch.ni.an.invest.model.CharactersAnime
+import com.ch.ni.an.invest.model.CharacterWithPhoto
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 
 
 @Dao
 interface AnimeDao {
 
     @Query("SELECT * FROM quotes")
-    fun getAll(): LiveData<List<AnimeChan>>
+    fun getQuotesFromDB(): LiveData<List<AnimeChan>>
 
-    @Query("SELECT * FROM quotes")
-    suspend fun getAllForCheck(): List<AnimeChan>
+    @Query("SELECT DISTINCT character FROM quotes")
+    suspend fun getNameCharacters(): List<String>
+
+    @Query("SELECT * FROM favourite_quote")
+    fun getFavouriteQuote(): LiveData<List<FavouriteAnimeChan>>
+
+    @Query("SELECT * FROM characters_with_photo")
+    suspend fun getCharacterWithPhoto(): List<CharacterWithPhoto>
+
+    @Query("SELECT url FROM characters_with_photo WHERE character=:character ")
+    suspend fun getURL(character:String): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertQuote(quote: AnimeChan)
+    suspend fun insertQuote(quote: FavouriteAnimeChan)
 
     @Delete
-    suspend fun deleteQuote(quote :AnimeChan)
+    suspend fun deleteQuote(quote :FavouriteAnimeChan)
 
-    @Query("SELECT * FROM characters_table")
-    suspend fun getAllCharacter() : List<String>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCharacter(animeCharacter :CharactersAnime)
+
+
 
 
 }

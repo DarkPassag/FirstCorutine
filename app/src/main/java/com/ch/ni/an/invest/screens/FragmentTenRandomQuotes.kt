@@ -11,6 +11,7 @@ import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.TenRandomQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
@@ -89,18 +90,17 @@ class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, Favour
 
     }
 
-    override fun checkInRoom(quote :AnimeChan) :Boolean {
-        mModel.loadListFavouriteQuote()
+    override fun checkInRoom(quote :FavouriteAnimeChan) :Boolean {
         return mModel.checkQuote(quote)
     }
 
     override fun clickListener(anime :String) {}
 
-    override fun addQuote(animeChan :AnimeChan) {
+    override fun addQuote(animeChan :FavouriteAnimeChan) {
         myModel.addQuote(animeChan)
     }
 
-    override fun deleteQuote(animeChan :AnimeChan) {
+    override fun deleteQuote(animeChan :FavouriteAnimeChan) {
         myModel.deleteQuote(animeChan)
     }
 

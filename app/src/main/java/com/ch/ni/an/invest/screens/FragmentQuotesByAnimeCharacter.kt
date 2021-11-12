@@ -12,12 +12,14 @@ import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.QuoteByAnimeCharacterAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimecharacterQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,6 +34,7 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
 
     private lateinit var recyclerView :RecyclerView
     private lateinit var adapter :QuoteByAnimeCharacterAdapter
+    private lateinit var character: String
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -74,6 +77,10 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
         super.onViewCreated(view, savedInstanceState)
         mModel.myQuotes.observe(viewLifecycleOwner, {})
 
+        myModel.character.observe(viewLifecycleOwner, {
+            character = it
+        })
+
         myModel.state.observe(viewLifecycleOwner, {
                 when (it) {
                     STATE.PENDING -> pendingUI()
@@ -83,7 +90,8 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
             })
 
         lifecycleScope.launch {
-            myModel.getQuotesByAnimeCharacter("Madara Uchiha").collectLatest {
+            delay(500)
+            myModel.getQuotesByAnimeCharacter(character).collectLatest {
                 adapter.submitData(it)
                 recyclerView.adapter = adapter
             }
@@ -107,18 +115,17 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
         return myModel.getUrlForLoad(characterName)
     }
 
-    override fun checkInRoom(quote :AnimeChan) :Boolean {
-        mModel.loadListFavouriteQuote()
+    override fun checkInRoom(quote :FavouriteAnimeChan) :Boolean {
         return mModel.checkQuote(quote)
     }
 
     override fun clickListener(animeName :String) {}
 
-    override fun addQuote(animeChan :AnimeChan) {
+    override fun addQuote(animeChan :FavouriteAnimeChan) {
         myModel.addQuote(animeChan)
     }
 
-    override fun deleteQuote(animeChan :AnimeChan) {
+    override fun deleteQuote(animeChan :FavouriteAnimeChan) {
         myModel.deleteQuote(animeChan)
     }
 

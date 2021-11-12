@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RandomItemRecyclerviewBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
@@ -40,15 +41,16 @@ class TenRandomQuotesAdapter(
         holder.bind.animeCharacterTextView.text = item.character
         holder.bind.animeQuoteTextView.text = item.quote
         val favouriteButton = holder.bind.favouriteButton
-        var flag = chekFlag(item)
-        checkFavourite(favouriteButton, item)
+        val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
+        var flag = chekFlag(newItem)
+        checkFavourite(favouriteButton, newItem)
         favouriteButton.setOnClickListener {
             flag = if (flag == 0) {
-                clickListener.deleteQuote(item)
+                clickListener.deleteQuote(newItem)
                 favouriteButton.setImageResource(R.drawable.ic_no_favourite)
                 1
             } else {
-                clickListener.addQuote(item)
+                clickListener.addQuote(newItem)
                 favouriteButton.setImageResource(R.drawable.ic_favourite)
                 0
             }
@@ -59,14 +61,14 @@ class TenRandomQuotesAdapter(
 
     override fun getItemCount(): Int = randomQuotes.size
 
-    private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
+    private fun checkFavourite(imageButton :ImageButton, item: FavouriteAnimeChan){
         if(favouriteCheck.checkInRoom(item)){
             imageButton.setImageResource(R.drawable.ic_favourite)
         } else {
             imageButton.setImageResource(R.drawable.ic_no_favourite)
         }
     }
-    private fun chekFlag(item :AnimeChan): Int{
+    private fun chekFlag(item :FavouriteAnimeChan): Int{
         return if(favouriteCheck.checkInRoom(item)) 0 else 1
     }
 }

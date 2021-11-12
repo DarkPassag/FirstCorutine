@@ -10,17 +10,18 @@
     android:elevation="12dp"
     android:padding="16dp">
 
+
     <ImageView
-        android:id="@+id/characterPhotoImageView"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:src="@drawable/card_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/characterPhotoImageView"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:contentDescription="@string/character_image"/>
+
 
     <TextView
         android:id="@+id/characterNameTextView"

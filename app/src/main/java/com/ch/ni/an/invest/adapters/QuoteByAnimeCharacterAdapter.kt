@@ -51,7 +51,7 @@ class QuoteByAnimeCharacterAdapter(
         }
 
         override fun areContentsTheSame(oldItem :AnimeChan, newItem :AnimeChan) :Boolean {
-            return oldItem == newItem
+            return oldItem.quote == newItem.quote
         }
     }
 

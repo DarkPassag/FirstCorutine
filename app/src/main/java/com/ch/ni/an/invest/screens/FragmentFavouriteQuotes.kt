@@ -12,6 +12,7 @@ import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.FavouriteQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentMyQuotesBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 import com.ch.ni.an.invest.utills.SwipeToDeleteCallback
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
@@ -66,7 +67,7 @@ class FragmentFavouriteQuotes: BaseFragment(), SwipeListenerDelete {
         })
     }
 
-    override fun deleteQuote(quote :AnimeChan) {
+    override fun deleteQuote(quote :FavouriteAnimeChan) {
         myModel.deleteQuote(quote)
     }
 

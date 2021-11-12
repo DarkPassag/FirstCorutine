@@ -7,12 +7,14 @@ import coil.transform.RoundedCornersTransformation
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RecyclerviewItemQuotesByCharacterBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class QuotesByAnimeCharacterHolder(
     private val clickListener :RecyclerViewClickListener,
@@ -24,15 +26,16 @@ class QuotesByAnimeCharacterHolder(
         fun bind(item :AnimeChan){
             binding.quoteByCharacterTextView.text = item.quote
             val favouriteButton = binding.favouriteButton
-            var flag = chekFlag(item)
-            checkFavourite(favouriteButton, item)
+            val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
+            var flag = chekFlag(newItem)
+            checkFavourite(favouriteButton, newItem)
             favouriteButton.setOnClickListener {
                 flag = if (flag == 0) {
-                    clickListener.deleteQuote(item)
+                    clickListener.deleteQuote(newItem)
                     favouriteButton.setImageResource(R.drawable.ic_no_favourite)
                     1
                 } else {
-                    clickListener.addQuote(item)
+                    clickListener.addQuote(newItem)
                     favouriteButton.setImageResource(R.drawable.ic_favourite)
                     0
                 }
@@ -50,14 +53,14 @@ class QuotesByAnimeCharacterHolder(
             }
         }
 
-    private fun checkFavourite(imageButton :ImageButton, item: AnimeChan){
+    private fun checkFavourite(imageButton :ImageButton, item:FavouriteAnimeChan){
         if(favouriteCheck.checkInRoom(item)){
             imageButton.setImageResource(R.drawable.ic_favourite)
         } else {
             imageButton.setImageResource(R.drawable.ic_no_favourite)
         }
     }
-    private fun chekFlag(item :AnimeChan): Int{
+    private fun chekFlag(item :FavouriteAnimeChan): Int{
         return if(favouriteCheck.checkInRoom(item)) 0 else 1
     }
     }

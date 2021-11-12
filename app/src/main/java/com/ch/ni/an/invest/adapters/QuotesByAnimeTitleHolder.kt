@@ -4,9 +4,13 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
+import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
@@ -30,25 +34,25 @@ class QuotesByAnimeTitleHolder(
         CoroutineScope(Dispatchers.IO).launch {
             val urlForImage = getImage.loadImage(item.character!!)
             CoroutineScope(Dispatchers.Main).launch {
-                binding.characterPhotoImageView.load(urlForImage) {
-                    error(R.drawable.ic_image)
-                    crossfade(true)
-                    crossfade(300)
-                    transformations(RoundedCornersTransformation(50f))
-                }
+                Glide.with(itemView)
+                    .load(urlForImage)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+                    .placeholder(R.drawable.ic_image)
+                    .into(binding.characterPhotoImageView)
             }
         }
 
         val favouriteButton = binding.favouriteButton
-        var flag = chekFlag(item)
-        checkFavourite(favouriteButton, item)
+        val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
+        var flag = chekFlag(newItem)
+        checkFavourite(favouriteButton, newItem)
         favouriteButton.setOnClickListener {
             flag = if (flag == 0) {
-                clickListener.deleteQuote(item)
+                clickListener.deleteQuote(newItem)
                 favouriteButton.setImageResource(R.drawable.ic_no_favourite)
                 1
             } else {
-                clickListener.addQuote(item)
+                clickListener.addQuote(newItem)
                 favouriteButton.setImageResource(R.drawable.ic_favourite)
                 0
             }
@@ -56,7 +60,7 @@ class QuotesByAnimeTitleHolder(
     }
 
 
-    private fun checkFavourite(imageButton :ImageButton, item :AnimeChan) {
+    private fun checkFavourite(imageButton :ImageButton, item :FavouriteAnimeChan) {
         if (favouriteCheck.checkInRoom(item)) {
             imageButton.setImageResource(R.drawable.ic_favourite)
         } else {
@@ -64,7 +68,7 @@ class QuotesByAnimeTitleHolder(
         }
     }
 
-    private fun chekFlag(item :AnimeChan) :Int {
+    private fun chekFlag(item :FavouriteAnimeChan) :Int {
         return if (favouriteCheck.checkInRoom(item)) 0 else 1
     }
 }
