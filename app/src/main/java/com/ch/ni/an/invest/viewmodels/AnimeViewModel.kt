@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
 
-class AnimeViewModel: ViewModel(), AnimeDao {
+class AnimeViewModel: ViewModel() {
 
 
     private val database = AnimeDatabase.getDatabase()
@@ -98,7 +98,7 @@ class AnimeViewModel: ViewModel(), AnimeDao {
         return Pager(PagingConfig
             (10, 5, enablePlaceholders = true, PAGE_SIZE*2),
             pagingSourceFactory = {
-                AnimeNamePagerSource(retrofit, title, this)
+                AnimeNamePagerSource(retrofit, title, database.animeDao())
             }
         ).flow
     }
@@ -188,31 +188,7 @@ class AnimeViewModel: ViewModel(), AnimeDao {
         }
     }
 
-    override fun getQuotesFromDB() :LiveData<List<AnimeChan>> {
-        return database.animeDao().getQuotesFromDB()
-    }
 
-    override suspend fun getNameCharacters() :List<String> = emptyList()
-
-    override fun getFavouriteQuote() :LiveData<List<FavouriteAnimeChan>> {
-        return database.animeDao().getFavouriteQuote()
-    }
-
-    override suspend fun getCharacterWithPhoto() :List<CharacterWithPhoto> = emptyList()
-
-    override suspend fun getURL(character :String) :String = ""
-
-    override suspend fun insertQuote(quote :FavouriteAnimeChan){}
-    override suspend fun deleteQuote(quote :FavouriteAnimeChan) {}
-
-
-    override suspend fun getQuotesNaruto() : List<AnimeChan> {
-        var fuckingTempList: List<AnimeChan> = emptyList()
-        viewModelScope.launch(Dispatchers.IO){
-            fuckingTempList = database.animeDao().getQuotesNaruto()
-        }
-        return fuckingTempList
-    }
 
 
 //    private suspend fun getImage(characterName :String): String {

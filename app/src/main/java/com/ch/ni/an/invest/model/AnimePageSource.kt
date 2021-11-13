@@ -47,6 +47,7 @@ class AnimeNamePagerSource(
     private val query :String,
     private val dbService :AnimeDao,
 ) : PagingSource<Int, AnimeChan>() {
+
     override fun getRefreshKey(state :PagingState<Int, AnimeChan>) :Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
@@ -60,15 +61,20 @@ class AnimeNamePagerSource(
         }
         val page = params.key ?: 0
 
-        if (query == "Naruto") {
-            Log.e("Query", "NarutoQuery")
-            val quotes = dbService.getQuotesNaruto()
-            val nexKey = if (quotes.size < PAGE_SIZE) null else page + 2
-            val prevKey = if (page == 0) null else page - 1
-            LoadResult.Page(quotes, prevKey, nexKey)
-        }
+        val quotes :List<AnimeChan> = dbService.getQuotesFromDB(query)
+        val nexKey = if (quotes.size < PAGE_SIZE) {
+           return getQuotesByNetwork(query, page, service)
+        } else page + 2
+        val prevKey = if (page == 0) null else page - 1
 
-        return try {
+        return LoadResult.Page(quotes, prevKey, nexKey)
+
+
+
+    }
+
+    private suspend fun getQuotesByNetwork(query: String, page:Int, service :RetrofitService):LoadResult<Int, AnimeChan>{
+       return try {
             val response = service.getQuotesByAnimeName(query, page)
             if (response.isSuccessful) {
                 val quotes = checkNotNull(response.body())
@@ -80,6 +86,7 @@ class AnimeNamePagerSource(
             Log.e("Tag", e.toString())
             LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
+
     }
 }
 

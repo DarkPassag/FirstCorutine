@@ -10,8 +10,8 @@ import com.ch.ni.an.invest.model.FavouriteAnimeChan
 @Dao
 interface AnimeDao {
 
-    @Query("SELECT * FROM quotes")
-    fun getQuotesFromDB(): LiveData<List<AnimeChan>>
+    @Query("SELECT * FROM quotes WHERE anime=:title")
+    suspend fun getQuotesFromDB(title: String): List<AnimeChan>
 
     @Query("SELECT DISTINCT character FROM quotes")
     suspend fun getNameCharacters(): List<String>

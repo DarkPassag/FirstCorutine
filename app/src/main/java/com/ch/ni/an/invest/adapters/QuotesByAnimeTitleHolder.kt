@@ -34,13 +34,22 @@ class QuotesByAnimeTitleHolder(
         CoroutineScope(Dispatchers.IO).launch {
             val urlForImage = getImage.loadImage(item.character!!)
             CoroutineScope(Dispatchers.Main).launch {
-                Glide.with(itemView)
-                    .load(urlForImage)
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
-                    .placeholder(R.drawable.ic_image)
-                    .into(binding.characterPhotoImageView)
+                binding.characterPhotoImageView.load(urlForImage) {
+                    crossfade(true)
+                    crossfade(1000)
+                    transformations(RoundedCornersTransformation(36F))
+                    error(R.drawable.ic_image)
+                }
+
             }
         }
+//        Glide.with(itemView)
+//                    .load(urlForImage)
+//                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+//                    .placeholder(R.drawable.ic_image)
+//                    .into(binding.characterPhotoImageView)
+
+
 
         val favouriteButton = binding.favouriteButton
         val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
