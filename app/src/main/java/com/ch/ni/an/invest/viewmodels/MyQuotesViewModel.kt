@@ -1,11 +1,9 @@
 package com.ch.ni.an.invest.viewmodels
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import kotlinx.coroutines.Dispatchers
@@ -26,15 +24,23 @@ class MyQuotesViewModel: ViewModel() {
     fun deleteQuote(quote: FavouriteAnimeChan){
         viewModelScope.launch(Dispatchers.IO) {
             database.deleteQuote(quote)
+            loadFavouriteQuotes()
         }
     }
 
 
 
     fun checkQuote(quote :FavouriteAnimeChan): Boolean {
-        Log.e("TAG", "${listQuote.contains(quote)}")
+            loadFavouriteQuotes()
            return listQuote.contains(quote)
         }
+
+    private fun loadFavouriteQuotes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tempList :List<FavouriteAnimeChan> = database.loadFavouriteQuotes()
+            listQuote = tempList
+        }
+    }
 
 
 

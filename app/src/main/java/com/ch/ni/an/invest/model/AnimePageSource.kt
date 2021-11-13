@@ -62,9 +62,9 @@ class AnimeNamePagerSource(
         val page = params.key ?: 0
 
         val quotes :List<AnimeChan> = dbService.getQuotesFromDB(query)
-        val nexKey = if (quotes.size < PAGE_SIZE) {
+        val nexKey = if (quotes.size < PAGE_SIZE && page > 0) {
            return getQuotesByNetwork(query, page, service)
-        } else page + 2
+        } else if  (quotes.size < PAGE_SIZE) null else page + 2
         val prevKey = if (page == 0) null else page - 1
 
         return LoadResult.Page(quotes, prevKey, nexKey)

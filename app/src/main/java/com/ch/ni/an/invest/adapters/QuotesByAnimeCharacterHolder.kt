@@ -26,7 +26,7 @@ class QuotesByAnimeCharacterHolder(
         fun bind(item :AnimeChan){
             binding.quoteByCharacterTextView.text = item.quote
             val favouriteButton = binding.favouriteButton
-            val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
+            val newItem = FavouriteAnimeChan(anime = item.anime, character = item.character, quote = item.quote)
             var flag = chekFlag(newItem)
             checkFavourite(favouriteButton, newItem)
             favouriteButton.setOnClickListener {
@@ -41,7 +41,7 @@ class QuotesByAnimeCharacterHolder(
                 }
             }
             CoroutineScope(Dispatchers.IO).launch {
-                val url = getImage.loadImage(item.character!!)
+                val url = getImage.loadImage(item.character)
                 CoroutineScope(Dispatchers.Main).launch {
                     binding.characterPhotoImageView.load(url){
                         transformations(RoundedCornersTransformation(50f))

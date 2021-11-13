@@ -33,10 +33,15 @@ class StartViewModel: ViewModel() {
        return listQuotes.contains(animeChan)
     }
 
+    init {
+        loadFavouriteQuotes()
+    }
+
     private fun addFavouriteQuote(animeChan :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
             database.insertQuote(animeChan)
             _favourite.postValue(true)
+            loadFavouriteQuotes()
         }
     }
 
@@ -45,6 +50,14 @@ class StartViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             database.deleteQuote(animeChan)
             _favourite.postValue(false)
+            loadFavouriteQuotes()
+        }
+    }
+
+    private fun loadFavouriteQuotes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tempList :List<FavouriteAnimeChan> = database.loadFavouriteQuotes()
+            listQuotes = tempList
         }
     }
 

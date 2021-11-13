@@ -135,16 +135,20 @@ class AnimeViewModel: ViewModel() {
 
     }
 
-    fun addQuote(quote :FavouriteAnimeChan){
-        viewModelScope.launch(Dispatchers.IO){
-            database.animeDao().insertQuote(quote)
+    fun addQuote(quote :FavouriteAnimeChan) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val index =
+                database.animeDao().loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            if(index == -1) database.animeDao().insertQuote(quote)
         }
     }
 
 
-    fun deleteQuote1(quote :FavouriteAnimeChan){
-        viewModelScope.launch(Dispatchers.IO){
-            database.animeDao().deleteQuote(quote)
+    fun deleteQuote1(quote :FavouriteAnimeChan) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val index =
+                database.animeDao().loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            if(index == -1) database.animeDao().deleteQuote(quote)
         }
     }
 
