@@ -2,6 +2,7 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -74,7 +75,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
                 when (it) {
                     PENDING -> pendingUI()
                     SUCCESS -> updateUI()
-                    FAIL -> updateUI()
+                    FAIL -> failUi()
                 }
             })
         }
@@ -96,7 +97,10 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
-
+    }
+    private fun failUi(){
+        updateUI()
+        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 
     private fun pendingUI() {

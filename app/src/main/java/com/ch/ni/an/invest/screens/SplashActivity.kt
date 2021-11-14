@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
 import com.ch.ni.an.invest.BaseActivity
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.model.AnimeChan

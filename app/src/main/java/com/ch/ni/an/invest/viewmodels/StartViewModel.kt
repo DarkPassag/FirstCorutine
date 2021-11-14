@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +39,7 @@ class StartViewModel : ViewModel() {
     }
 
     private fun addFavouriteQuote(favouriteAnimeChan :FavouriteAnimeChan) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             val index = listQuotes.indexOfFirst { it.quote == favouriteAnimeChan.quote }
             if (index == -1) {
                 database.insertQuote(favouriteAnimeChan)

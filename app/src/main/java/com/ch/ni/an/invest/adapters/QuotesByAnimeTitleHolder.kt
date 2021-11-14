@@ -4,9 +4,6 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan

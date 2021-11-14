@@ -11,7 +11,6 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.FavouriteQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentMyQuotesBinding
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 import com.ch.ni.an.invest.utills.SwipeToDeleteCallback

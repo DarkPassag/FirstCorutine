@@ -2,21 +2,13 @@ package com.ch.ni.an.invest.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
-import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.RecyclerviewItemBinding
 import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class QuoteByAnimeTitleAdapter(
     private val clickListener :RecyclerViewClickListener,

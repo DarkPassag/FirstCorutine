@@ -6,20 +6,26 @@
     android:layout_height="match_parent">
 
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardConstrainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/first_card_background"
         android:elevation="4dp"
         android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/first_card_background">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -31,12 +37,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textIsSelectable="true"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/favouriteButton"
             app:layout_constraintEnd_toStartOf="@id/favouriteButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/favouriteButton"
-            app:layout_constraintBottom_toBottomOf="@id/favouriteButton"
             tools:text="Madara Uchiha" />
-
 
 
         <ImageButton
@@ -44,10 +49,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:backgroundTint="#00FFFFFF"
+            android:contentDescription="@string/add_or_remove_a_quote_from_favorites"
             android:src="@drawable/ic_no_favourite_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/add_or_remove_a_quote_from_favorites"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -59,11 +64,11 @@
             android:ellipsize="marquee"
             android:fontFamily="casual"
             android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="3"
             android:scrollHorizontally="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textIsSelectable="true"
             android:textSize="16sp"
-            android:maxLines="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/favouriteButton"
@@ -79,30 +84,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/searchByTitleButton"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
         android:background="@drawable/button_background_start"/>
 
     <Button
         android:id="@+id/searchByTitleButton"
         android:layout_width="320dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         android:text="@string/search_quotes_by_anime_title"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/searchByNameButton"
+        app:layout_constraintTop_toBottomOf="@+id/myQuotesButton"
         android:background="@drawable/button_background"/>
 
     <Button
         android:id="@+id/searchByNameButton"
         android:layout_width="320dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         android:text="@string/search_quotes_by_anime_character"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/randomQuotesButton"
+        app:layout_constraintTop_toBottomOf="@id/searchByTitleButton"
         android:background="@drawable/button_background"/>
 
 
@@ -110,23 +115,13 @@
         android:id="@+id/randomQuotesButton"
         android:layout_width="320dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="302dp"
+        android:layout_marginTop="12dp"
         android:text="@string/ten_random_quotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchByNameButton"
         android:background="@drawable/button_background_end"
         />
-
-
-
-
-
-    
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

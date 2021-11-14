@@ -2,6 +2,7 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,6 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.QuoteByAnimeCharacterAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimecharacterQuotesBinding
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE
@@ -83,7 +83,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
             when (it) {
                 STATE.PENDING -> pendingUI()
                 STATE.SUCCESS -> updateUI()
-                STATE.FAIL -> updateUI()
+                STATE.FAIL -> failUi()
             }
         })
 
@@ -101,7 +101,11 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
+    }
 
+    private fun failUi(){
+        updateUI()
+        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 
     private fun pendingUI() {
@@ -118,7 +122,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
         return mModel.checkQuote(quote)
     }
 
-    override fun clickListener(animeName :String) {}
+    override fun clickListener(anime :String) {}
 
     override fun addQuote(animeChan :FavouriteAnimeChan) {
         myModel.addQuote(animeChan)

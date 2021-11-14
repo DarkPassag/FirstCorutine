@@ -1,9 +1,7 @@
 package com.ch.ni.an.invest
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat

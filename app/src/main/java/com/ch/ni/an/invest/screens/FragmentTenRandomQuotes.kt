@@ -10,14 +10,13 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.TenRandomQuotesAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimeTenRandomQuotesBinding
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
-
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 import com.ch.ni.an.invest.viewmodels.STATE
+
 
 class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
 
@@ -30,10 +29,6 @@ class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, Favou
     private lateinit var adapter :TenRandomQuotesAdapter
     private lateinit var recycleView :RecyclerView
 
-
-    override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
     override fun onCreateView(
         inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?,
@@ -54,11 +49,7 @@ class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, Favou
             when (it) {
                 STATE.PENDING -> pending()
                 STATE.SUCCESS -> updateUI()
-                STATE.FAIL -> {
-                    updateUI()
-                    Toast.makeText(requireContext(), R.string.no_internet, Toast.LENGTH_SHORT)
-                        .show()
-                }
+                STATE.FAIL -> failUi()
             }
         })
 
@@ -83,6 +74,11 @@ class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, Favou
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
         bind.updateFAB.visibility = View.VISIBLE
+    }
+
+    private fun failUi(){
+        updateUI()
+        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 
     private fun pending() {

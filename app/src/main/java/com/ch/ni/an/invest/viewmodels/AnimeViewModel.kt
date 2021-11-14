@@ -8,26 +8,25 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.ch.ni.an.invest.model.*
 import com.ch.ni.an.invest.model.retrofit.Common
-import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
-import com.ch.ni.an.invest.model.room.AnimeDao
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 import com.ch.ni.an.invest.utills.PAGE_SIZE
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import java.lang.Exception
+
 
 class AnimeViewModel: ViewModel() {
 
 
     private val database = AnimeDatabase.getDatabase().animeDao()
 
-    private lateinit var retrofit :RetrofitService
+    private var retrofit :RetrofitService
 
 
     private val _allNames :MutableLiveData<List<String>> by lazy {
@@ -161,7 +160,7 @@ class AnimeViewModel: ViewModel() {
             database.getURL(characterName)
         } catch (e :Exception) {
             Log.e("BadQuery", e.toString())
-            ""
+            "null"
         }
     }
 

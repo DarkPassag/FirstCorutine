@@ -2,7 +2,6 @@ package com.ch.ni.an.invest.screens
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +60,7 @@ class FragmentStart : Fragment() {
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
+        _bind = null
     }
 
     private fun updateUi(){
@@ -99,4 +99,6 @@ class FragmentStart : Fragment() {
             findNavController().navigate(R.id.action_FragmentStart_to_FragmentTenRandomQuotes)
         }
     }
+
+
 }

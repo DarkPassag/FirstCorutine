@@ -37,8 +37,6 @@ class ListAnimeTitleAdapter(
 ) : RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
 
 
-    private var lastPosition :Int = -1
-
     var listAnime :List<String> = emptyList()
         set(value) {
             val callback = AnimeDiff(field, value)

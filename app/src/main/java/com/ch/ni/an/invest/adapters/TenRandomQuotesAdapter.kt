@@ -43,8 +43,8 @@ class TenRandomQuotesAdapter(
         holder.bind.animeCharacterTextView.text = item.character
         holder.bind.animeQuoteTextView.text = item.quote
         val favouriteButton = holder.bind.favouriteButton
-        val newItem = FavouriteAnimeChan(anime = item.anime!!,
-            character = item.character!!,
+        val newItem = FavouriteAnimeChan(anime = item.anime,
+            character = item.character,
             quote = item.quote)
         var flag = chekFlag(newItem)
         checkFavourite(favouriteButton, newItem)

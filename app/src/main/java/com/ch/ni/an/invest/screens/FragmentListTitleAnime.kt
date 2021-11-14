@@ -2,6 +2,7 @@ package com.ch.ni.an.invest.screens
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,6 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.adapters.ListAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentListTitleNameBinding
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE.*
@@ -104,7 +104,7 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
             when (it) {
                 PENDING -> pendingUI()
                 SUCCESS -> updateUI()
-                FAIL -> updateUI()
+                FAIL -> failUi()
             }
         })
 
@@ -114,6 +114,12 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
     }
+
+    private fun failUi(){
+        updateUI()
+        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun pendingUI() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
