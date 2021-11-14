@@ -11,7 +11,6 @@ import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.adapters.QuoteByAnimeTitleAdapter
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
-import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.STATE.*
@@ -33,7 +32,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     private lateinit var adapter :QuoteByAnimeTitleAdapter
     private val myModel :AnimeViewModel by activityViewModels()
     private val mModel :MyQuotesViewModel by activityViewModels()
-    private lateinit var title: String
+    private lateinit var title :String
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -43,9 +42,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
         when (item.itemId) {
             R.id.favouriteQuotes -> {
-                findNavController().navigate(
-                    R.id.action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes
-                )
+                findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes)
             }
             R.id.homeFragment -> {
                 findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentStart)
@@ -55,7 +52,8 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
     override fun onCreateView(
-        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?,
+    ) :View {
         _bind = FragmentAnimenameQuotesBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView
@@ -107,14 +105,13 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
     override fun checkInRoom(quote :FavouriteAnimeChan) :Boolean {
+        mModel.loadFavouriteQuotes()
         return mModel.checkQuote(quote)
     }
 
-    override fun clickListener(animeName :String) {
-        myModel.getQuotesByAnimeCharacter(animeName)
-        findNavController().navigate(
-            R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter
-        )
+    override fun clickListener(anime :String) {
+        myModel.getQuotesByAnimeCharacter(anime)
+        findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter)
     }
 
     override fun addQuote(animeChan :FavouriteAnimeChan) {

@@ -9,41 +9,34 @@ import com.ch.ni.an.invest.model.CharacterWithPhoto
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 
 
-@Database(entities = [
-    AnimeChan::class,
-    CharacterWithPhoto::class,
-    FavouriteAnimeChan::class
-                     ], version = 1, exportSchema = false)
-abstract class AnimeDatabase: RoomDatabase() {
-    abstract fun animeDao(): AnimeDao
+@Database(entities = [AnimeChan::class, CharacterWithPhoto::class, FavouriteAnimeChan::class],
+    version = 1,
+    exportSchema = false)
+abstract class AnimeDatabase : RoomDatabase() {
+    abstract fun animeDao() :AnimeDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: AnimeDatabase? = null
+        private var INSTANCE :AnimeDatabase? = null
 
-        fun initDatabase(context :Context): AnimeDatabase{
+        fun initDatabase(context :Context) :AnimeDatabase {
             val tempInstance = INSTANCE
-            if(tempInstance != null){
+            if (tempInstance != null) {
                 return tempInstance
             }
-            synchronized(this){
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
+            synchronized(this) {
+                val instance = Room.databaseBuilder(context.applicationContext,
                     AnimeDatabase::class.java,
-                    "AnimeDatabase"
-                )
-                    .createFromAsset("AnimeDatabase.db")
-                    .build()
+                    "AnimeDatabase").createFromAsset("AnimeDatabase.db").build()
                 INSTANCE = instance
                 return instance
             }
 
         }
 
-        fun getDatabase(): AnimeDatabase {
-            return INSTANCE ?:
-            throw IllegalStateException("Database must be initialized")
+        fun getDatabase() :AnimeDatabase {
+            return INSTANCE ?: throw IllegalStateException("Database must be initialized")
         }
 
     }

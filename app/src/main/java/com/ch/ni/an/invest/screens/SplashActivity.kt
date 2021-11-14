@@ -15,9 +15,9 @@ import com.ch.ni.an.invest.utills.QUOTE
 import com.ch.ni.an.invest.viewmodels.STATE
 import com.ch.ni.an.invest.viewmodels.SplashViewModel
 
-class SplashActivity: BaseActivity(R.layout.activity_splash) {
+class SplashActivity : BaseActivity(R.layout.activity_splash) {
 
-    private val myModel: SplashViewModel by viewModels()
+    private val myModel :SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState :Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,20 +31,23 @@ class SplashActivity: BaseActivity(R.layout.activity_splash) {
 
         myModel.state.observe(this, {
             when (it) {
-                STATE.SUCCESS -> {}
+                STATE.SUCCESS -> {
+                }
                 STATE.FAIL -> showToast()
-                else -> { }
+                else -> {
+                }
             }
-    })
-}
-    private fun newActivitySuccess(quote:AnimeChan) {
+        })
+    }
+
+    private fun newActivitySuccess(quote :AnimeChan) {
         val intent = Intent(this, MainActivity::class.java)
         putQuote(quote)
         startActivity(intent)
         finish()
     }
 
-    private fun putQuote(quote: AnimeChan){
+    private fun putQuote(quote :AnimeChan) {
         val sharedPreferences = getSharedPreferences(FIRST_LAUNCH, 0)
         sharedPreferences.edit().apply {
             putString(ANIME, quote.anime)
@@ -54,14 +57,12 @@ class SplashActivity: BaseActivity(R.layout.activity_splash) {
     }
 
 
-
-    private fun showToast(){
-        Toast.makeText(
-            this, R.string.no_internet, Toast.LENGTH_LONG
-        ).show()
+    private fun showToast() {
+        Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show()
         newActivityFail()
     }
-    private fun newActivityFail(){
+
+    private fun newActivityFail() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

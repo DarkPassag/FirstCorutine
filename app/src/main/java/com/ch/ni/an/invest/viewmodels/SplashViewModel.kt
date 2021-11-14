@@ -12,30 +12,30 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class SplashViewModel: ViewModel() {
+class SplashViewModel : ViewModel() {
 
-    private val _state: MutableLiveData<STATE> = MutableLiveData()
-    val state: LiveData<STATE> = _state
+    private val _state :MutableLiveData<STATE> = MutableLiveData()
+    val state :LiveData<STATE> = _state
 
     private val _randomQuote = MutableLiveData<AnimeChan>()
-    val randomQuote:LiveData<AnimeChan> = _randomQuote
+    val randomQuote :LiveData<AnimeChan> = _randomQuote
 
-    private fun getQuote(){
+    private fun getQuote() {
         _state.postValue(STATE.PENDING)
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             delay(1000)
             try {
                 val response = Common.retrofit.getRandomQuote()
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val quote = response.body()
                     _randomQuote.postValue(quote)
                     _state.postValue(STATE.SUCCESS)
                 } else {
                     val errorResponse = response.errorBody().toString()
-                    Log.e("ErrorResponse", errorResponse )
+                    Log.e("ErrorResponse", errorResponse)
                     _state.postValue(STATE.FAIL)
                 }
-            } catch (e:Exception){
+            } catch (e :Exception) {
                 _state.postValue(STATE.FAIL)
                 Log.e("ExceptionException", e.toString())
             }

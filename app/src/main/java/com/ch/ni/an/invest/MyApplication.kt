@@ -4,7 +4,7 @@ import android.app.Application
 import com.ch.ni.an.invest.model.room.AnimeDatabase
 
 
-class MyApplication : Application(){
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

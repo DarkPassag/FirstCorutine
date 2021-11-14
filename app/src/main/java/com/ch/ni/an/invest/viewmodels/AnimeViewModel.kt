@@ -25,34 +25,32 @@ import java.lang.Exception
 class AnimeViewModel: ViewModel() {
 
 
-    private val database = AnimeDatabase.getDatabase()
+    private val database = AnimeDatabase.getDatabase().animeDao()
 
-    private lateinit var retrofit: RetrofitService
-
-
+    private lateinit var retrofit :RetrofitService
 
 
-    private val _allNames: MutableLiveData<List<String>> by lazy {
+    private val _allNames :MutableLiveData<List<String>> by lazy {
         MutableLiveData<List<String>>()
     }
-    val allNames:LiveData<List<String>> = _allNames
-    private var listName: List<String> = emptyList()
+    val allNames :LiveData<List<String>> = _allNames
+    private var listName :List<String> = emptyList()
 
     private val _listAvailableAnime = MutableLiveData<List<String>>()
-    val listAvailableAnime: LiveData<List<String>> = _listAvailableAnime
+    val listAvailableAnime :LiveData<List<String>> = _listAvailableAnime
 
     private val _randomQuotes = MutableLiveData<List<AnimeChan>>()
-    val randomQuotes: LiveData<List<AnimeChan>> = _randomQuotes
+    val randomQuotes :LiveData<List<AnimeChan>> = _randomQuotes
 
 
-    val character: MutableLiveData<String> = MutableLiveData()
+    val character :MutableLiveData<String> = MutableLiveData()
 
     private var listAnime = emptyList<String>()
 
-    var tempList: MutableList<String> = mutableListOf()
+    var tempList :MutableList<String> = mutableListOf()
 
     private val _state = MutableLiveData<STATE>()
-    val state: LiveData<STATE> = _state
+    val state :LiveData<STATE> = _state
 
     init {
         getAvailableAnimeList()
@@ -69,9 +67,9 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun search(query: String, key: String) {
+    fun search(query :String, key :String) {
         viewModelScope.launch(Dispatchers.IO) {
-            when(key){
+            when (key) {
                 SEARCH_BY_TITLE -> {
                     listAnime.forEach {
                         if (it.contains(query, ignoreCase = true)) {
@@ -94,27 +92,23 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    fun getQuotesByTitle(title: String):Flow<PagingData<AnimeChan>>{
-        return Pager(PagingConfig
-            (10, 5, enablePlaceholders = true, PAGE_SIZE*2),
+    fun getQuotesByTitle(title :String) :Flow<PagingData<AnimeChan>> {
+        return Pager(PagingConfig(10, 5, enablePlaceholders = true, PAGE_SIZE * 2),
             pagingSourceFactory = {
-                AnimeNamePagerSource(retrofit, title, database.animeDao())
-            }
-        ).flow
+                AnimeNamePagerSource(retrofit, title, database)
+            }).flow
     }
 
-    fun getQuotesByAnimeCharacter(character: String):Flow<PagingData<AnimeChan>>{
-        return Pager(PagingConfig
-                (10, 5, enablePlaceholders = true, PAGE_SIZE*2),
-                pagingSourceFactory = {
-                    AnimeCharacterPageSource(retrofit, character)
-                }
-            ).flow
+    fun getQuotesByAnimeCharacter(character :String) :Flow<PagingData<AnimeChan>> {
+        return Pager(PagingConfig(10, 5, enablePlaceholders = true, PAGE_SIZE * 2),
+            pagingSourceFactory = {
+                AnimeCharacterPageSource(retrofit, character)
+            }).flow
     }
 
 
     fun getAvailableAnimeList() {
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = Common.retrofit.getAvailableAnime()
                 if (response.isSuccessful) {
@@ -127,7 +121,7 @@ class AnimeViewModel: ViewModel() {
                     Log.e("ERROR", "$error")
                 }
 
-            } catch (e: Exception) {
+            } catch (e :Exception) {
                 Log.e("TAG", "$e")
                 _state.postValue(FAIL)
             }
@@ -138,8 +132,8 @@ class AnimeViewModel: ViewModel() {
     fun addQuote(quote :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
             val index =
-                database.animeDao().loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
-            if(index == -1) database.animeDao().insertQuote(quote)
+                database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            if (index == -1) database.insertQuote(quote)
         }
     }
 
@@ -147,46 +141,43 @@ class AnimeViewModel: ViewModel() {
     fun deleteQuote1(quote :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
             val index =
-                database.animeDao().loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
-            if(index == -1) database.animeDao().deleteQuote(quote)
+                database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            if (index != -1) database.deleteQuoteByQuote(quote.quote)
         }
     }
 
 
-
-
-
-    fun getCharacters(){
-        viewModelScope.launch(Dispatchers.IO){
-            val allCharacters = database.animeDao().getNameCharacters()
+    fun getCharacters() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val allCharacters = database.getNameCharacters()
             listName = allCharacters
             _allNames.postValue(allCharacters)
         }
     }
 
 
-    suspend fun getUrlForLoad(characterName :String): String{
+    suspend fun getUrlForLoad(characterName :String) :String {
         return try {
-            database.animeDao().getURL(characterName)
-        } catch (e:Exception){
+            database.getURL(characterName)
+        } catch (e :Exception) {
             Log.e("BadQuery", e.toString())
             ""
         }
     }
 
-    private suspend fun getQuotes(){
+    private suspend fun getQuotes() {
         try {
             val response = Common.retrofit.getRandomQuotes()
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 val quotes = response.body()
                 _randomQuotes.postValue(quotes)
                 _state.postValue(SUCCESS)
             } else {
                 val errorResponse = response.errorBody().toString()
-                Log.e("ErrorResponse", errorResponse )
+                Log.e("ErrorResponse", errorResponse)
                 _state.postValue(FAIL)
             }
-        } catch (e:Exception){
+        } catch (e :Exception) {
             _state.postValue(FAIL)
             Log.e("Exception", e.toString())
         }

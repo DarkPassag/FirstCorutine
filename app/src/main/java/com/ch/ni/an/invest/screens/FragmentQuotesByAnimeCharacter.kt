@@ -23,7 +23,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallback, RecyclerViewClickListener {
+class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallback,
+    RecyclerViewClickListener {
 
     private val myModel :AnimeViewModel by activityViewModels()
     private val mModel :MyQuotesViewModel by activityViewModels()
@@ -34,7 +35,7 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
 
     private lateinit var recyclerView :RecyclerView
     private lateinit var adapter :QuoteByAnimeCharacterAdapter
-    private lateinit var character: String
+    private lateinit var character :String
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -45,15 +46,11 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
         when (item.itemId) {
             R.id.favouriteQuotes -> {
-                findNavController().navigate(
-                    R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentFavouriteQuotes
-                )
+                findNavController().navigate(R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentFavouriteQuotes)
             }
 
             R.id.homeFragment -> {
-                findNavController().navigate(
-                    R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentStart
-                )
+                findNavController().navigate(R.id.action_FragmentQuotesByAnimeCharacter_to_FragmentStart)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -62,7 +59,8 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
     override fun onCreateView(
         inflater :LayoutInflater,
         container :ViewGroup?,
-        savedInstanceState :Bundle?) :View {
+        savedInstanceState :Bundle?,
+    ) :View {
         _bind = FragmentAnimecharacterQuotesBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView
@@ -82,12 +80,12 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
         })
 
         myModel.state.observe(viewLifecycleOwner, {
-                when (it) {
-                    STATE.PENDING -> pendingUI()
-                    STATE.SUCCESS -> updateUI()
-                    STATE.FAIL -> updateUI()
-                }
-            })
+            when (it) {
+                STATE.PENDING -> pendingUI()
+                STATE.SUCCESS -> updateUI()
+                STATE.FAIL -> updateUI()
+            }
+        })
 
         lifecycleScope.launch {
             delay(500)
@@ -98,7 +96,7 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
         }
 
 
-        }
+    }
 
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
@@ -116,6 +114,7 @@ class FragmentQuotesByAnimeCharacter: BaseFragment(), LoadImage, FavouriteCallba
     }
 
     override fun checkInRoom(quote :FavouriteAnimeChan) :Boolean {
+        mModel.loadFavouriteQuotes()
         return mModel.checkQuote(quote)
     }
 

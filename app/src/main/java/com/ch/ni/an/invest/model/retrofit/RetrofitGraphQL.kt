@@ -8,13 +8,13 @@ interface RetrofitGraphQL {
 
     @Headers("Content-Type: application/json")
     @POST("/")
-    suspend fun getCharByName(@Body body :String) : String
+    suspend fun getCharByName(@Body body :String) :String
 
 }
 
 object CommonGraphQL {
     private const val BASE_URL = "https://graphql.anilist.co/"
 
-    val dataAnimeList: RetrofitGraphQL =
+    val dataAnimeList :RetrofitGraphQL =
         RetrofitClientImage.getClient(BASE_URL).create(RetrofitGraphQL::class.java)
 }

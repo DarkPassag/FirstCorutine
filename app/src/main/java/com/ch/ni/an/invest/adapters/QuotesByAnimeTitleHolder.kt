@@ -27,12 +27,12 @@ class QuotesByAnimeTitleHolder(
 
     fun bind(item :AnimeChan) {
         binding.characterNameTextView.setOnClickListener {
-            clickListener.clickListener(item.character!!)
+            clickListener.clickListener(item.character)
         }
         binding.characterNameTextView.text = item.character
         binding.quoteByCharacterTextView.text = item.quote
         CoroutineScope(Dispatchers.IO).launch {
-            val urlForImage = getImage.loadImage(item.character!!)
+            val urlForImage = getImage.loadImage(item.character)
             CoroutineScope(Dispatchers.Main).launch {
                 binding.characterPhotoImageView.load(urlForImage) {
                     crossfade(true)
@@ -43,16 +43,11 @@ class QuotesByAnimeTitleHolder(
 
             }
         }
-//        Glide.with(itemView)
-//                    .load(urlForImage)
-//                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
-//                    .placeholder(R.drawable.ic_image)
-//                    .into(binding.characterPhotoImageView)
-
 
 
         val favouriteButton = binding.favouriteButton
-        val newItem = FavouriteAnimeChan(anime = item.anime!!, character = item.character!!, quote = item.quote)
+        val newItem =
+            FavouriteAnimeChan(anime = item.anime, character = item.character, quote = item.quote)
         var flag = chekFlag(newItem)
         checkFavourite(favouriteButton, newItem)
         favouriteButton.setOnClickListener {

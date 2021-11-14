@@ -19,16 +19,16 @@ import com.ch.ni.an.invest.viewmodels.AnimeViewModel
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 import com.ch.ni.an.invest.viewmodels.STATE
 
-class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
+class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, FavouriteCallback {
 
-    private val myModel:AnimeViewModel by activityViewModels()
+    private val myModel :AnimeViewModel by activityViewModels()
     private val mModel :MyQuotesViewModel by activityViewModels()
-    private var _bind: FragmentAnimeTenRandomQuotesBinding? = null
-    private val bind: FragmentAnimeTenRandomQuotesBinding
+    private var _bind :FragmentAnimeTenRandomQuotesBinding? = null
+    private val bind :FragmentAnimeTenRandomQuotesBinding
         get() = _bind!!
 
     private lateinit var adapter :TenRandomQuotesAdapter
-    private lateinit var recycleView: RecyclerView
+    private lateinit var recycleView :RecyclerView
 
 
     override fun onCreateOptionsMenu(menu :Menu, inflater :MenuInflater) {
@@ -36,12 +36,12 @@ class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, Favour
     }
 
     override fun onCreateView(
-        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?,
     ) :View {
         _bind = FragmentAnimeTenRandomQuotesBinding.inflate(inflater, container, false)
         recycleView = bind.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = TenRandomQuotesAdapter(this,this)
+        adapter = TenRandomQuotesAdapter(this, this)
         recycleView.adapter = adapter
 
 
@@ -56,7 +56,8 @@ class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, Favour
                 STATE.SUCCESS -> updateUI()
                 STATE.FAIL -> {
                     updateUI()
-                    Toast.makeText(requireContext(), R.string.no_internet, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.no_internet, Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         })
@@ -78,13 +79,13 @@ class FragmentTenRandomQuotes: BaseFragment(), RecyclerViewClickListener, Favour
     }
 
 
-    private fun updateUI(){
+    private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
         bind.updateFAB.visibility = View.VISIBLE
     }
 
-    private fun pending(){
+    private fun pending() {
         bind.dotsLoaderProgressbar.visibility = View.VISIBLE
         bind.recyclerView.visibility = View.GONE
 

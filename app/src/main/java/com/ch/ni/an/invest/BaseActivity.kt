@@ -8,7 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-open class BaseActivity(@LayoutRes layoutId : Int ): AppCompatActivity(layoutId) {
+open class BaseActivity(@LayoutRes layoutId :Int) : AppCompatActivity(layoutId) {
 
     override fun onCreate(savedInstanceState :Bundle?) {
         backGroundColor()

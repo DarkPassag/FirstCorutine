@@ -1,6 +1,7 @@
 package com.ch.ni.an.invest.viewmodels
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,44 +10,40 @@ import com.ch.ni.an.invest.model.room.AnimeDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MyQuotesViewModel: ViewModel() {
+class MyQuotesViewModel : ViewModel() {
 
     private val database = AnimeDatabase.getDatabase().animeDao()
 
 
-    val myQuotes: LiveData<List<FavouriteAnimeChan>> = database.getFavouriteQuote()
+    val myQuotes :LiveData<List<FavouriteAnimeChan>> = database.getFavouriteQuote()
 
-    private var listQuote: List<FavouriteAnimeChan> = emptyList()
-
-
+    private var listQuote :List<FavouriteAnimeChan> = emptyList()
 
 
-    fun deleteQuote(quote: FavouriteAnimeChan){
+    fun deleteQuote(quote :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
-            database.deleteQuote(quote)
+            val index = database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            if (index != -1) database.deleteQuoteByQuote(quote.quote)
             loadFavouriteQuotes()
         }
     }
 
 
+    fun checkQuote(quote :FavouriteAnimeChan) :Boolean {
+        loadFavouriteQuotes()
+        val index = listQuote.indexOfFirst { it.quote == quote.quote }
+        return index != -1
+    }
 
-    fun checkQuote(quote :FavouriteAnimeChan): Boolean {
-            loadFavouriteQuotes()
-           return listQuote.contains(quote)
-        }
-
-    private fun loadFavouriteQuotes() {
+    fun loadFavouriteQuotes() {
         viewModelScope.launch(Dispatchers.IO) {
-            val tempList :List<FavouriteAnimeChan> = database.loadFavouriteQuotes()
-            listQuote = tempList
+            listQuote = database.loadFavouriteQuotes()
         }
     }
 
-
-
-
-
-
+    init {
+        loadFavouriteQuotes()
+    }
 
 
 }

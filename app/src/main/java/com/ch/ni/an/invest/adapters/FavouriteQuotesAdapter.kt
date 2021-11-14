@@ -10,10 +10,10 @@ import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.SwipeListenerDelete
 
 class FavouriteQuotesAdapter(
-    private val swipeListenerDelete :SwipeListenerDelete
-    ) : RecyclerView.Adapter<FavouriteQuotesAdapter.MyQuoteHolder>() {
+    private val swipeListenerDelete :SwipeListenerDelete,
+) : RecyclerView.Adapter<FavouriteQuotesAdapter.MyQuoteHolder>() {
 
-    var setList: List<FavouriteAnimeChan> = emptyList()
+    var setList :List<FavouriteAnimeChan> = emptyList()
         set(value) {
             val diffCall = AnimeQuoteDiffUtil(field, value)
             val result = DiffUtil.calculateDiff(diffCall)
@@ -22,8 +22,8 @@ class FavouriteQuotesAdapter(
         }
 
     class MyQuoteHolder(
-        val bind: MyquoteRecyclerviewBinding
-        ): RecyclerView.ViewHolder(bind.root)
+        val bind :MyquoteRecyclerviewBinding,
+    ) : RecyclerView.ViewHolder(bind.root)
 
     override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :MyQuoteHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -40,7 +40,7 @@ class FavouriteQuotesAdapter(
 
     override fun getItemCount() :Int = setList.size
 
-    fun delete(id: Int){
+    fun delete(id :Int) {
         val oldList = setList.toMutableList()
         val idQuote = setList[id]
         oldList.removeAt(id)
@@ -52,16 +52,16 @@ class FavouriteQuotesAdapter(
 }
 
 class AnimeQuoteDiffUtil(
-    private val oldList: List<FavouriteAnimeChan>,
-    private val newList: List<FavouriteAnimeChan>
-) : DiffUtil.Callback(){
+    private val oldList :List<FavouriteAnimeChan>,
+    private val newList :List<FavouriteAnimeChan>,
+) : DiffUtil.Callback() {
     override fun getOldListSize() :Int = oldList.size
 
     override fun getNewListSize() :Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition :Int, newItemPosition :Int) :Boolean {
-       val oldItem = oldList[oldItemPosition]
-       val newItem = newList[newItemPosition]
+        val oldItem = oldList[oldItemPosition]
+        val newItem = newList[newItemPosition]
         return oldItem.id == newItem.id
     }
 

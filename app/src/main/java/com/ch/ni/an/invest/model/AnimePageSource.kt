@@ -63,18 +63,21 @@ class AnimeNamePagerSource(
 
         val quotes :List<AnimeChan> = dbService.getQuotesFromDB(query)
         val nexKey = if (quotes.size < PAGE_SIZE && page > 0) {
-           return getQuotesByNetwork(query, page, service)
-        } else if  (quotes.size < PAGE_SIZE) null else page + 2
+            return getQuotesByNetwork(query, page, service)
+        } else if (quotes.size < PAGE_SIZE) null else page + 2
         val prevKey = if (page == 0) null else page - 1
 
         return LoadResult.Page(quotes, prevKey, nexKey)
 
 
-
     }
 
-    private suspend fun getQuotesByNetwork(query: String, page:Int, service :RetrofitService):LoadResult<Int, AnimeChan>{
-       return try {
+    private suspend fun getQuotesByNetwork(
+        query :String,
+        page :Int,
+        service :RetrofitService,
+    ) :LoadResult<Int, AnimeChan> {
+        return try {
             val response = service.getQuotesByAnimeName(query, page)
             if (response.isSuccessful) {
                 val quotes = checkNotNull(response.body())

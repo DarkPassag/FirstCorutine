@@ -52,9 +52,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onQueryTextChange(newText :String?) :Boolean {
-        if(newText != null){
+        if (newText != null) {
             myModel.tempList.clear()
-            myModel.search(newText,key)
+            myModel.search(newText, key)
         } else {
             myModel.getAvailableAnimeList()
             myModel.getCharacters()
@@ -63,17 +63,16 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
     }
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
-        if(item.itemId == R.id.favouriteQuotes){
-            findNavController().navigate(
-                R.id.action_FragmentListTitleAnime_to_FragmentFavouriteQuotes
-            )
+        if (item.itemId == R.id.favouriteQuotes) {
+            findNavController().navigate(R.id.action_FragmentListTitleAnime_to_FragmentFavouriteQuotes)
         }
         return super.onOptionsItemSelected(item)
     }
 
 
     override fun onCreateView(
-        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?,
+    ) :View {
         _bind = FragmentListTitleNameBinding.inflate(inflater, container, false)
 
         recyclerView = bind.recyclerView

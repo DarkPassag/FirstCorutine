@@ -17,7 +17,7 @@ import com.ch.ni.an.invest.utills.SwipeListenerDelete
 import com.ch.ni.an.invest.utills.SwipeToDeleteCallback
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
 
-class FragmentFavouriteQuotes: BaseFragment(), SwipeListenerDelete {
+class FragmentFavouriteQuotes : BaseFragment(), SwipeListenerDelete {
 
     private var _bind :FragmentMyQuotesBinding? = null
     private val bind :FragmentMyQuotesBinding
@@ -32,17 +32,16 @@ class FragmentFavouriteQuotes: BaseFragment(), SwipeListenerDelete {
     }
 
     override fun onOptionsItemSelected(item :MenuItem) :Boolean {
-        if(item.itemId == R.id.homeFragment){
-                findNavController().navigate(
-                    R.id.action_FragmentFavouriteQuotes_to_FragmentStart
-                )
+        if (item.itemId == R.id.homeFragment) {
+            findNavController().navigate(R.id.action_FragmentFavouriteQuotes_to_FragmentStart)
         }
         return super.onOptionsItemSelected(item)
     }
 
 
     override fun onCreateView(
-        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?) :View {
+        inflater :LayoutInflater, container :ViewGroup?, savedInstanceState :Bundle?,
+    ) :View {
         _bind = FragmentMyQuotesBinding.inflate(inflater, container, false)
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)

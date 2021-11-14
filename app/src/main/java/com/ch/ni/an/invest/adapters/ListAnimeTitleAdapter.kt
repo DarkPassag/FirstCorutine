@@ -11,32 +11,33 @@ import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 
 
 class AnimeDiff(
-    private val oldList: List<String>,
-    private val newList: List<String>): DiffUtil.Callback()
-{
-    override fun getOldListSize(): Int = oldList.size
+    private val oldList :List<String>,
+    private val newList :List<String>,
+) : DiffUtil.Callback() {
+    override fun getOldListSize() :Int = oldList.size
 
-    override fun getNewListSize(): Int = newList.size
+    override fun getNewListSize() :Int = newList.size
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    override fun areItemsTheSame(oldItemPosition :Int, newItemPosition :Int) :Boolean {
         val item = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
         return item == newItem
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+    override fun areContentsTheSame(oldItemPosition :Int, newItemPosition :Int) :Boolean {
         val item = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
         return item == newItem
     }
 
 }
+
 class ListAnimeTitleAdapter(
-     private val onClick:RecyclerViewClickListener
-    ): RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
+    private val onClick :RecyclerViewClickListener,
+) : RecyclerView.Adapter<ListAnimeTitleAdapter.ListAnimeHolder>() {
 
 
-    private var lastPosition: Int = -1
+    private var lastPosition :Int = -1
 
     var listAnime :List<String> = emptyList()
         set(value) {
@@ -45,7 +46,6 @@ class ListAnimeTitleAdapter(
             field = value
             result.dispatchUpdatesTo(this)
         }
-
 
 
     override fun onCreateViewHolder(parent :ViewGroup, viewType :Int) :ListAnimeHolder {
@@ -60,9 +60,8 @@ class ListAnimeTitleAdapter(
         holder.bind.nameTextView.setOnClickListener {
             onClick.clickListener(anime)
         }
-        val animation = AnimationUtils.loadAnimation(
-            holder.itemView.context, R.anim.item_animation_fall_down
-        )
+        val animation =
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.item_animation_fall_down)
         holder.itemView.startAnimation(animation)
 
     }

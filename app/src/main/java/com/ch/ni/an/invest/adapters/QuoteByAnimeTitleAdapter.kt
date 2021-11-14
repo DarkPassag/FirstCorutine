@@ -36,6 +36,7 @@ class QuoteByAnimeTitleAdapter(
         holder.bind(item!!)
 
     }
+
     class AnimeDiffUtil : DiffUtil.ItemCallback<AnimeChan>() {
 
         override fun areItemsTheSame(oldItem :AnimeChan, newItem :AnimeChan) :Boolean {

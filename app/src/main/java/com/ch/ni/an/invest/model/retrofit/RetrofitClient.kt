@@ -7,17 +7,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitClient {
 
-    private var retrofit: Retrofit? = null
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+    private var retrofit :Retrofit? = null
+    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    fun getClient(url: String): Retrofit{
-        if(retrofit == null){
-            retrofit = Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl(url)
-                .build()
+    fun getClient(url :String) :Retrofit {
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))
+                .baseUrl(url).build()
         }
         return retrofit!!
     }

@@ -23,44 +23,46 @@ class QuotesByAnimeCharacterHolder(
     private val binding :RecyclerviewItemQuotesByCharacterBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item :AnimeChan){
-            binding.quoteByCharacterTextView.text = item.quote
-            val favouriteButton = binding.favouriteButton
-            val newItem = FavouriteAnimeChan(anime = item.anime, character = item.character, quote = item.quote)
-            var flag = chekFlag(newItem)
-            checkFavourite(favouriteButton, newItem)
-            favouriteButton.setOnClickListener {
-                flag = if (flag == 0) {
-                    clickListener.deleteQuote(newItem)
-                    favouriteButton.setImageResource(R.drawable.ic_no_favourite)
-                    1
-                } else {
-                    clickListener.addQuote(newItem)
-                    favouriteButton.setImageResource(R.drawable.ic_favourite)
-                    0
-                }
+    fun bind(item :AnimeChan) {
+        binding.quoteByCharacterTextView.text = item.quote
+        val favouriteButton = binding.favouriteButton
+        val newItem =
+            FavouriteAnimeChan(anime = item.anime, character = item.character, quote = item.quote)
+        var flag = chekFlag(newItem)
+        checkFavourite(favouriteButton, newItem)
+        favouriteButton.setOnClickListener {
+            flag = if (flag == 0) {
+                clickListener.deleteQuote(newItem)
+                favouriteButton.setImageResource(R.drawable.ic_no_favourite)
+                1
+            } else {
+                clickListener.addQuote(newItem)
+                favouriteButton.setImageResource(R.drawable.ic_favourite)
+                0
             }
-            CoroutineScope(Dispatchers.IO).launch {
-                val url = getImage.loadImage(item.character)
-                CoroutineScope(Dispatchers.Main).launch {
-                    binding.characterPhotoImageView.load(url){
-                        transformations(RoundedCornersTransformation(50f))
-                        crossfade(true)
-                        crossfade(300)
-                        error(R.drawable.ic_image)
-                    }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = getImage.loadImage(item.character)
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.characterPhotoImageView.load(url) {
+                    transformations(RoundedCornersTransformation(50f))
+                    crossfade(true)
+                    crossfade(300)
+                    error(R.drawable.ic_image)
                 }
             }
         }
+    }
 
-    private fun checkFavourite(imageButton :ImageButton, item:FavouriteAnimeChan){
-        if(favouriteCheck.checkInRoom(item)){
+    private fun checkFavourite(imageButton :ImageButton, item :FavouriteAnimeChan) {
+        if (favouriteCheck.checkInRoom(item)) {
             imageButton.setImageResource(R.drawable.ic_favourite)
         } else {
             imageButton.setImageResource(R.drawable.ic_no_favourite)
         }
     }
-    private fun chekFlag(item :FavouriteAnimeChan): Int{
-        return if(favouriteCheck.checkInRoom(item)) 0 else 1
+
+    private fun chekFlag(item :FavouriteAnimeChan) :Int {
+        return if (favouriteCheck.checkInRoom(item)) 0 else 1
     }
-    }
+}
