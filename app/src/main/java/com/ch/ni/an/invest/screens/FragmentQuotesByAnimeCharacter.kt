@@ -132,4 +132,6 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
         myModel.deleteQuote1(animeChan)
     }
 
+
+
 }

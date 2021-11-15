@@ -34,5 +34,8 @@ interface AnimeDao {
     @Query("SELECT * FROM favourite_quote")
     suspend fun loadFavouriteQuotes() :List<FavouriteAnimeChan>
 
+    @Query("SELECT DISTINCT anime FROM quotes ")
+    suspend fun getAvailableTitleAnime(): List<String>
+
 
 }

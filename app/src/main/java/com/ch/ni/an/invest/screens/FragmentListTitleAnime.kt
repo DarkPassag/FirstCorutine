@@ -110,6 +110,8 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     }
 
+
+
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
@@ -117,7 +119,9 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     private fun failUi(){
         updateUI()
-        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
+        if(isOnline(requireContext())){
+
+        } else Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 
 

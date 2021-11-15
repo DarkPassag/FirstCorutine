@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, FavouriteCallback,
     LoadImage {
 
+
     private var _bind :FragmentAnimenameQuotesBinding? = null
     private val bind :FragmentAnimenameQuotesBinding
         get() = _bind!!
@@ -92,6 +93,10 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         }
 
     }
+
+
+
+
 
 
     private fun updateUI() {

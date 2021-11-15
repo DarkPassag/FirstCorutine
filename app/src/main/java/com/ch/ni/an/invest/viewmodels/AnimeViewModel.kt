@@ -116,13 +116,17 @@ class AnimeViewModel: ViewModel() {
                     listAnime = response.body()!!
                     _state.postValue(SUCCESS)
                 } else {
-                    val error = response.errorBody()
-                    Log.e("ERROR", "$error")
+                    val tempList = database.getAvailableTitleAnime()
+                    Log.e("TempList", "${tempList}")
+                    _listAvailableAnime.postValue(tempList)
+                    _state.postValue(SUCCESS)
                 }
 
             } catch (e :Exception) {
-                Log.e("TAG", "$e")
-                _state.postValue(FAIL)
+                val tempList = database.getAvailableTitleAnime()
+                Log.e("TempList", "${tempList}")
+                _listAvailableAnime.postValue(tempList)
+                _state.postValue(SUCCESS)
             }
         }
 
