@@ -30,7 +30,9 @@
         android:label="FragmentAnimeNameQuotes">
         <action
             android:id="@+id/action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter"
-            app:destination="@id/FragmentQuotesByAnimeCharacter" />
+            app:destination="@id/FragmentQuotesByAnimeCharacter"
+            app:popUpTo="@id/FragmentQuotesByAnimeTitle"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_FragmentQuotesByAnimeTitle_to_FragmentFavouriteQuotes"
             app:destination="@id/FragmentFavouriteQuotes" />

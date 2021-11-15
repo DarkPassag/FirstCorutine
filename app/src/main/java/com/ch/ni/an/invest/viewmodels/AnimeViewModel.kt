@@ -124,8 +124,8 @@ class AnimeViewModel: ViewModel() {
 
             } catch (e :Exception) {
                 val tempList = database.getAvailableTitleAnime()
-                Log.e("TempList", "${tempList}")
                 _listAvailableAnime.postValue(tempList)
+                listAnime = tempList
                 _state.postValue(SUCCESS)
             }
         }

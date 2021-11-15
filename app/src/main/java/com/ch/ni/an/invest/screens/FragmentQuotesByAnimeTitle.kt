@@ -105,7 +105,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
     private fun failUi(){
         updateUI()
-        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
+        toast()
     }
 
     private fun pendingUI() {
@@ -119,8 +119,12 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
     override fun clickListener(anime :String) {
-        myModel.getQuotesByAnimeCharacter(anime)
-        findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter)
+        if(isOnline(requireContext())){
+            myModel.character.postValue(anime)
+            myModel.getQuotesByAnimeCharacter(anime)
+            findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter)
+        } else toast()
+
     }
 
     override fun addQuote(animeChan :FavouriteAnimeChan) {
@@ -133,6 +137,10 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
 
     override suspend fun loadImage(characterName :String) :String {
         return myModel.getUrlForLoad(characterName)
+    }
+
+    private fun toast(){
+        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 
 

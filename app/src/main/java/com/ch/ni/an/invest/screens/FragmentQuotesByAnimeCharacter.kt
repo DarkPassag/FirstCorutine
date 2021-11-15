@@ -92,6 +92,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
             myModel.getQuotesByAnimeCharacter(character).collectLatest {
                 adapter.submitData(it)
                 recyclerView.adapter = adapter
+                updateUI()
             }
         }
 
