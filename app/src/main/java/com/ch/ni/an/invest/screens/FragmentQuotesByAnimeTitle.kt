@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.adapters.QuoteByAnimeTitleAdapter
 import com.ch.ni.an.invest.R
+import com.ch.ni.an.invest.adapters.AnimeStateAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimenameQuotesBinding
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.viewmodels.AnimeViewModel
@@ -61,7 +62,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = QuoteByAnimeTitleAdapter(this, this, this)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter.withLoadStateFooter(AnimeStateAdapter())
         recyclerView
         return bind.root
     }
@@ -88,7 +89,6 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
             delay(500)
             myModel.getQuotesByTitle(title).collectLatest {
                 adapter.submitData(it)
-                recyclerView.adapter = adapter
             }
         }
 

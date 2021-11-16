@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.ch.ni.an.invest.model.*
 import com.ch.ni.an.invest.model.retrofit.Common
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
@@ -14,6 +15,7 @@ import com.ch.ni.an.invest.model.room.AnimeDatabase
 import com.ch.ni.an.invest.utills.PAGE_SIZE
 import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
+import com.ch.ni.an.invest.utills.StateListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -92,18 +94,26 @@ class AnimeViewModel: ViewModel() {
     }
 
     fun getQuotesByTitle(title :String) :Flow<PagingData<AnimeChan>> {
-        return Pager(PagingConfig(10, 5, enablePlaceholders = true, PAGE_SIZE * 2),
+        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2 ),
             pagingSourceFactory = {
                 AnimeNamePagerSource(retrofit, title, database)
             }).flow
     }
 
-    fun getQuotesByAnimeCharacter(character :String) :Flow<PagingData<AnimeChan>> {
-        return Pager(PagingConfig(10, 5, enablePlaceholders = true, PAGE_SIZE * 2),
+    fun getQuotesByAnimeCharacter(character :String) : Flow<PagingData<AnimeChan>> {
+        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2 ),
             pagingSourceFactory = {
-                AnimeCharacterPageSource(retrofit, character)
+                AnimeCharacterPageSource(retrofit, character, object : StateListener{
+                    override fun invoke(state :STATE) {
+                        _state.postValue(state)
+                    }
+
+                })
             }).flow
     }
+
+
+
 
 
     fun getAvailableAnimeList() {

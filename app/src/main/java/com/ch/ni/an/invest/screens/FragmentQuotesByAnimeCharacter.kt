@@ -8,8 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.request.Disposable
 import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
+import com.ch.ni.an.invest.adapters.AnimeStateAdapter
 import com.ch.ni.an.invest.adapters.QuoteByAnimeCharacterAdapter
 import com.ch.ni.an.invest.databinding.FragmentAnimecharacterQuotesBinding
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
@@ -19,6 +21,7 @@ import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -66,7 +69,10 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = QuoteByAnimeCharacterAdapter(this, this, this)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = AnimeStateAdapter(),
+            footer = AnimeStateAdapter()
+        )
 
         return bind.root
     }
@@ -77,6 +83,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
 
         myModel.character.observe(viewLifecycleOwner, {
             character = it
+
         })
 
         myModel.state.observe(viewLifecycleOwner, {
@@ -87,14 +94,21 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
             }
         })
 
-        lifecycleScope.launch {
-            delay(500)
+
+
+
+        lifecycleScope.launchWhenResumed(){
             myModel.getQuotesByAnimeCharacter(character).collectLatest {
-                adapter.submitData(it)
-                recyclerView.adapter = adapter
-                updateUI()
+                it.also {
+                    adapter.submitData(it)
+
+                }
             }
         }
+
+
+
+
 
 
     }

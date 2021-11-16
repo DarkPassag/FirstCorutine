@@ -6,11 +6,14 @@ import androidx.paging.PagingState
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
 import com.ch.ni.an.invest.model.room.AnimeDao
 import com.ch.ni.an.invest.utills.PAGE_SIZE
+import com.ch.ni.an.invest.utills.StateListener
+import com.ch.ni.an.invest.viewmodels.STATE
 import retrofit2.HttpException
 
 class AnimeCharacterPageSource(
     private val service :RetrofitService,
     private val query :String,
+    private val listener: StateListener
 ) : PagingSource<Int, AnimeChan>() {
 
     override fun getRefreshKey(state :PagingState<Int, AnimeChan>) :Int? {
@@ -24,6 +27,8 @@ class AnimeCharacterPageSource(
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
+        listener(STATE.PENDING)
+
         val page = params.key ?: 0
 
         return try {
@@ -32,10 +37,14 @@ class AnimeCharacterPageSource(
                 val quotes = checkNotNull(response.body())
                 val nextKey = if (quotes.size < PAGE_SIZE) null else page + 2
                 val prevKey = if (page == 0) null else page.minus(1)
+                listener(STATE.SUCCESS)
                 LoadResult.Page(quotes, prevKey, nextKey)
-            } else LoadResult.Error(HttpException(response))
+            } else {
+                listener(STATE.FAIL)
+                LoadResult.Error(HttpException(response))
+            }
         } catch (e :Exception) {
-            Log.e("Tag", e.toString())
+            listener(STATE.FAIL)
             LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
