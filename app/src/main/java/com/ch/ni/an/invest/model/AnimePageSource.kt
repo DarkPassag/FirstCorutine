@@ -27,7 +27,11 @@ class AnimeCharacterPageSource(
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
-        listener(STATE.PENDING)
+        if(params.key == null || params.key == 0){
+            listener(STATE.PENDING)
+        }
+
+
 
         val page = params.key ?: 0
 

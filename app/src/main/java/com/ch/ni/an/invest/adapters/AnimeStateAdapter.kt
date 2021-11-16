@@ -38,7 +38,7 @@ class AnimeStateAdapter: LoadStateAdapter<AnimeStateAdapter.ItemViewHolder>() {
         return when(loadState){
             LoadState.Loading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
             is LoadState.Error -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
-            is LoadState.NotLoading -> error("Not supported")
+            is LoadState.NotLoading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
 
         }
     }
