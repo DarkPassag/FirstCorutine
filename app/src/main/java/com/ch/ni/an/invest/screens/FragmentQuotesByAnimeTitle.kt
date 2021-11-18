@@ -95,8 +95,10 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+    }
 
 
     private fun updateUI() {

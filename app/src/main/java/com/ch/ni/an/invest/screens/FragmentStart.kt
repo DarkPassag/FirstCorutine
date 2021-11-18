@@ -2,6 +2,7 @@ package com.ch.ni.an.invest.screens
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
@@ -16,6 +18,8 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.*
 import com.ch.ni.an.invest.viewmodels.StartViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class FragmentStart : Fragment() {
 
@@ -42,26 +46,36 @@ class FragmentStart : Fragment() {
         getFirstQuote()
         updateUi()
 
+
         myModel.favourite.observe(viewLifecycleOwner, {
-            if (!it) bind.favouriteButton.setImageResource(R.drawable.ic_no_favourite_24)
-            else bind.favouriteButton.setImageResource(R.drawable.ic_favorite_24)
+            stateFavouriteButton(it)
         })
         bind.favouriteButton.setOnClickListener {
             myModel.favouriteButton(newItem)
+
         }
+
     }
 
 
     override fun onResume() {
         super.onResume()
+        updateUi()
         (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
-        _bind = null
+
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+        myModel.clear()
+    }
+
 
     private fun updateUi(){
         myModel.loadFavouriteQuotes()
@@ -81,6 +95,16 @@ class FragmentStart : Fragment() {
             bind.quoteByCharacterTextView.text = item.quote
             bind.characterNameTextView.text = item.character
         }
+    }
+
+    private fun stateFavouriteButton(boolean :Boolean){
+            if(boolean){
+                bind.favouriteButton.setImageResource(R.drawable.ic_favorite_24)
+            } else {
+                bind.favouriteButton.setImageResource(R.drawable.ic_no_favourite_24)
+
+            }
+
     }
 
     private fun navigation() {

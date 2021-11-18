@@ -69,6 +69,11 @@ class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, Favou
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+    }
+
 
     private fun updateUI() {
         bind.dotsLoaderProgressbar.visibility = View.GONE

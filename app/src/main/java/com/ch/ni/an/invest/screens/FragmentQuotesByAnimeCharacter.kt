@@ -106,11 +106,11 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
             }
         }
 
+    }
 
-
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
     }
 
     private fun updateUI() {

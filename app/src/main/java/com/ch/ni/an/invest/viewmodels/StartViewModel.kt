@@ -30,9 +30,10 @@ class StartViewModel : ViewModel() {
         loadFavouriteQuotes()
         val index = listQuotes.indexOfFirst { it.quote == animeChan.quote }
         _favourite.postValue(index != -1)
-        Log.e("Statement update", "${index != -1}")
         return index != -1
     }
+
+
 
     init {
         loadFavouriteQuotes()
@@ -57,8 +58,15 @@ class StartViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val tempList :List<FavouriteAnimeChan> = database.loadFavouriteQuotes()
             listQuotes = tempList
+
         }
     }
+
+    fun clear(){
+        onCleared()
+    }
+
+
 
 
 }

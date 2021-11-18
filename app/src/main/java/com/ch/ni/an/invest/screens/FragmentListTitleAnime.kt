@@ -143,6 +143,11 @@ class FragmentListTitleAnime: BaseFragment(), SearchView.OnQueryTextListener, Re
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+    }
+
     override fun addQuote(animeChan :FavouriteAnimeChan) {}
 
     override fun deleteQuote(animeChan :FavouriteAnimeChan) {}

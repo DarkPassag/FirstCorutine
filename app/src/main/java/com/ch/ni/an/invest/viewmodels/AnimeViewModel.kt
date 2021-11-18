@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.lang.Exception
 
 
@@ -171,10 +172,23 @@ class AnimeViewModel: ViewModel() {
 
     suspend fun getUrlForLoad(characterName :String) :String {
         return try {
+            val url = database.getURL(characterName)
+            Log.e("URL", url.toString())
             database.getURL(characterName)
         } catch (e :Exception) {
             Log.e("BadQuery", e.toString())
             "null"
+        }
+    }
+
+    private suspend fun getUrlWithNetwork(character :String):String{
+
+        return try {
+            val paramObjects = JSONObject()
+            paramObjects.put("query",
+                "query { Character (search: \\\"$character\\\") { name { full native } image { large } } }")
+
+            retrofit.
         }
     }
 

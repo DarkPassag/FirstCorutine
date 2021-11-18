@@ -69,5 +69,10 @@ class FragmentFavouriteQuotes : BaseFragment(), SwipeListenerDelete {
         myModel.deleteQuote(quote)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+    }
+
 
 }
