@@ -6,9 +6,9 @@ import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.ch.ni.an.invest.model.*
 import com.ch.ni.an.invest.model.retrofit.Common
+import com.ch.ni.an.invest.model.retrofit.CommonGraphQL
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
 import com.ch.ni.an.invest.viewmodels.STATE.*
 import com.ch.ni.an.invest.model.room.AnimeDatabase
@@ -17,11 +17,10 @@ import com.ch.ni.an.invest.utills.SEARCH_BY_CHARACTER
 import com.ch.ni.an.invest.utills.SEARCH_BY_TITLE
 import com.ch.ni.an.invest.utills.StateListener
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.lang.Exception
+import kotlin.Exception
 
 
 class AnimeViewModel: ViewModel() {
@@ -128,7 +127,6 @@ class AnimeViewModel: ViewModel() {
                     _state.postValue(SUCCESS)
                 } else {
                     val tempList = database.getAvailableTitleAnime()
-                    Log.e("TempList", "${tempList}")
                     _listAvailableAnime.postValue(tempList)
                     _state.postValue(SUCCESS)
                 }
@@ -172,11 +170,13 @@ class AnimeViewModel: ViewModel() {
 
     suspend fun getUrlForLoad(characterName :String) :String {
         return try {
-            val url = database.getURL(characterName)
-            Log.e("URL", url.toString())
-            database.getURL(characterName)
+         val url = database.getURL(characterName)
+            if(url.isNullOrEmpty()){
+                getUrlWithNetwork(characterName)
+            } else url
+
+
         } catch (e :Exception) {
-            Log.e("BadQuery", e.toString())
             "null"
         }
     }
@@ -185,10 +185,25 @@ class AnimeViewModel: ViewModel() {
 
         return try {
             val paramObjects = JSONObject()
-            paramObjects.put("query",
-                "query { Character (search: \\\"$character\\\") { name { full native } image { large } } }")
+            paramObjects.put(
+                "query",
+                "query { Character (search: \"$character\") {  image { large } } }"
+            )
+            Log.e("URL", "$paramObjects")
 
-            retrofit.
+            val stringJson = CommonGraphQL.dataAnimeList.getCharByName(paramObjects.toString())
+
+
+            val string: String? = JSONObject(stringJson)
+                .optJSONObject("data")
+                ?.optJSONObject("Character")
+                ?.optJSONObject("image")
+                ?.getString("large")
+
+            string ?: "Nothing"
+
+        } catch (e:Exception){
+            e.toString()
         }
     }
 
@@ -200,53 +215,12 @@ class AnimeViewModel: ViewModel() {
                 _randomQuotes.postValue(quotes)
                 _state.postValue(SUCCESS)
             } else {
-                val errorResponse = response.errorBody().toString()
-                Log.e("ErrorResponse", errorResponse)
                 _state.postValue(FAIL)
             }
         } catch (e :Exception) {
             _state.postValue(FAIL)
-            Log.e("Exception", e.toString())
         }
     }
-
-
-
-
-//    private suspend fun getImage(characterName :String): String {
-//        try {
-//            val paramObject = JSONObject()
-//            paramObject.put(
-//                "query",
-//                "query { Character (search: \"$characterName\") { name { full native } image { large } } }"
-//            )
-//            val dataAnimeList = CommonGraphQL.dataAnimeList.getCharByName(paramObject.toString())
-//
-//            val data = JSONObject(dataAnimeList).optString("data")
-//            val character = JSONObject(data).optString("Character")
-//            val image = JSONObject(character).optString("image")
-//            val name = JSONObject(character).optString("name")
-//            val large = JSONObject(image).optString("large")
-//            val full = JSONObject(name).optString("full")
-//            val native = JSONObject(name).optString("native")
-//
-//
-//            val animeName = NameCharacter(full, native)
-//            val animeImage = PhotoCharacter(large)
-//            val animeCharacter = AnimePerson(animeName, animeImage)
-//            Log.e("handleParse", animeCharacter.toString())
-//            return large
-//        } catch (e:Exception){
-//            Log.e("Invalid query", e.toString())
-//            return ""
-//        }
-//
-//    }
-
-
-
-
-
 
 
 }
