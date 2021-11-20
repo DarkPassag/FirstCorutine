@@ -105,9 +105,9 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         bind.dotsLoaderProgressbar.visibility = View.GONE
         bind.recyclerView.visibility = View.VISIBLE
     }
-    private fun failUi(){
+
+    private fun failUi() {
         updateUI()
-        toast()
     }
 
     private fun pendingUI() {
@@ -121,7 +121,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
     }
 
     override fun clickListener(anime :String) {
-        if(isOnline(requireContext())){
+        if (isOnline(requireContext())) {
             myModel.character.postValue(anime)
             myModel.getQuotesByAnimeCharacter(anime)
             findNavController().navigate(R.id.action_FragmentQuotesByAnimeTitle_to_FragmentQuotesByAnimeCharacter)
@@ -141,7 +141,7 @@ class FragmentQuotesByAnimeTitle : BaseFragment(), RecyclerViewClickListener, Fa
         return myModel.getUrlForLoad(characterName)
     }
 
-    private fun toast(){
+    private fun toast() {
         Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
 

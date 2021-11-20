@@ -81,7 +81,7 @@ class FragmentTenRandomQuotes : BaseFragment(), RecyclerViewClickListener, Favou
         bind.updateFAB.visibility = View.VISIBLE
     }
 
-    private fun failUi(){
+    private fun failUi() {
         updateUI()
         Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }

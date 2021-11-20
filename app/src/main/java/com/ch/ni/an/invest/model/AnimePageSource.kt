@@ -1,7 +1,7 @@
 package com.ch.ni.an.invest.model
 
-import android.util.Log
-import androidx.collection.arraySetOf
+
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ch.ni.an.invest.model.retrofit.RetrofitService
@@ -15,7 +15,7 @@ import retrofit2.HttpException
 class AnimeCharacterPageSource(
     private val service :RetrofitService,
     private val query :String,
-    private val listener: StateListener
+    private val listener :StateListener,
 ) : PagingSource<Int, AnimeChan>() {
 
     val listFilter = ListFilter()
@@ -31,13 +31,11 @@ class AnimeCharacterPageSource(
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
-        if(params.key == null || params.key == 0){
+        if (params.key == null || params.key == 0) {
             listener(STATE.PENDING)
         }
-
-
-
         val page = params.key ?: 0
+
 
         return try {
             val response = service.getQuotesByAnimeCharacter(query, page)
@@ -77,20 +75,20 @@ class AnimeNamePagerSource(
 
     override suspend fun load(params :LoadParams<Int>) :LoadResult<Int, AnimeChan> {
 
-        if (query.isEmpty()) {
-            return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
-        }
         val page = params.key ?: 0
-        val quotes :List<AnimeChan> = dbService.getQuotesFromDB(query)
-        val nexKey = if (quotes.size == PAGE_SIZE && page > 0) {
-            return getQuotesByNetwork(query, page+1, service)
-        } else if (quotes.size < PAGE_SIZE) null else page + 1
-        val prevKey = if (page == 0) null else page - 1
-        val newQuotes = listFilter.filter(quotes)
-
-        return LoadResult.Page(newQuotes, prevKey, nexKey)
-
-
+        return when {
+            page == 0 -> {
+                val quotes = dbService.getQuotesFromDB(query)
+                val nextQuotes = listFilter.filter(quotes)
+                val nextKey = if (quotes.size > PAGE_SIZE) null else page + 1
+                val prefKey = page - 1
+                LoadResult.Page(nextQuotes, prefKey, nextKey)
+            }
+            page > 0 -> {
+                getQuotesByNetwork(query, page, service)
+            }
+            else -> LoadResult.Page(emptyList(), null, null)
+        }
     }
 
     private suspend fun getQuotesByNetwork(
@@ -104,7 +102,7 @@ class AnimeNamePagerSource(
                 val quotes = checkNotNull(response.body())
                 val newQuotes = listFilter.filter(quotes)
                 val nextKey = if (quotes.size < PAGE_SIZE) null else page + 2
-                val prevKey = if (page == 0) null else page.minus(1)
+                val prevKey = if (page == 0) null else page - 1
                 LoadResult.Page(newQuotes, prevKey, nextKey)
             } else LoadResult.Error(HttpException(response))
         } catch (e :Exception) {

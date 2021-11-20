@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.request.Disposable
 import com.ch.ni.an.invest.BaseFragment
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.adapters.AnimeStateAdapter
@@ -21,10 +20,8 @@ import com.ch.ni.an.invest.utills.FavouriteCallback
 import com.ch.ni.an.invest.utills.LoadImage
 import com.ch.ni.an.invest.utills.RecyclerViewClickListener
 import com.ch.ni.an.invest.viewmodels.MyQuotesViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+
 
 class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallback,
     RecyclerViewClickListener {
@@ -69,10 +66,8 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
         recyclerView = bind.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = QuoteByAnimeCharacterAdapter(this, this, this)
-        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = AnimeStateAdapter(),
-            footer = AnimeStateAdapter()
-        )
+        recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(header = AnimeStateAdapter(),
+            footer = AnimeStateAdapter())
 
         return bind.root
     }
@@ -97,7 +92,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
 
 
 
-        lifecycleScope.launchWhenResumed(){
+        lifecycleScope.launchWhenResumed {
             myModel.getQuotesByAnimeCharacter(character).collectLatest {
                 it.also {
                     adapter.submitData(it)
@@ -118,7 +113,7 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
         bind.recyclerView.visibility = View.VISIBLE
     }
 
-    private fun failUi(){
+    private fun failUi() {
         updateUI()
         Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show()
     }
@@ -146,7 +141,6 @@ class FragmentQuotesByAnimeCharacter : BaseFragment(), LoadImage, FavouriteCallb
     override fun deleteQuote(animeChan :FavouriteAnimeChan) {
         myModel.deleteQuote1(animeChan)
     }
-
 
 
 }

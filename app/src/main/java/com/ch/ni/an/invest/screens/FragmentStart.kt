@@ -2,7 +2,6 @@ package com.ch.ni.an.invest.screens
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ch.ni.an.invest.R
 import com.ch.ni.an.invest.databinding.FragmentStartBinding
@@ -18,8 +16,6 @@ import com.ch.ni.an.invest.model.AnimeChan
 import com.ch.ni.an.invest.model.FavouriteAnimeChan
 import com.ch.ni.an.invest.utills.*
 import com.ch.ni.an.invest.viewmodels.StartViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class FragmentStart : Fragment() {
 
@@ -77,7 +73,7 @@ class FragmentStart : Fragment() {
     }
 
 
-    private fun updateUi(){
+    private fun updateUi() {
         myModel.loadFavouriteQuotes()
         myModel.checkInRoom(newItem)
     }
@@ -97,13 +93,13 @@ class FragmentStart : Fragment() {
         }
     }
 
-    private fun stateFavouriteButton(boolean :Boolean){
-            if(boolean){
-                bind.favouriteButton.setImageResource(R.drawable.ic_favorite_24)
-            } else {
-                bind.favouriteButton.setImageResource(R.drawable.ic_no_favourite_24)
+    private fun stateFavouriteButton(boolean :Boolean) {
+        if (boolean) {
+            bind.favouriteButton.setImageResource(R.drawable.ic_favorite_24)
+        } else {
+            bind.favouriteButton.setImageResource(R.drawable.ic_no_favourite_24)
 
-            }
+        }
 
     }
 

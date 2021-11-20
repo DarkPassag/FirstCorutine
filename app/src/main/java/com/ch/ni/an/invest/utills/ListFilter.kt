@@ -1,36 +1,31 @@
 package com.ch.ni.an.invest.utills
 
-import android.util.Log
+
 import com.ch.ni.an.invest.model.AnimeChan
 
-class ListFilter: ListFilterImpl {
+class ListFilter : ListFilterImpl {
 
-    private val mainList: MutableList<AnimeChan> = mutableListOf()
+    private val mainList :MutableList<AnimeChan> = mutableListOf()
 
-   override fun filter(list:List<AnimeChan>): List<AnimeChan>{
+    override fun filter(list :List<AnimeChan>) :List<AnimeChan> {
 
-        return if(mainList.isEmpty()){
+        return if (mainList.isEmpty()) {
             addNewList(list)
-            Log.e("List", "${mainList.size}")
             list
         } else {
-            val tempList: MutableList<AnimeChan> = list.filter { !mainList.contains(it) }.toMutableList()
+            val tempList :MutableList<AnimeChan> =
+                list.filter { !mainList.contains(it) }.toMutableList()
             addNewList(list)
-            Log.e("List", "${mainList.size}")
             tempList
         }
 
-
-
-
     }
 
-
-    private fun addNewList(quotes:List<AnimeChan>){
+    private fun addNewList(quotes :List<AnimeChan>) {
         mainList.addAll(quotes)
     }
 
-    fun clear(){
+    fun clear() {
         mainList.clear()
     }
 

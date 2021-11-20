@@ -8,26 +8,25 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.invest.databinding.ItemProgressBinding
 
-class AnimeStateAdapter: LoadStateAdapter<AnimeStateAdapter.ItemViewHolder>() {
+class AnimeStateAdapter : LoadStateAdapter<AnimeStateAdapter.ItemViewHolder>() {
 
 
-    override fun getStateViewType(loadState :LoadState) = when(loadState){
+    override fun getStateViewType(loadState :LoadState) = when (loadState) {
         is LoadState.NotLoading -> error("Not supported")
         LoadState.Loading -> LOADING
         is LoadState.Error -> ERROR
     }
 
 
-    private companion object{
+    private companion object {
         const val LOADING = 0
-        const val  ERROR = 1
+        const val ERROR = 1
     }
 
 
-  abstract  class ItemViewHolder(view:View): RecyclerView.ViewHolder(view) {
-      abstract fun bind(state:LoadState)
+    abstract class ItemViewHolder(view :View) : RecyclerView.ViewHolder(view) {
+        abstract fun bind(state :LoadState)
     }
-
 
 
     override fun onBindViewHolder(holder :ItemViewHolder, loadState :LoadState) {
@@ -35,18 +34,19 @@ class AnimeStateAdapter: LoadStateAdapter<AnimeStateAdapter.ItemViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent :ViewGroup, loadState :LoadState) :ItemViewHolder {
-        return when(loadState){
+        return when (loadState) {
             LoadState.Loading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
             is LoadState.Error -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
-            is LoadState.NotLoading -> ProgressViewHolder(LayoutInflater.from(parent.context), parent)
+            is LoadState.NotLoading -> ProgressViewHolder(LayoutInflater.from(parent.context),
+                parent)
 
         }
     }
 
 
     class ProgressViewHolder internal constructor(
-        private val binding: ItemProgressBinding
-    ): ItemViewHolder(binding.root){
+        private val binding :ItemProgressBinding,
+    ) : ItemViewHolder(binding.root) {
 
         override fun bind(state :LoadState) {
             // do nothing
@@ -57,13 +57,11 @@ class AnimeStateAdapter: LoadStateAdapter<AnimeStateAdapter.ItemViewHolder>() {
             operator fun invoke(
                 layoutInflater :LayoutInflater,
                 parent :ViewGroup? = null,
-                attachToRoot: Boolean = false
-            ): ProgressViewHolder {
-               return ProgressViewHolder(
-                   ItemProgressBinding.inflate(
-                       layoutInflater, parent, attachToRoot
-                   )
-               )
+                attachToRoot :Boolean = false,
+            ) :ProgressViewHolder {
+                return ProgressViewHolder(ItemProgressBinding.inflate(layoutInflater,
+                    parent,
+                    attachToRoot))
             }
         }
     }

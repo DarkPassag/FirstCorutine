@@ -23,7 +23,7 @@ import org.json.JSONObject
 import kotlin.Exception
 
 
-class AnimeViewModel: ViewModel() {
+class AnimeViewModel : ViewModel() {
 
 
     private val database = AnimeDatabase.getDatabase().animeDao()
@@ -94,16 +94,16 @@ class AnimeViewModel: ViewModel() {
     }
 
     fun getQuotesByTitle(title :String) :Flow<PagingData<AnimeChan>> {
-        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2 ),
+        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2),
             pagingSourceFactory = {
                 AnimeNamePagerSource(retrofit, title, database)
             }).flow
     }
 
-    fun getQuotesByAnimeCharacter(character :String) : Flow<PagingData<AnimeChan>> {
-        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2 ),
+    fun getQuotesByAnimeCharacter(character :String) :Flow<PagingData<AnimeChan>> {
+        return Pager(PagingConfig(10, 8, enablePlaceholders = true, PAGE_SIZE * 2),
             pagingSourceFactory = {
-                AnimeCharacterPageSource(retrofit, character, object : StateListener{
+                AnimeCharacterPageSource(retrofit, character, object : StateListener {
                     override fun invoke(state :STATE) {
                         _state.postValue(state)
                     }
@@ -111,9 +111,6 @@ class AnimeViewModel: ViewModel() {
                 })
             }).flow
     }
-
-
-
 
 
     fun getAvailableAnimeList() {
@@ -143,8 +140,7 @@ class AnimeViewModel: ViewModel() {
 
     fun addQuote(quote :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
-            val index =
-                database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            val index = database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
             if (index == -1) database.insertQuote(quote)
         }
     }
@@ -152,8 +148,7 @@ class AnimeViewModel: ViewModel() {
 
     fun deleteQuote1(quote :FavouriteAnimeChan) {
         viewModelScope.launch(Dispatchers.IO) {
-            val index =
-                database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
+            val index = database.loadFavouriteQuotes().indexOfFirst { it.quote == quote.quote }
             if (index != -1) database.deleteQuoteByQuote(quote.quote)
         }
     }
@@ -170,8 +165,8 @@ class AnimeViewModel: ViewModel() {
 
     suspend fun getUrlForLoad(characterName :String) :String {
         return try {
-         val url = database.getURL(characterName)
-            if(url.isNullOrEmpty()){
+            val url = database.getURL(characterName)
+            if (url.isEmpty()) {
                 getUrlWithNetwork(characterName)
             } else url
 
@@ -181,28 +176,24 @@ class AnimeViewModel: ViewModel() {
         }
     }
 
-    private suspend fun getUrlWithNetwork(character :String):String{
+    private suspend fun getUrlWithNetwork(character :String) :String {
 
         return try {
             val paramObjects = JSONObject()
-            paramObjects.put(
-                "query",
-                "query { Character (search: \"$character\") {  image { large } } }"
-            )
+            paramObjects.put("query",
+                "query { Character (search: \"$character\") {  image { large } } }")
             Log.e("URL", "$paramObjects")
 
             val stringJson = CommonGraphQL.dataAnimeList.getCharByName(paramObjects.toString())
 
 
-            val string: String? = JSONObject(stringJson)
-                .optJSONObject("data")
-                ?.optJSONObject("Character")
-                ?.optJSONObject("image")
-                ?.getString("large")
+            val string :String? =
+                JSONObject(stringJson).optJSONObject("data")?.optJSONObject("Character")
+                    ?.optJSONObject("image")?.getString("large")
 
             string ?: "Nothing"
 
-        } catch (e:Exception){
+        } catch (e :Exception) {
             e.toString()
         }
     }
@@ -225,6 +216,6 @@ class AnimeViewModel: ViewModel() {
 
 }
 
-enum class STATE{
+enum class STATE {
     PENDING, SUCCESS, FAIL
 }

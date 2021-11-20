@@ -10,25 +10,7 @@ data class AnimeChan(
     val anime :String,
     val character :String,
     @PrimaryKey val quote :String,
-) {
-    override fun equals(other :Any?) :Boolean {
-
-        if(this === other) return true
-        if(other !is AnimeChan) return false
-        else {
-            if (this.quote == other.quote)
-                return true
-        }
-        return false
-
-    }
-
-    override fun hashCode() :Int {
-        var result = anime.hashCode()
-        result = 31 * result + quote.hashCode()
-        return result
-    }
-}
+)
 
 
 @Entity(tableName = "characters_with_photo")

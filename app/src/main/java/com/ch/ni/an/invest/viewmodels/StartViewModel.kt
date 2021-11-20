@@ -1,7 +1,6 @@
 package com.ch.ni.an.invest.viewmodels
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,7 +33,6 @@ class StartViewModel : ViewModel() {
     }
 
 
-
     init {
         loadFavouriteQuotes()
     }
@@ -62,11 +60,9 @@ class StartViewModel : ViewModel() {
         }
     }
 
-    fun clear(){
+    fun clear() {
         onCleared()
     }
-
-
 
 
 }
